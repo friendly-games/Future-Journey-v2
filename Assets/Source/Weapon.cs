@@ -22,5 +22,10 @@ namespace NineBitByte.Assets.Source
 
     public GameObject WeaponTemplate;
     public GameObject AmmoTemplate;
+
+    public void Fire(GameObject instance)
+    {
+      
+    }
   }
 }
