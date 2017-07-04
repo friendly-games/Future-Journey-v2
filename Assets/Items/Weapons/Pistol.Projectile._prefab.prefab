@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114522885888199848}
   - component: {fileID: 50869003038924050}
   m_Layer: 0
-  m_Name: Pistol.Projectile.prefab
+  m_Name: Pistol.Projectile._prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NineBitByte.Assets.Source_Project;
 using UnityEngine;
+using UnityEngine.Playables;
 
 namespace NineBitByte.Assets.Source.FutureJourney.Items
 {
@@ -14,36 +15,27 @@ namespace NineBitByte.Assets.Source.FutureJourney.Items
     public Vector3 WeaponOffset;
 
     private WeaponScriptable _currentWeapon;
-    private GameObject _selectedWeaponInstance;
+
+    private Ownership<WeaponScriptable, WeaponBehavior> _selectedWeapon;
 
     public void Start()
     {
+      _selectedWeapon = new Ownership<WeaponScriptable, WeaponBehavior>(gameObject);
+
       SelectWeapon(AvailableWeapons.FirstOrDefault());
     }
 
     private void SelectWeapon(WeaponScriptable weapon)
     {
-      if (_selectedWeaponInstance != null)
-      {
-        UnityExtensions.Destroy(_selectedWeaponInstance);
-      }
-
-      _currentWeapon = weapon;
-
-      if (_currentWeapon != null)
-      {
-        _selectedWeaponInstance = 
-          _currentWeapon.WeaponTemplate.CreateInstance(transform, WeaponOffset, Quaternion.identity);
-      }
-
+      _selectedWeapon.Destroy();
+      weapon.Attach(ref _selectedWeapon, WeaponOffset);
     }
 
     public void Update()
     {
       if (Input.GetKeyDown(KeyCode.Space))
       {
-        var weaponBehavior = _selectedWeaponInstance.GetComponent<WeaponBehavior>();
-        _currentWeapon.Fire(weaponBehavior);
+        _selectedWeapon.Programming?.Act(_selectedWeapon.Behavior);
       }
     }
   }

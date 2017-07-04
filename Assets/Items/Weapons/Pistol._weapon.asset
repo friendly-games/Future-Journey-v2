@@ -9,11 +9,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 99609657d7a9e18439f05dd4aedeb34d, type: 3}
-  m_Name: Pistol.weapon
+  m_Name: Pistol._weapon
   m_EditorClassIdentifier: 
-  Name: Pistol
   DamagePerShot: 10
-  NumberOfPelots: 1
+  NumberOfPellets: 1
   Spread: 0.75
   ClipSize: 9
   WeaponTemplate: {fileID: 1542743906350916, guid: 1b78434f4c52b144abab2c0e9aae87c9,

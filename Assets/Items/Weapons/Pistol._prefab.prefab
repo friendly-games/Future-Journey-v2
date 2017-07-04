@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 212514863715668562}
   - component: {fileID: 114353400562542446}
   m_Layer: 0
-  m_Name: Pistol.prefab
+  m_Name: Pistol._prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
