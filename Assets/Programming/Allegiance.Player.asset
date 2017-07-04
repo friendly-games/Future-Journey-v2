@@ -8,12 +8,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99609657d7a9e18439f05dd4aedeb34d, type: 3}
-  m_Name: Shotgun._weapon
+  m_Script: {fileID: 11500000, guid: c5e41eca8945e5f45a3badbd4b7e4fdd, type: 3}
+  m_Name: Allegiance.Player
   m_EditorClassIdentifier: 
-  DamagePerShot: 10
-  NumberOfPellets: 1
-  Spread: 0.9
-  ClipSize: 6
-  WeaponTemplate: {fileID: 0}
-  Projectile: {fileID: 0}
+  AssociatedLayer:
+    _layerBit: 8
