@@ -12,8 +12,7 @@ public class PostProcessVisualStudioCSProject : AssetPostprocessor
   //  // Open the solution file
   //  string projectDirectory = Directory.GetParent(Application.dataPath).FullName;
   //  string projectName = Path.GetFileName(projectDirectory);
-
-  //  var pathProject = Path.Combine(projectDirectory, $"{projectName}.csproj");
+    //  var pathProject = Path.Combine(projectDirectory, $"{projectName}.csproj");
   //  var pathClean = Path.Combine(projectDirectory, $"{projectName}.Simple.csproj");
   //  var pathComplex = Path.Combine(projectDirectory, $"{projectName}.Complex.csproj");
 

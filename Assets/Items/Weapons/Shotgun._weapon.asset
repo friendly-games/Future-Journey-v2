@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 99609657d7a9e18439f05dd4aedeb34d, type: 3}
-  m_Name: Shotgun
+  m_Name: Shotgu.weapon
   m_EditorClassIdentifier: 
   Name: Shotgun
   DamagePerShot: 10
@@ -17,4 +17,4 @@ MonoBehaviour:
   Spread: 0.9
   ClipSize: 6
   WeaponTemplate: {fileID: 0}
-  AmmoTemplate: {fileID: 0}
+  Projectile: {fileID: 0}
