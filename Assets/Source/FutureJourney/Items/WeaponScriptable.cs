@@ -31,7 +31,7 @@ namespace NineBitByte.Assets.Source.FutureJourney.Items
     public ProjectileScriptable Projectile;
 
     /// <summary> Creates a projectile for the given weapon. </summary>
-    public override void Act(WeaponBehavior weaponInstance)
+    public override void Act(WeaponBehavior weaponInstance, Allegiance allegiance)
     {
       var projectileInstance = Projectile.ProjectileTemplate.CreateInstance(
         weaponInstance.transform.position + weaponInstance.MuzzleOffset,
@@ -39,7 +39,7 @@ namespace NineBitByte.Assets.Source.FutureJourney.Items
         );
 
       var behavior = projectileInstance.GetComponent<ProjectileBehavior>();
-      behavior.Initialize(this, Projectile);
+      behavior.Initialize(this, Projectile, allegiance);
     }
 
     public void Attach(ref Ownership<WeaponScriptable, WeaponBehavior> owner, Vector3 offset)

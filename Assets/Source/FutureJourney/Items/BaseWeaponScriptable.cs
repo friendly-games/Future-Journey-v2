@@ -9,6 +9,6 @@ namespace NineBitByte.Assets.Source.FutureJourney.Items
     where TBehavior : BaseBehavior
   {
     /// <summary> Performs the weapon's action. </summary>
-    public abstract void Act(TBehavior behavior);
+    public abstract void Act(WeaponBehavior weaponInstance, Allegiance allegiance);
   }
 }

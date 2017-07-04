@@ -10,16 +10,19 @@ namespace NineBitByte.Assets.Source.FutureJourney.Items
   {
     private WeaponScriptable _weaponTemplate;
     private ProjectileScriptable _projectileScriptable;
+    private Allegiance _allegiance;
 
-    public void Initialize(WeaponScriptable weaponTemplate, ProjectileScriptable projectile)
+    public void Initialize(WeaponScriptable weaponTemplate, ProjectileScriptable projectile, Allegiance allegiance)
     {
       _weaponTemplate = weaponTemplate;
       _projectileScriptable = projectile;
+      _allegiance = allegiance;
     }
 
     public void Start()
     {
       GetComponent<Rigidbody2D>().velocity = Vector2.up * _projectileScriptable.InitialVelocity;
+      gameObject.layer = _allegiance.AssociatedLayer.LayerId;
     }
   }
 }

@@ -8,6 +8,10 @@ namespace NineBitByte.Assets.Source.FutureJourney.Items
 {
   public class PlayerBehavior : BaseBehavior
   {
+    [Tooltip("The team to which the player belongs")]
+    public Allegiance Allegiance;
+
+    [Tooltip("All of the weapons that are available to the player")]
     public WeaponScriptable[] AvailableWeapons;
 
     [RelativeOffset]
@@ -39,7 +43,7 @@ namespace NineBitByte.Assets.Source.FutureJourney.Items
     {
       if (Input.GetKeyDown(KeyCode.Space))
       {
-        _selectedWeapon.Programming?.Act(_selectedWeapon.Behavior);
+        _selectedWeapon.Programming?.Act(_selectedWeapon.Behavior, Allegiance);
       }
 
       var movementVector = CalculateMovementVector();
