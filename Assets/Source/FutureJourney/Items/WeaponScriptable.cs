@@ -44,7 +44,12 @@ namespace NineBitByte.Assets.Source.FutureJourney.Items
 
     public void Attach(ref Ownership<WeaponScriptable, WeaponBehavior> owner, Vector3 offset)
     {
-      var instance = WeaponTemplate.CreateInstance(owner.Owner.transform, offset, Quaternion.identity);
+      var instance = WeaponTemplate.CreateInstance(
+        owner.Owner.transform, 
+        offset + owner.Owner.transform.position, 
+        Quaternion.identity
+      );
+
       owner.Assign(this, instance);
     }
   }

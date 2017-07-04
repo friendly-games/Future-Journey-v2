@@ -8,13 +8,14 @@ namespace NineBitByte.Assets.Source.FutureJourney.Items
   [CreateAssetMenu(menuName = "Items/Projectile")]
   public class ProjectileScriptable : BaseScriptable
   {
+    [Tooltip("The amount of damage that one pellet does to a target")]
     public int BaseDamage;
 
-    public GameObject ProjectileTemplate;
+    [Range(5, 10000)]
+    [Tooltip("The speed at which the projectile is projected")]
+    public float InitialVelocity;
 
-    public void CreateInstance()
-    {
-      
-    }
+    [Tooltip("The Prefab associated with the Projectile")]
+    public GameObject ProjectileTemplate;
   }
 }

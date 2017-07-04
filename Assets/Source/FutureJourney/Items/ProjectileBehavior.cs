@@ -19,7 +19,7 @@ namespace NineBitByte.Assets.Source.FutureJourney.Items
 
     public void Start()
     {
-      GetComponent<Rigidbody2D>().velocity = Vector2.up * 2;
+      GetComponent<Rigidbody2D>().velocity = Vector2.up * _projectileScriptable.InitialVelocity;
     }
   }
 }

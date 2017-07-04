@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using NineBitByte.Assets.Source_Project;
 using UnityEngine;
-using UnityEngine.Playables;
 
 namespace NineBitByte.Assets.Source.FutureJourney.Items
 {
@@ -18,6 +17,9 @@ namespace NineBitByte.Assets.Source.FutureJourney.Items
 
     private Ownership<WeaponScriptable, WeaponBehavior> _selectedWeapon;
 
+    private Rigidbody2D _rigidBody;
+    private Vector2 _desiredSpeed;
+
     public void Start()
     {
       _selectedWeapon = new Ownership<WeaponScriptable, WeaponBehavior>(gameObject);
@@ -29,6 +31,8 @@ namespace NineBitByte.Assets.Source.FutureJourney.Items
     {
       _selectedWeapon.Destroy();
       weapon.Attach(ref _selectedWeapon, WeaponOffset);
+
+      _rigidBody = GetComponent<Rigidbody2D>();
     }
 
     public void Update()
@@ -37,6 +41,46 @@ namespace NineBitByte.Assets.Source.FutureJourney.Items
       {
         _selectedWeapon.Programming?.Act(_selectedWeapon.Behavior);
       }
+
+      var movementVector = CalculateMovementVector();
+      _desiredSpeed = movementVector;
+    }
+
+    public void FixedUpdate()
+    {
+      _rigidBody.velocity = Vector2.Lerp(_rigidBody.velocity, _desiredSpeed, .8f);
+    }
+
+    private Vector2 CalculateMovementVector()
+    {
+      var movement = new Vector2();
+
+      if (Input.GetKey(KeyCode.A))
+      {
+        movement.x -= 1;
+      }
+
+      if (Input.GetKey(KeyCode.D))
+      {
+        movement.x += 1;
+      }
+
+      if (Input.GetKey(KeyCode.W))
+      {
+        movement.y += 1;
+      }
+
+      if (Input.GetKey(KeyCode.S))
+      {
+        movement.y -= 1;
+      }
+
+      if (movement.sqrMagnitude > 0)
+      {
+        movement.Normalize();
+      }
+
+      return movement * 3;
     }
   }
 }

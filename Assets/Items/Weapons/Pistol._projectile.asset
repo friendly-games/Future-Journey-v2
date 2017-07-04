@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Name: Pistol._projectile
   m_EditorClassIdentifier: 
   BaseDamage: 30
+  InitialVelocity: 32
   ProjectileTemplate: {fileID: 1393322461266042, guid: 0119af776cce137409e98dacf0e57a1e,
     type: 2}
