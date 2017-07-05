@@ -23,7 +23,7 @@ namespace NineBitByte.Assets.Source.FutureJourney.Items
     [UsedImplicitly]
     private void Start()
     {
-      GetComponent<Rigidbody2D>().velocity = Vector2.up * _projectileScriptable.InitialVelocity;
+      GetComponent<Rigidbody2D>().velocity = transform.up * _projectileScriptable.InitialVelocity;
       gameObject.layer = _allegiance.AssociatedLayer.LayerId;
     }
 

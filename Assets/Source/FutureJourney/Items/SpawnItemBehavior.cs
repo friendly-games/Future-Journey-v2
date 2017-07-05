@@ -21,9 +21,9 @@ namespace NineBitByte.Assets.Source.FutureJourney.Items
     {
       foreach (var offset in Offsets)
       {
-        ItemToSpawn.Build(offset + transform.position, ItemAllegiance);
+        var initialPos = new PositionAndRotation(transform, offset);
+        ItemToSpawn.Build(initialPos, ItemAllegiance);
       }
-
     }
   }
 }

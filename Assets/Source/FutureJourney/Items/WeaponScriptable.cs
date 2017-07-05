@@ -34,21 +34,19 @@ namespace NineBitByte.Assets.Source.FutureJourney.Items
     public override void Act(WeaponBehavior weaponInstance, Allegiance allegiance)
     {
       var projectileInstance = Projectile.ProjectileTemplate.CreateInstance(
-        weaponInstance.transform.position + weaponInstance.MuzzleOffset,
-        weaponInstance.transform.rotation
+        weaponInstance.MuzzleOffset.ToLocation(weaponInstance.transform)
         );
 
       var behavior = projectileInstance.GetComponent<ProjectileBehavior>();
       behavior.Initialize(this, Projectile, allegiance);
     }
 
-    public void Attach(ref Ownership<WeaponScriptable, WeaponBehavior> owner, Vector3 offset)
+    public void Attach(ref Ownership<WeaponScriptable, WeaponBehavior> owner, PositionAndRotation initialLocation)
     {
       var instance = WeaponTemplate.CreateInstance(
-        owner.Owner.transform, 
-        offset + owner.Owner.transform.position, 
-        Quaternion.identity
-      );
+        owner.Owner.transform,
+        initialLocation
+        );
 
       owner.Assign(this, instance);
     }

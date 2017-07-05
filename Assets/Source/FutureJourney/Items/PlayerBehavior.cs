@@ -14,8 +14,7 @@ namespace NineBitByte.Assets.Source.FutureJourney.Items
     [Tooltip("All of the weapons that are available to the player")]
     public WeaponScriptable[] AvailableWeapons;
 
-    [RelativeOffset]
-    public Vector3 WeaponOffset;
+    public RelativeOffset WeaponOffset;
 
     private WeaponScriptable _currentWeapon;
 
@@ -34,7 +33,7 @@ namespace NineBitByte.Assets.Source.FutureJourney.Items
     private void SelectWeapon(WeaponScriptable weapon)
     {
       _selectedWeapon.Destroy();
-      weapon.Attach(ref _selectedWeapon, WeaponOffset);
+      weapon.Attach(ref _selectedWeapon, WeaponOffset.ToLocation(transform));
 
       _rigidBody = GetComponent<Rigidbody2D>();
     }

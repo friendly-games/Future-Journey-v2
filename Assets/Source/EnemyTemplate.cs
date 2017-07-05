@@ -19,9 +19,9 @@ namespace NineBitByte.Assets.Source
     /// <summary> The template for an enemy. </summary>
     public GameObject Template;
 
-    public void Build(Vector3 position, Allegiance allegiance)
+    public void Build(PositionAndRotation initialPosition, Allegiance allegiance)
     {
-      var clone = Template.CreateInstance(position, Quaternion.identity);
+      var clone = Template.CreateInstance(initialPosition);
       clone.GetComponent<EnemyBehavior>().Construct(this, allegiance);
     }
 

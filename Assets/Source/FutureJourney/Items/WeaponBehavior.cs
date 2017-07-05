@@ -10,7 +10,6 @@ namespace NineBitByte.Assets.Source.FutureJourney.Items
   public class WeaponBehavior : BaseBehavior
   {
     [Tooltip("The location at which the projectile is fired from the location of the owner GameObject")]
-    [RelativeOffset]
-    public Vector3 MuzzleOffset;
+    public RelativeOffset MuzzleOffset;
   }
 }
