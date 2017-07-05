@@ -13,3 +13,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AssociatedLayer:
     _layerBit: 9
+  DamageMask:
+    serializedVersion: 2
+    m_Bits: 256

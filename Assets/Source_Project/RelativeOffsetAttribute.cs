@@ -20,38 +20,57 @@ namespace NineBitByte.Assets.Source_Project
 
     public void OnEnable()
     {
-      style.fontStyle = FontStyle.Bold;
+      style.fontStyle = FontStyle.Normal;
+      style.fontSize = 10;
       style.normal.textColor = Color.white;
+      style.alignment = TextAnchor.UpperCenter;
     }
 
     public void OnSceneGUI()
     {
       var owner = ((MonoBehaviour)serializedObject.targetObject).gameObject;
-      var offset = owner.transform.position;
+      var transform = owner.transform;
 
       var targetObjectType = serializedObject.targetObject.GetType();
 
-      var validProperties =
-        from property in GetProperties(serializedObject)
-        where property.propertyType == SerializedPropertyType.Vector3
-        where targetObjectType.GetField(property.name)
-                              ?.GetCustomAttribute<RelativeOffsetAttribute>() != null
-        select property;
+      var validFields =
+        from field in targetObjectType.GetFields()
+        where field.GetCustomAttribute<RelativeOffsetAttribute>() != null
+        where field.FieldType == typeof(Vector3)
+              || field.FieldType == typeof(Vector3[])
+        select field;
 
-      foreach (var property in validProperties)
+      foreach (var field in validFields)
       {
-        ShowHandle(property, offset);
+        var property = serializedObject.FindProperty(field.Name);
+
+        if (!property.isArray)
+        {
+          // just a single Vector3 field, easy
+          ShowHandle(property, transform, property.name);
+        }
+        else
+        {
+          for (int i = 0; i < property.arraySize; i++)
+          {
+            var childProp = serializedObject.FindProperty($"{property.name}.Array.data[{i}]");
+            ShowHandle(childProp, transform, $"{property.name}[{i}]");
+          }
+        }
       }
     }
 
-    private void ShowHandle(SerializedProperty property, Vector3 offset)
+    private void ShowHandle(SerializedProperty property, Transform transform, string name)
     {
+      var rotation = transform.rotation;
+      var offset = transform.position;
+
       // get value
       Vector3 handlePosition = property.vector3Value;
       handlePosition += offset;
 
       // show editor/value
-      Handles.Label(handlePosition, property.name);
+      Handles.Label(handlePosition, name, style);
       handlePosition = Handles.PositionHandle(handlePosition, Quaternion.identity);
 
       // update value
@@ -61,16 +80,6 @@ namespace NineBitByte.Assets.Source_Project
 
       // persist
       serializedObject.ApplyModifiedProperties();
-    }
-
-    private static IEnumerable<SerializedProperty> GetProperties(SerializedObject serializedObject)
-    {
-      var property = serializedObject.GetIterator();
-
-      while (property.Next(true))
-      {
-        yield return property;
-      }
     }
   }
 #endif

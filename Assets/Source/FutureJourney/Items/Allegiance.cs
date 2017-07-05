@@ -10,6 +10,13 @@ namespace NineBitByte.Assets.Source.FutureJourney.Items
   [CreateAssetMenu(menuName = "Items/Allegiance")]
   public class Allegiance : BaseScriptable
   {
+    [Tooltip("The layer that should be assigned when an object from this allegiance is created")]
     public Layer AssociatedLayer;
+
+    [Tooltip("The layers that are damaged by this team")]
+    public LayerMask DamageMask;
+
+    public bool DoesDamageTo(Allegiance allegiance) 
+      => allegiance.AssociatedLayer.IsIn(DamageMask);
   }
 }

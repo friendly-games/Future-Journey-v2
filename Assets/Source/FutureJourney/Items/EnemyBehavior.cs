@@ -5,14 +5,25 @@ using UnityEngine;
 
 namespace NineBitByte.Assets.Source.FutureJourney.Items
 {
-  public class EnemyBehavior : BaseBehavior
+  public class EnemyBehavior : BaseBehavior, IHealth
   {
-    [Tooltip("The team to which the enemy belongs")]
-    public Allegiance Allegiance;
+    private EnemyTemplate _template;
+    private Allegiance _allegiance;
+
+    public void Construct(EnemyTemplate template, Allegiance allegiance)
+    {
+      _template = template;
+      _allegiance = allegiance;
+
+      Health = _template.InitialHealth;
+    }
+
+    /// <inheritdoc />
+    public float Health { get; set; }
 
     public void Start()
     {
-      gameObject.layer = Allegiance.AssociatedLayer.LayerId;
+      gameObject.layer = _allegiance.AssociatedLayer.LayerId;
     }
   }
 }
