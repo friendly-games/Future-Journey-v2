@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NineBitByte.Assets.Source_Project;
 using UnityEngine;
 
 namespace NineBitByte.Assets.Source.FutureJourney.Items

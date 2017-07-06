@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NineBitByte.Assets.Source_Project;
 using UnityEngine;
 
 namespace NineBitByte.Assets.Source.FutureJourney.Items
@@ -14,14 +13,13 @@ namespace NineBitByte.Assets.Source.FutureJourney.Items
 
     public Allegiance ItemAllegiance;
 
-    [RelativeOffset]
-    public Vector3[] Offsets;
+    public RelativeOffset[] Offsets;
 
     public void Start()
     {
       foreach (var offset in Offsets)
       {
-        var initialPos = new PositionAndRotation(transform, offset);
+        var initialPos = offset.ToLocation(transform);
         ItemToSpawn.Build(initialPos, ItemAllegiance);
       }
     }

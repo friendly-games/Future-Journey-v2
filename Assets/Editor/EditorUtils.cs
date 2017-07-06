@@ -19,5 +19,27 @@ namespace NineBitByte.Assets.Editor
                                                                  BindingFlags.Static | BindingFlags.NonPublic);
       _boldFontMethodInfo.Invoke(null, new[] { value as object });
     }
+
+    /// <summary> Gets all of the properties for the given serialized object. </summary>
+    public static IEnumerable<SerializedProperty> GetProperties(SerializedObject instance)
+    {
+      var prop = instance.GetIterator();
+
+      while (prop.Next(true))
+      {
+        yield return prop;
+      }
+    }
+
+    public static SerializedProperty FindProperty(this SerializedObject serializedObject, params string[] propertyParts)
+    {
+      return serializedObject.FindProperty(GetPropertyPath(propertyParts));
+    }
+
+    public static string GetArrayElementPath(string propertyName, int index) 
+      => $"{propertyName}.Array.data[{index}]";
+
+    public static string GetPropertyPath(params string[] propertyParts) 
+      => string.Join(".", propertyParts);
   }
 }

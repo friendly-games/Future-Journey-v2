@@ -1,22 +1,16 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using JetBrains.Annotations;
 using NineBitByte.Assets.Source.FutureJourney.Items;
 using UnityEditor;
 using UnityEngine;
 
-namespace NineBitByte.Assets.Source_Project
+namespace NineBitByte.Assets.Editor
 {
-  public class RelativeOffsetAttribute : PropertyAttribute
-  {
-  }
-
-#if UNITY_EDITOR
   [CustomEditor(typeof(MonoBehaviour), true)]
-  public class RelativeOffsetDrawer : Editor
+  public class RelativeOffsetEditor : UnityEditor.Editor
   {
     private const int RoundPrecision = 3;
 
@@ -29,16 +23,6 @@ namespace NineBitByte.Assets.Source_Project
       _style.fontSize = 10;
       _style.normal.textColor = Color.white;
       _style.alignment = TextAnchor.UpperCenter;
-    }
-
-    private IEnumerable<SerializedProperty> GetProperties(SerializedObject instance)
-    {
-      var prop = instance.GetIterator();
-
-      while (prop.Next(true))
-      {
-        yield return prop;
-      }
     }
 
     [UsedImplicitly]
@@ -65,13 +49,10 @@ namespace NineBitByte.Assets.Source_Project
 
     private bool IsValidField(FieldInfo field)
     {
-      bool hasAttribute = field.GetCustomAttribute<RelativeOffsetAttribute>() != null;
+      var fieldType = field.FieldType;
 
-      if (hasAttribute && field.FieldType == typeof(Vector3)
-          || field.FieldType == typeof(Vector3[]))
-        return true;
-
-      if (field.FieldType == typeof(RelativeOffset))
+      if (fieldType == typeof(RelativeOffset)
+          || fieldType == typeof(RelativeOffset[]))
         return true;
 
       return false;
@@ -79,28 +60,30 @@ namespace NineBitByte.Assets.Source_Project
 
     private bool ProcessField(FieldInfo field, Transform transform)
     {
-      if (field.FieldType == typeof(Vector3))
-      {
-        // just a single Vector3 field, easy
-        var property = serializedObject.FindProperty(field.Name);
-        return ShowHandle(property, transform, property.name);
-      }
-
       if (field.FieldType == typeof(RelativeOffset))
       {
-        // just a single Vector3 field, easy
-        var property = serializedObject.FindProperty(field.Name + "." + RelativeOffset.SerializedFieldName);
+        var property = serializedObject.FindProperty(
+          field.Name,
+          RelativeOffset.SerializedFieldName
+        );
         return ShowHandle(property, transform, property.name);
       }
 
-      if (field.FieldType == typeof(Vector3[]))
+      if (field.FieldType == typeof(RelativeOffset[]))
       {
         var property = serializedObject.FindProperty(field.Name);
+        bool changed = false;
+
         for (int i = 0; i < property.arraySize; i++)
         {
-          var childProp = serializedObject.FindProperty($"{property.name}.Array.data[{i}]");
-          return ShowHandle(childProp, transform, $"{property.name}[{i}]");
+          var childProp = serializedObject.FindProperty(
+            EditorUtils.GetArrayElementPath(property.name, i),
+            RelativeOffset.SerializedFieldName
+          );
+          changed |= ShowHandle(childProp, transform, $"{property.name}[{i}]");
         }
+
+        return changed;
       }
 
       return false;
@@ -145,5 +128,4 @@ namespace NineBitByte.Assets.Source_Project
       return false;
     }
   }
-#endif
 }

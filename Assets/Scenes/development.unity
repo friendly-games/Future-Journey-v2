@@ -117,11 +117,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4778395967814270, guid: 0119af776cce137409e98dacf0e57a1e, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 5.2785387
+      value: 6.58
       objectReference: {fileID: 0}
     - target: {fileID: 4778395967814270, guid: 0119af776cce137409e98dacf0e57a1e, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -2.849452
+      value: -1.46
       objectReference: {fileID: 0}
     - target: {fileID: 4778395967814270, guid: 0119af776cce137409e98dacf0e57a1e, type: 2}
       propertyPath: m_LocalPosition.z
@@ -164,15 +164,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4524019548842166, guid: 1b78434f4c52b144abab2c0e9aae87c9, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 5.03
+      value: 5.69
       objectReference: {fileID: 0}
     - target: {fileID: 4524019548842166, guid: 1b78434f4c52b144abab2c0e9aae87c9, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0.06
+      value: -0.64
       objectReference: {fileID: 0}
     - target: {fileID: 4524019548842166, guid: 1b78434f4c52b144abab2c0e9aae87c9, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0.01
+      value: -0.03
       objectReference: {fileID: 0}
     - target: {fileID: 4524019548842166, guid: 1b78434f4c52b144abab2c0e9aae87c9, type: 2}
       propertyPath: m_LocalRotation.x
@@ -321,9 +321,9 @@ MonoBehaviour:
   ItemToSpawn: {fileID: 11400000, guid: addae597957ae304797b1eb3de28f688, type: 2}
   ItemAllegiance: {fileID: 11400000, guid: 8e0b37bdb714a1e41b4fd11eab415611, type: 2}
   Offsets:
-  - {x: 0, y: 1.009, z: 0}
-  - {x: 1.009, y: -0.321, z: 0}
-  - {x: -1.009, y: -0.504, z: 0}
+  - _offset: {x: -1.215, y: 0.054, z: 0}
+  - _offset: {x: 0, y: -1.054, z: 0}
+  - _offset: {x: 1.179, y: 0, z: 0}
 --- !u!4 &969355976
 Transform:
   m_ObjectHideFlags: 0
@@ -499,11 +499,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4000478142206474, guid: 76a3073208c57204f8d24d03a762e5f9, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 2.04
+      value: 6.99
       objectReference: {fileID: 0}
     - target: {fileID: 4000478142206474, guid: 76a3073208c57204f8d24d03a762e5f9, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 3.2
+      value: -0.28
       objectReference: {fileID: 0}
     - target: {fileID: 4000478142206474, guid: 76a3073208c57204f8d24d03a762e5f9, type: 2}
       propertyPath: m_LocalPosition.z
