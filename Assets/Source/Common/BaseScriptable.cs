@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace NineBitByte.Common
 {
-  public class BaseScriptable : ScriptableObject
+  public abstract class BaseScriptable : ScriptableObject
   {
     
   }
