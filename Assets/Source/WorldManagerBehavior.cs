@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace NineBitByte.Assets.Scripts
+namespace NineBitByte
 {
   public class WorldManagerBehavior : MonoBehaviour
   {

@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using UnityEngine;
+using NineBitByte.Common;
+using NineBitByte.FutureJourney.Programming;
 
-namespace NineBitByte.Assets.Source.FutureJourney.Items
+namespace NineBitByte.FutureJourney.Items
 {
   public class SpawnItemBehavior : BaseBehavior
   {
-    public EnemyTemplate ItemToSpawn;
+    public Creature ItemToSpawn;
 
     public Allegiance ItemAllegiance;
 

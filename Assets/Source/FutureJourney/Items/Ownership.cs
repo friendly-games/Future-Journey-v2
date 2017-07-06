@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NineBitByte.Common;
 using UnityEngine;
 
-namespace NineBitByte.Assets.Source.FutureJourney.Items
+namespace NineBitByte.FutureJourney.Items
 {
   /// <summary> Holds a behavior instance and logic for the given behavior. </summary>
   public struct Ownership<TProgramming, TBehavior>

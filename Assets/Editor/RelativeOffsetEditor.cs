@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using JetBrains.Annotations;
-using NineBitByte.Assets.Source.FutureJourney.Items;
+using NineBitByte.FutureJourney.Items;
 using UnityEditor;
 using UnityEngine;
 

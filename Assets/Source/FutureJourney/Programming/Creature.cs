@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NineBitByte.Assets.Source.FutureJourney.Items;
+using NineBitByte.Common;
+using NineBitByte.FutureJourney.Items;
 using UnityEngine;
 
-namespace NineBitByte.Assets.Source
+namespace NineBitByte.FutureJourney.Programming
 {
   [CreateAssetMenu(menuName = "Items/Enemy")]
-  public class EnemyTemplate : BaseScriptable
+  public class Creature : BaseScriptable
   {
-    [Tooltip("The team to which the enemy belongs")]
+    [Tooltip("The team to which the creature belongs")]
     public Allegiance Allegiance;
 
     public int InitialHealth;

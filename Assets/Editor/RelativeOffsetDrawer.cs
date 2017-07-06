@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NineBitByte.Assets.Source.FutureJourney.Items;
+using NineBitByte.FutureJourney.Items;
 using UnityEditor;
 using UnityEngine;
 

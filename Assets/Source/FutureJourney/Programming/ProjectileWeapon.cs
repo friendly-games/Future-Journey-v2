@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NineBitByte.Common;
+using NineBitByte.FutureJourney.Items;
 using UnityEngine;
 
-namespace NineBitByte.Assets.Source.FutureJourney.Items
+namespace NineBitByte.FutureJourney.Programming
 {
   /// <summary> All properties for a weapon that can be fired. </summary>
   [CreateAssetMenu(menuName = "Items/Weapon")]
-  public class WeaponScriptable : BaseWeaponScriptable<WeaponBehavior>
+  public class ProjectileWeapon : BaseWeaponScriptable<WeaponBehavior>
   {
     [Tooltip("How much damage is done per pellet that hits")]
     public int DamagePerShot = 10;
@@ -28,7 +30,7 @@ namespace NineBitByte.Assets.Source.FutureJourney.Items
     public GameObject WeaponTemplate;
 
     [Tooltip("Projectile information")]
-    public ProjectileScriptable Projectile;
+    public Projectile Projectile;
 
     /// <summary> Creates a projectile for the given weapon. </summary>
     public override void Act(WeaponBehavior weaponInstance, Allegiance allegiance)
@@ -41,7 +43,7 @@ namespace NineBitByte.Assets.Source.FutureJourney.Items
       behavior.Initialize(this, Projectile, allegiance);
     }
 
-    public void Attach(ref Ownership<WeaponScriptable, WeaponBehavior> owner, PositionAndRotation initialLocation)
+    public void Attach(ref Ownership<ProjectileWeapon, WeaponBehavior> owner, PositionAndRotation initialLocation)
     {
       var instance = WeaponTemplate.CreateInstance(
         owner.Owner.transform,

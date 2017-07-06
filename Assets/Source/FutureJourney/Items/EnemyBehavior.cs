@@ -1,16 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+using NineBitByte.Common;
+using NineBitByte.FutureJourney.Programming;
 
-namespace NineBitByte.Assets.Source.FutureJourney.Items
+namespace NineBitByte.FutureJourney.Items
 {
   public class EnemyBehavior : BaseBehavior, IHealth
   {
-    private EnemyTemplate _template;
+    private Creature _template;
     private Allegiance _allegiance;
 
-    public void Construct(EnemyTemplate template, Allegiance allegiance)
+    public void Construct(Creature template, Allegiance allegiance)
     {
       _template = template;
       _allegiance = allegiance;

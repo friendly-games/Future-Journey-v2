@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NineBitByte.Assets.Source.FutureJourney.Items;
+using NineBitByte.FutureJourney.Items;
 using UnityEngine;
 
-namespace NineBitByte.Assets.Source
+namespace NineBitByte.Common
 {
   public static class UnityExtensions
   {

@@ -2,28 +2,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using NineBitByte.Common;
+using NineBitByte.FutureJourney.Programming;
 using UnityEngine;
 
-namespace NineBitByte.Assets.Source.FutureJourney.Items
+namespace NineBitByte.FutureJourney.Items
 {
   /// <summary> Base behavior for all ammunition that gets fired </summary>
   public class ProjectileBehavior : BaseBehavior
   {
-    private WeaponScriptable _weaponTemplate;
-    private ProjectileScriptable _projectileScriptable;
+    private ProjectileWeapon _weaponTemplate;
+    private Projectile _projectile;
     private Allegiance _allegiance;
 
-    public void Initialize(WeaponScriptable weaponTemplate, ProjectileScriptable projectile, Allegiance allegiance)
+    public void Initialize(ProjectileWeapon weaponTemplate, Projectile projectile, Allegiance allegiance)
     {
       _weaponTemplate = weaponTemplate;
-      _projectileScriptable = projectile;
+      _projectile = projectile;
       _allegiance = allegiance;
     }
 
     [UsedImplicitly]
     private void Start()
     {
-      GetComponent<Rigidbody2D>().velocity = transform.up * _projectileScriptable.InitialVelocity;
+      GetComponent<Rigidbody2D>().velocity = transform.up * _projectile.InitialVelocity;
       gameObject.layer = _allegiance.AssociatedLayer.LayerId;
     }
 

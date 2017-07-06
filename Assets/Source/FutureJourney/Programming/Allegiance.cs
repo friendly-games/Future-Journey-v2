@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NineBitByte.Assets.Source.Common;
+using NineBitByte.Common;
 using UnityEngine;
 
-namespace NineBitByte.Assets.Source.FutureJourney.Items
+namespace NineBitByte.FutureJourney.Programming
 {
   /// <summary> Represents a single team that is working together. </summary>
   [CreateAssetMenu(menuName = "Items/Allegiance")]

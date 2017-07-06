@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace NineBitByte.Assets.Source
+namespace NineBitByte.Common
 {
   public class BaseScriptable : ScriptableObject
   {

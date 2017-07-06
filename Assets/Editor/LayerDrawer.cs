@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NineBitByte.Assets.Source.Common;
+using NineBitByte.Common;
 using UnityEditor;
 using UnityEngine;
 

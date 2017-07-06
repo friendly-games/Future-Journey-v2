@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NineBitByte.Assets.Source
+namespace NineBitByte
 {
   /// <summary> An object that uses health. </summary>
   public interface IHealth

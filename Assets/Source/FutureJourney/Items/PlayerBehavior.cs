@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NineBitByte.Common;
+using NineBitByte.FutureJourney.Programming;
 using UnityEngine;
 
-namespace NineBitByte.Assets.Source.FutureJourney.Items
+namespace NineBitByte.FutureJourney.Items
 {
   public class PlayerBehavior : BaseBehavior
   {
@@ -11,25 +13,25 @@ namespace NineBitByte.Assets.Source.FutureJourney.Items
     public Allegiance Allegiance;
 
     [Tooltip("All of the weapons that are available to the player")]
-    public WeaponScriptable[] AvailableWeapons;
+    public ProjectileWeapon[] AvailableWeapons;
 
     public RelativeOffset WeaponOffset;
 
-    private WeaponScriptable _currentWeapon;
+    private ProjectileWeapon _currentWeapon;
 
-    private Ownership<WeaponScriptable, WeaponBehavior> _selectedWeapon;
+    private Ownership<ProjectileWeapon, WeaponBehavior> _selectedWeapon;
 
     private Rigidbody2D _rigidBody;
     private Vector2 _desiredSpeed;
 
     public void Start()
     {
-      _selectedWeapon = new Ownership<WeaponScriptable, WeaponBehavior>(gameObject);
+      _selectedWeapon = new Ownership<ProjectileWeapon, WeaponBehavior>(gameObject);
 
       SelectWeapon(AvailableWeapons.FirstOrDefault());
     }
 
-    private void SelectWeapon(WeaponScriptable weapon)
+    private void SelectWeapon(ProjectileWeapon weapon)
     {
       _selectedWeapon.Destroy();
       weapon.Attach(ref _selectedWeapon, WeaponOffset.ToLocation(transform));
