@@ -6,7 +6,7 @@ using NineBitByte.FutureJourney.Programming;
 
 namespace NineBitByte.FutureJourney.Items
 {
-  public class EnemyBehavior : BaseBehavior, IHealth
+  public class EnemyBehavior : BaseBehavior, IDamageReceiver
   {
     private Creature _template;
     private Allegiance _allegiance;
@@ -20,11 +20,16 @@ namespace NineBitByte.FutureJourney.Items
     }
 
     /// <inheritdoc />
-    public float Health { get; set; }
+    public int Health { get; set; }
 
     public void Start()
     {
       gameObject.layer = _allegiance.AssociatedLayer.LayerId;
+    }
+
+    public void OnHealthDepleted()
+    {
+      UnityExtensions.Destroy(gameObject);
     }
   }
 }

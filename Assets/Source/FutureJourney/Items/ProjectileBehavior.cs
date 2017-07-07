@@ -32,12 +32,14 @@ namespace NineBitByte.FutureJourney.Items
     [UsedImplicitly]
     private void OnCollisionEnter2D(Collision2D collision)
     {
-      UnityExtensions.Destroy(collision.gameObject);
-    }
+      var receiver = collision.gameObject.GetComponent<IDamageReceiver>();
 
-    public void TryApplyDamage(GameObject instance)
-    {
-      
+      if (receiver != null)
+      {
+        DamageProcessor.ApplyDamage(receiver, 100);
+      }
+
+      UnityExtensions.Destroy(gameObject);
     }
   }
 }
