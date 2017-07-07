@@ -22,11 +22,24 @@ namespace NineBitByte.FutureJourney.Items
     private Ownership<ProjectileWeapon, WeaponBehavior> _selectedWeapon;
 
     private Rigidbody2D _rigidBody;
-    private Vector2 _desiredSpeed;
+    private Transform _reticule;
+    private Transform _overallBody;
+
+    private PlayerInputHandler _playerInputHandler;
 
     public void Start()
     {
+      _overallBody = transform.parent;
+      _reticule = _overallBody.Find("Reticle");
+
+      _rigidBody = _overallBody.GetComponent<Rigidbody2D>();
+
       _selectedWeapon = new Ownership<ProjectileWeapon, WeaponBehavior>(gameObject);
+
+      _playerInputHandler = new PlayerInputHandler();
+
+      Cursor.lockState = CursorLockMode.Locked;
+      Cursor.visible = false;
 
       SelectWeapon(AvailableWeapons.FirstOrDefault());
     }
@@ -35,8 +48,6 @@ namespace NineBitByte.FutureJourney.Items
     {
       _selectedWeapon.Destroy();
       weapon.Attach(ref _selectedWeapon, WeaponOffset.ToLocation(transform));
-
-      _rigidBody = GetComponent<Rigidbody2D>();
     }
 
     public void Update()
@@ -46,45 +57,14 @@ namespace NineBitByte.FutureJourney.Items
         _selectedWeapon.Programming?.Act(_selectedWeapon.Behavior, Allegiance);
       }
 
-      var movementVector = CalculateMovementVector();
-      _desiredSpeed = movementVector;
+      _playerInputHandler.Recalculate();
     }
 
     public void FixedUpdate()
     {
-      _rigidBody.velocity = Vector2.Lerp(_rigidBody.velocity, _desiredSpeed, .8f);
-    }
-
-    private Vector2 CalculateMovementVector()
-    {
-      var movement = new Vector2();
-
-      if (Input.GetKey(KeyCode.A))
-      {
-        movement.x -= 1;
-      }
-
-      if (Input.GetKey(KeyCode.D))
-      {
-        movement.x += 1;
-      }
-
-      if (Input.GetKey(KeyCode.W))
-      {
-        movement.y += 1;
-      }
-
-      if (Input.GetKey(KeyCode.S))
-      {
-        movement.y -= 1;
-      }
-
-      if (movement.sqrMagnitude > 0)
-      {
-        movement.Normalize();
-      }
-
-      return movement * 3;
+      _rigidBody.velocity = Vector2.Lerp(_rigidBody.velocity, _playerInputHandler.DesiredVelocity, .8f);
+      transform.rotation = Quaternion.Lerp(transform.rotation, _playerInputHandler.DesiredRotation, .8f);
+      _reticule.transform.localPosition = _playerInputHandler.DesiredTrackerLocation;
     }
   }
 }
