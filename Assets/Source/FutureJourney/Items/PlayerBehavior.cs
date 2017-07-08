@@ -57,6 +57,15 @@ namespace NineBitByte.FutureJourney.Items
         _selectedWeapon.Programming?.Act(_selectedWeapon.Behavior, Allegiance);
       }
 
+      if (Input.GetKeyDown(KeyCode.Alpha1))
+      {
+        SelectWeapon(AvailableWeapons[0]);
+      }
+      else if (Input.GetKeyDown(KeyCode.Alpha2))
+      {
+        SelectWeapon(AvailableWeapons[1]);
+      }
+
       _playerInputHandler.Recalculate();
     }
 

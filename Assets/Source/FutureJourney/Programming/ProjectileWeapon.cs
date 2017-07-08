@@ -4,6 +4,7 @@ using System.Linq;
 using NineBitByte.Common;
 using NineBitByte.FutureJourney.Items;
 using UnityEngine;
+using Random = System.Random;
 
 namespace NineBitByte.FutureJourney.Programming
 {
@@ -32,15 +33,27 @@ namespace NineBitByte.FutureJourney.Programming
     [Tooltip("Projectile information")]
     public Projectile Projectile;
 
+
     /// <summary> Creates a projectile for the given weapon. </summary>
     public override void Act(WeaponBehavior weaponInstance, Allegiance allegiance)
     {
-      var projectileInstance = Projectile.ProjectileTemplate.CreateInstance(
-        weaponInstance.MuzzleOffset.ToLocation(weaponInstance.transform)
+      for (int i = 0; i < NumberOfPellets; i++)
+      {
+        var projectileInstance = Projectile.ProjectileTemplate.CreateInstance(
+          weaponInstance.MuzzleOffset.ToLocation(weaponInstance.transform)
         );
 
-      var behavior = projectileInstance.GetComponent<ProjectileBehavior>();
-      behavior.Initialize(this, Projectile, allegiance);
+        var randomAngle = RandomBetween(-15, 15) * Spread;
+        projectileInstance.transform.rotation *= Quaternion.Euler(0, 0, randomAngle);
+
+        var behavior = projectileInstance.GetComponent<ProjectileBehavior>();
+        behavior.Initialize(this, Projectile, allegiance);
+      }
+    }
+
+    private float RandomBetween(float minimum, float maximum)
+    {
+      return UnityEngine.Random.value * (maximum - minimum) + minimum;
     }
 
     public void Attach(ref Ownership<ProjectileWeapon, WeaponBehavior> owner, PositionAndRotation initialLocation)

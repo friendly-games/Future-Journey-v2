@@ -26,12 +26,20 @@ namespace NineBitByte.FutureJourney.Items
     private void Start()
     {
       GetComponent<Rigidbody2D>().velocity = transform.up * _projectile.InitialVelocity;
-      gameObject.layer = _allegiance.AssociatedLayer.LayerId;
+      // TODO this layer to be automatic
+      gameObject.layer = Layer.FromName("Projectile").LayerId;
+
+      // don't go more than 300 units before disappearing (or 1 second)
+      // TODO should this be specified in the template
+      float timeToLive = 30 / _projectile.InitialVelocity;
+
+      Destroy(gameObject, timeToLive);
     }
 
     [UsedImplicitly]
     private void OnCollisionEnter2D(Collision2D collision)
     {
+      // TODO make it so that projectiles from our team don't damage ourselves
       var receiver = collision.gameObject.GetComponent<IDamageReceiver>();
 
       if (receiver != null)
