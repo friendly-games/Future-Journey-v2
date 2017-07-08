@@ -11,5 +11,8 @@ namespace NineBitByte.FutureJourney.Items
   {
     [Tooltip("The location at which the projectile is fired from the location of the owner GameObject")]
     public RelativeOffset MuzzleOffset;
+
+    [Tooltip("The location where the user should hold the weapon")]
+    public RelativeOffset HeldPosition;
   }
 }

@@ -63,6 +63,9 @@ namespace NineBitByte.FutureJourney.Programming
         initialLocation
         );
 
+      var weaponBehavior = instance.GetComponent<WeaponBehavior>();
+      instance.transform.localPosition -= weaponBehavior.HeldPosition.Offset;
+
       owner.Assign(this, instance);
     }
   }

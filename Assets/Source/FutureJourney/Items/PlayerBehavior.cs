@@ -15,6 +15,7 @@ namespace NineBitByte.FutureJourney.Items
     [Tooltip("All of the weapons that are available to the player")]
     public ProjectileWeapon[] AvailableWeapons;
 
+    [Tooltip("The location to which the weapon should be placed on the player")]
     public RelativeOffset WeaponOffset;
 
     private ProjectileWeapon _currentWeapon;

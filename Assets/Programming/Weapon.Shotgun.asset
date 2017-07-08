@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Name: Weapon.Shotgun
   m_EditorClassIdentifier: 
   DamagePerShot: 10
-  NumberOfPellets: 3
-  Spread: 0.9
+  NumberOfPellets: 4
+  Spread: 0.8
   ClipSize: 6
   WeaponTemplate: {fileID: 1105133587450778, guid: fb5b6291d61825a44b9d00e33ae349a1,
     type: 2}

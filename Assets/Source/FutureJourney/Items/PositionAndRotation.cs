@@ -29,23 +29,14 @@ namespace NineBitByte.FutureJourney.Items
       Position = transform.rotation * flatOffset + transform.position;
       Rotation = transform.rotation;
     }
-  }
 
-  [Serializable]
-  public struct RelativeOffset
-  {
-    public const string SerializedFieldName = nameof(_offset);
-
-    [SerializeField]
-    private Vector3 _offset;
-
-    public Vector3 Offset
+    public PositionAndRotation(Vector3 position, Quaternion rotation)
     {
-      get { return _offset; }
-      set { _offset = value; }
+      Position = position;
+      Rotation = rotation;
     }
 
-    public PositionAndRotation ToLocation(Transform transform)
-      => new PositionAndRotation(transform, _offset);
+    public static PositionAndRotation operator +(PositionAndRotation left, RelativeOffset offset) 
+      => new PositionAndRotation(left.Position + offset.Offset,left.Rotation);
   }
 }

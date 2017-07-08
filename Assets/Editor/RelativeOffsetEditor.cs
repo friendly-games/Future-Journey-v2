@@ -66,7 +66,7 @@ namespace NineBitByte.Assets.Editor
           field.Name,
           RelativeOffset.SerializedFieldName
         );
-        return ShowHandle(property, transform, property.name);
+        return ShowHandle(property, transform, field.Name);
       }
 
       if (field.FieldType == typeof(RelativeOffset[]))

@@ -11,10 +11,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99609657d7a9e18439f05dd4aedeb34d, type: 3}
   m_Name: Weapon.Pistol
   m_EditorClassIdentifier: 
-  DamagePerShot: 10
+  DamagePerShot: 30
   NumberOfPellets: 1
-  Spread: 0.75
-  ClipSize: 9
+  Spread: 0.15
+  ClipSize: 12
   WeaponTemplate: {fileID: 1542743906350916, guid: 1b78434f4c52b144abab2c0e9aae87c9,
     type: 2}
   Projectile: {fileID: 11400000, guid: 0419550c502920c48a76797121dc0ba1, type: 2}

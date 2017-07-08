@@ -44,7 +44,7 @@ namespace NineBitByte.FutureJourney.Items
 
       if (receiver != null)
       {
-        DamageProcessor.ApplyDamage(receiver, 100);
+        DamageProcessor.ApplyDamage(receiver, _weaponTemplate.DamagePerShot);
       }
 
       UnityExtensions.Destroy(gameObject);
