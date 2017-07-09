@@ -355,6 +355,7 @@ RectTransform:
   m_Children:
   - {fileID: 594827307}
   - {fileID: 868721404}
+  - {fileID: 2084161879}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -422,7 +423,7 @@ GameObject:
   - component: {fileID: 594827308}
   - component: {fileID: 594827310}
   m_Layer: 5
-  m_Name: Ammunition
+  m_Name: Current Clip Info
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -443,7 +444,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -10, y: 10}
+  m_AnchoredPosition: {x: -10, y: 12.71}
   m_SizeDelta: {x: 160, y: 42.17}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &594827308
@@ -478,7 +479,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 51/50
+  m_Text: 0/0
 --- !u!222 &594827309
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -620,7 +621,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -9.999695, y: 44.660004}
+  m_AnchoredPosition: {x: -10, y: 45.13}
   m_SizeDelta: {x: 160, y: 42.17}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &868721405
@@ -802,6 +803,7 @@ MonoBehaviour:
     _offset: {x: 0.51, y: 0, z: 0}
   EquipmentInformation: {fileID: 594827308}
   ReloadProgress: {fileID: 868721406}
+  EquipmentName: {fileID: 2084161881}
 --- !u!4 &1136284776
 Transform:
   m_ObjectHideFlags: 0
@@ -1042,6 +1044,94 @@ Transform:
   m_PrefabParentObject: {fileID: 4524019548842166, guid: 1b78434f4c52b144abab2c0e9aae87c9,
     type: 2}
   m_PrefabInternal: {fileID: 447174435}
+--- !u!1 &2084161878
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 2084161879}
+  - component: {fileID: 2084161882}
+  - component: {fileID: 2084161881}
+  - component: {fileID: 2084161880}
+  m_Layer: 5
+  m_Name: Equipment Name
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2084161879
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2084161878}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.0002239, y: 1.0002239, z: 1.0002239}
+  m_Children: []
+  m_Father: {fileID: 330669050}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -10, y: 0}
+  m_SizeDelta: {x: 160, y: 42.17}
+  m_Pivot: {x: 1, y: 0}
+--- !u!114 &2084161880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2084161878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1741964061, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 0
+--- !u!114 &2084161881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2084161878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 16
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 7
+    m_MaxSize: 40
+    m_Alignment: 8
+    m_AlignByGeometry: 0
+    m_RichText: 0
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Pistol
+--- !u!222 &2084161882
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2084161878}
 --- !u!1 &2103164092
 GameObject:
   m_ObjectHideFlags: 0

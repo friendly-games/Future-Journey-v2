@@ -25,6 +25,9 @@ namespace NineBitByte.FutureJourney.Items
     [Tooltip("How close are we to being done with reloading")]
     public Text ReloadProgress;
 
+    [Tooltip("The name of our currently equipped weapon")]
+    public Text EquipmentName;
+
     private float _lastPercentComplete;
 
     private Ownership<ProjectileWeapon, WeaponBehavior> _selectedWeapon;
@@ -74,8 +77,13 @@ namespace NineBitByte.FutureJourney.Items
 
     private void SelectWeapon(ProjectileWeapon weapon)
     {
+      if (weapon == _selectedWeapon.Programming)
+        return;
+
       _selectedWeapon.Destroy();
       weapon.Attach(ref _selectedWeapon, WeaponOffset.ToLocation(transform));
+
+      EquipmentName.text = _selectedWeapon.Programming.Name;
 
       Reload();
 

@@ -11,6 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99609657d7a9e18439f05dd4aedeb34d, type: 3}
   m_Name: Weapon.Pistol
   m_EditorClassIdentifier: 
+  Name: Pistol
   DamagePerShot: 30
   NumberOfPellets: 1
   Spread: 0.15
