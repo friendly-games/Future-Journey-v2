@@ -15,9 +15,10 @@ namespace NineBitByte.FutureJourney.Items
     [NonSerialized]
     private float _lastTime;
 
-    public RateLimiter()
+    public RateLimiter(bool allowFirst = false)
       : this(TimeSpan.FromSeconds(0))
     {
+      _lastTime = allowFirst ? float.MinValue : 0;
     }
 
     /// <summary> Constructor. </summary>
@@ -36,15 +37,23 @@ namespace NineBitByte.FutureJourney.Items
     }
 
     /// <summary> True if the item can be re-triggered. </summary>
-    public bool CanTrigger
-    {
-      get { return (Time.time - _lastTime) > _rechargeRate; }
-    }
+    public bool CanRestart 
+      => (Time.time - _lastTime) > _rechargeRate;
 
     /// <summary> Attempts to trigger the item. </summary>
     public void Restart()
     {
       _lastTime = Time.time;
+    }
+
+    /// <summary> Invokes <see cref="Restart"/> if <see cref="CanRestart"/> is true. </summary>
+    public bool TryRestart()
+    {
+      if (!CanRestart)
+        return false;
+
+      Restart();
+      return true;
     }
   }
 }

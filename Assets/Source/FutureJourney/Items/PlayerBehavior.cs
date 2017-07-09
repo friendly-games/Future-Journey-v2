@@ -32,10 +32,18 @@ namespace NineBitByte.FutureJourney.Items
 
     private PlayerInputHandler _playerInputHandler;
 
+    private RateLimiter _reloadLimiter;
+
     private int _numberOfRemainingShots;
+    private bool _reloadRequested = true;
 
     public void Start()
     {
+      Cursor.lockState = CursorLockMode.Locked;
+      Cursor.visible = false;
+
+      _reloadLimiter = new RateLimiter(allowFirst: true);
+
       _overallBody = transform.parent;
       _reticule = _overallBody.Find("Reticle");
 
@@ -44,10 +52,7 @@ namespace NineBitByte.FutureJourney.Items
       _selectedWeapon = new Ownership<ProjectileWeapon, WeaponBehavior>(gameObject);
 
       _playerInputHandler = new PlayerInputHandler();
-
-      Cursor.lockState = CursorLockMode.Locked;
-      Cursor.visible = false;
-
+   
       SelectWeapon(AvailableWeapons.FirstOrDefault());
     }
 
@@ -66,16 +71,30 @@ namespace NineBitByte.FutureJourney.Items
     {
       _selectedWeapon.Destroy();
       weapon.Attach(ref _selectedWeapon, WeaponOffset.ToLocation(transform));
+
       Reload();
+
+      _reloadLimiter.RechargeRate = _selectedWeapon.Programming.TimeToReload;
     }
 
     public void Reload()
     {
-      NumberOfRemainingShots = _selectedWeapon.Programming.ClipSize;
+      if (_reloadLimiter.TryRestart())
+      {
+        // TODO not always true (e.g. shotguns)
+        NumberOfRemainingShots = 0;
+        _reloadRequested = true;
+      }
     }
 
     public void Update()
     {
+      if (_reloadRequested && _reloadLimiter.CanRestart)
+      {
+        NumberOfRemainingShots = _selectedWeapon.Programming.ClipSize;
+        _reloadRequested = false;
+      }
+
       if (Input.GetMouseButtonDown(0))
       {
         ActWithCurrentlyEquippedItem();

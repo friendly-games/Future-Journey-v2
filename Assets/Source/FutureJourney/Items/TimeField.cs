@@ -37,10 +37,14 @@ namespace NineBitByte.FutureJourney.Items
     {
       return new RateLimiter(Time);
     }
+
+    /// <summary />
+    public static implicit operator TimeSpan(TimeField timeField)
+      => timeField.Time;
   }
 
   /// <summary> Attribute for time field. </summary>
-  public class TimeFieldAttribute : Attribute
+    public class TimeFieldAttribute : Attribute
   {
     public static readonly TimeFieldAttribute Default
       = new TimeFieldAttribute(TimeSpecifiedIn.Milliseconds);
