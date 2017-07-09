@@ -22,6 +22,11 @@ namespace NineBitByte.FutureJourney.Items
     [Tooltip("Location to write information about the current weapon/ammo")]
     public Text EquipmentInformation;
 
+    [Tooltip("How close are we to being done with reloading")]
+    public Text ReloadProgress;
+
+    private float _lastPercentComplete;
+
     private Ownership<ProjectileWeapon, WeaponBehavior> _selectedWeapon;
 
     private Rigidbody2D _rigidBody;
@@ -89,6 +94,13 @@ namespace NineBitByte.FutureJourney.Items
 
     public void Update()
     {
+      if (_reloadLimiter.PercentComplete != _lastPercentComplete)
+      {
+        _lastPercentComplete = _reloadLimiter.PercentComplete;
+        int asInt = (int)(_lastPercentComplete * 100);
+        ReloadProgress.text = $"{asInt:00}%";
+      }
+
       if (_reloadRequested && _reloadLimiter.CanRestart)
       {
         NumberOfRemainingShots = _selectedWeapon.Programming.ClipSize;

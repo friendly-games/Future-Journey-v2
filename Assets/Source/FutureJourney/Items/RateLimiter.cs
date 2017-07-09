@@ -6,10 +6,8 @@ using UnityEngine;
 namespace NineBitByte.FutureJourney.Items
 {
   /// <summary> Limits the rate at which something can occur. </summary>
-  [Serializable]
   public class RateLimiter
   {
-    [SerializeField]
     private float _rechargeRate;
 
     [NonSerialized]
@@ -39,6 +37,12 @@ namespace NineBitByte.FutureJourney.Items
     /// <summary> True if the item can be re-triggered. </summary>
     public bool CanRestart 
       => (Time.time - _lastTime) > _rechargeRate;
+
+    /// <summary>
+    ///  A value between 0 and 1 determining how close we are to being able to Restart.  1 is ready.
+    /// </summary>
+    public float PercentComplete 
+      => Mathf.Clamp(Time.time - _lastTime, 0, _rechargeRate) / _rechargeRate;
 
     /// <summary> Attempts to trigger the item. </summary>
     public void Restart()
