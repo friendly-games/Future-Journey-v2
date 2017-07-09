@@ -423,7 +423,7 @@ GameObject:
   - component: {fileID: 594827308}
   - component: {fileID: 594827310}
   m_Layer: 5
-  m_Name: Current Clip Info
+  m_Name: Current Equipment Info
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -444,7 +444,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -10, y: 12.71}
+  m_AnchoredPosition: {x: -10, y: 12.709991}
   m_SizeDelta: {x: 160, y: 42.17}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &594827308
@@ -600,7 +600,7 @@ GameObject:
   - component: {fileID: 868721406}
   - component: {fileID: 868721405}
   m_Layer: 5
-  m_Name: Reload Timer
+  m_Name: Reload Progress
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -621,7 +621,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -10, y: 45.13}
+  m_AnchoredPosition: {x: -10, y: 45.130005}
   m_SizeDelta: {x: 160, y: 42.17}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &868721405
@@ -797,13 +797,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Allegiance: {fileID: 11400000, guid: b2571afd8c1d937448665a2d441681de, type: 2}
   AvailableWeapons:
-  - {fileID: 11400000, guid: 7dbdee7f328994e4bb40a4c2ededf9fa, type: 2}
   - {fileID: 11400000, guid: 5ee393851699ac64290106eeee1c3e5e, type: 2}
+  - {fileID: 11400000, guid: 7dbdee7f328994e4bb40a4c2ededf9fa, type: 2}
   WeaponOffset:
     _offset: {x: 0.51, y: 0, z: 0}
-  EquipmentInformation: {fileID: 594827308}
-  ReloadProgress: {fileID: 868721406}
-  EquipmentName: {fileID: 2084161881}
 --- !u!4 &1136284776
 Transform:
   m_ObjectHideFlags: 0
@@ -888,6 +885,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1163350107}
   - component: {fileID: 1163350108}
+  - component: {fileID: 1163350109}
   m_Layer: 0
   m_Name: PlayerParent
   m_TagString: Untagged
@@ -930,6 +928,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &1163350109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1163350106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 702eba6113c79254ba44bf6501d44eec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EquipmentInformationTextField: {fileID: 594827308}
+  ReloadProgressTextField: {fileID: 868721406}
+  EquipmentNameTextField: {fileID: 2084161881}
 --- !u!1001 &1321644153
 Prefab:
   m_ObjectHideFlags: 0

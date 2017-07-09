@@ -4,7 +4,6 @@ using System.Linq;
 using NineBitByte.Common;
 using NineBitByte.FutureJourney.Programming;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace NineBitByte.FutureJourney.Items
 {
@@ -19,17 +18,6 @@ namespace NineBitByte.FutureJourney.Items
     [Tooltip("The location to which the weapon should be placed on the player")]
     public RelativeOffset WeaponOffset;
 
-    [Tooltip("Location to write information about the current weapon/ammo")]
-    public Text EquipmentInformation;
-
-    [Tooltip("How close are we to being done with reloading")]
-    public Text ReloadProgress;
-
-    [Tooltip("The name of our currently equipped weapon")]
-    public Text EquipmentName;
-
-    private float _lastPercentComplete;
-
     private Ownership<ProjectileWeapon, WeaponBehavior> _selectedWeapon;
 
     private Rigidbody2D _rigidBody;
@@ -41,6 +29,8 @@ namespace NineBitByte.FutureJourney.Items
     private PlayerInputHandler _playerInputHandler;
 
     private RateLimiter _reloadLimiter;
+
+    private HudInformationBehavior _hudInformationBehavior;
 
     private int _numberOfRemainingShots;
     private bool _reloadRequested = true;
@@ -56,6 +46,7 @@ namespace NineBitByte.FutureJourney.Items
       _reticule = _overallBody.Find("Reticle");
 
       _rigidBody = _overallBody.GetComponent<Rigidbody2D>();
+      _hudInformationBehavior = _overallBody.GetComponent<HudInformationBehavior>();
 
       _selectedWeapon = new Ownership<ProjectileWeapon, WeaponBehavior>(gameObject);
 
@@ -71,7 +62,7 @@ namespace NineBitByte.FutureJourney.Items
       set
       {
         _numberOfRemainingShots = value;
-        EquipmentInformation.text = $"{NumberOfRemainingShots}/{_selectedWeapon.Programming.ClipSize}";
+        _hudInformationBehavior.WeaponInfo = $"{NumberOfRemainingShots}/{_selectedWeapon.Programming.ClipSize}";
       }
     }
 
@@ -83,7 +74,7 @@ namespace NineBitByte.FutureJourney.Items
       _selectedWeapon.Destroy();
       weapon.Attach(ref _selectedWeapon, WeaponOffset.ToLocation(transform));
 
-      EquipmentName.text = _selectedWeapon.Programming.Name;
+      _hudInformationBehavior.EquipmentName = _selectedWeapon.Programming.Name;
 
       Reload();
 
@@ -102,12 +93,7 @@ namespace NineBitByte.FutureJourney.Items
 
     public void Update()
     {
-      if (_reloadLimiter.PercentComplete != _lastPercentComplete)
-      {
-        _lastPercentComplete = _reloadLimiter.PercentComplete;
-        int asInt = (int)(_lastPercentComplete * 100);
-        ReloadProgress.text = $"{asInt:00}%";
-      }
+      _hudInformationBehavior.ReloadPercentage = (int)(_reloadLimiter.PercentComplete * 100);
 
       if (_reloadRequested && _reloadLimiter.CanRestart)
       {
