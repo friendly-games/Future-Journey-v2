@@ -33,6 +33,9 @@ namespace NineBitByte.FutureJourney.Programming
     [Tooltip("Projectile information")]
     public Projectile Projectile;
 
+    [Tooltip("The amount of time it takes to reload this weapon")]
+    [TimeField(TimeSpecifiedIn.Seconds, Minimum = 0, Maximum = 2)]
+    public TimeField TimeToReload;
 
     /// <summary> Creates a projectile for the given weapon. </summary>
     public override void Act(WeaponBehavior weaponInstance, Allegiance allegiance)

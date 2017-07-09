@@ -18,3 +18,5 @@ MonoBehaviour:
   WeaponTemplate: {fileID: 1105133587450778, guid: fb5b6291d61825a44b9d00e33ae349a1,
     type: 2}
   Projectile: {fileID: 11400000, guid: 0419550c502920c48a76797121dc0ba1, type: 2}
+  TimeToReload:
+    _timeValue: 1500
