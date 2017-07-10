@@ -13,6 +13,11 @@ namespace NineBitByte.FutureJourney.Items
     [SerializeField]
     private Vector3 _offset;
 
+    public RelativeOffset(Vector3 offset)
+    {
+      _offset = offset;
+    }
+
     public Vector3 Offset
     {
       get { return _offset; }
