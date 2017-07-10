@@ -46,17 +46,12 @@ namespace NineBitByte.FutureJourney.Programming
           weaponInstance.MuzzleOffset.ToLocation(weaponInstance.transform)
         );
 
-        var randomAngle = RandomBetween(-15, 15) * Spread;
+        var randomAngle = Utils.RandomBetween(-15, 15) * Spread;
         projectileInstance.transform.rotation *= Quaternion.Euler(0, 0, randomAngle);
 
         var behavior = projectileInstance.GetComponent<ProjectileBehavior>();
         behavior.Initialize(this, Projectile, allegiance);
       }
-    }
-
-    private float RandomBetween(float minimum, float maximum)
-    {
-      return UnityEngine.Random.value * (maximum - minimum) + minimum;
     }
 
     public void Attach(ref Ownership<ProjectileWeapon, WeaponBehavior> owner, PositionAndRotation initialLocation)

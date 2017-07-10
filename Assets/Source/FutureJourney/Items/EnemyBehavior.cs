@@ -11,7 +11,7 @@ namespace NineBitByte.FutureJourney.Items
     private Creature _template;
     private Allegiance _allegiance;
 
-    public void Construct(Creature template, Allegiance allegiance)
+    public void Initialize(Creature template, Allegiance allegiance)
     {
       _template = template;
       _allegiance = allegiance;

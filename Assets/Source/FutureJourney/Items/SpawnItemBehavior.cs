@@ -20,7 +20,7 @@ namespace NineBitByte.FutureJourney.Items
       foreach (var offset in Offsets)
       {
         var initialPos = offset.ToLocation(transform);
-        ItemToSpawn.Build(initialPos, ItemAllegiance);
+        ItemToSpawn.Construct(initialPos, ItemAllegiance);
       }
     }
   }

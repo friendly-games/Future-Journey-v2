@@ -17,13 +17,13 @@ namespace NineBitByte.FutureJourney.Programming
 
     public int MaxHealth;
 
-    /// <summary> The template for an enemy. </summary>
     public GameObject Template;
 
-    public void Build(PositionAndRotation initialPosition, Allegiance allegiance)
+    public GameObject Construct(PositionAndRotation initialPosition, Allegiance allegiance)
     {
       var clone = Template.CreateInstance(initialPosition);
-      clone.GetComponent<EnemyBehavior>().Construct(this, allegiance);
+      clone.GetComponent<EnemyBehavior>().Initialize(this, allegiance);
+      return clone;
     }
 
     public void ApplyDamage(EnemyBehavior enemy, float damage)
