@@ -46,7 +46,7 @@ namespace NineBitByte.FutureJourney.Programming
           weaponInstance.MuzzleOffset.ToLocation(weaponInstance.transform)
         );
 
-        var randomAngle = Utils.RandomBetween(-15, 15) * Spread;
+        var randomAngle = UnityEngine.Random.Range(-15, (float)15) * Spread;
         projectileInstance.transform.rotation *= Quaternion.Euler(0, 0, randomAngle);
 
         var behavior = projectileInstance.GetComponent<ProjectileBehavior>();

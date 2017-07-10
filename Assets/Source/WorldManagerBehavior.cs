@@ -5,6 +5,7 @@ using NineBitByte.Common;
 using NineBitByte.FutureJourney.Items;
 using NineBitByte.FutureJourney.Programming;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace NineBitByte
 {
@@ -28,23 +29,35 @@ namespace NineBitByte
         Quaternion.AngleAxis(270, Vector3.back),
       };
 
-
       for (int x = -10; x < 10; x++)
       {
         for (int y = -10; y < 10; y++)
         {
-          int rotationIndex = UnityEngine.Random.Range(0, 4);
+          int rotationIndex = GetRotation(x, y);
+          var tileIndex = GetTileIndex(x, y);
 
-          AvailableTiles[0].Construct(
+          AvailableTiles[tileIndex].Construct(
             new PositionAndRotation(new Vector3(x, y, 0), possibleRotations[rotationIndex])
           );
         }
       }
-
     }
 
-    public void Update()
+    private static int GetTileIndex(int x, int y)
     {
+      var noise = Mathf.PerlinNoise(
+        30 + (10 + x) / 4.0f,
+        30 + (10 + y) / 4.0f);
+      int tileIndex = noise < 0.70f ? 0 : 1;
+      return tileIndex;
+    }
+
+    private static int GetRotation(int x, int y)
+    {
+      var noise = Mathf.PerlinNoise(
+        30 + x / 2.0f,
+        30 + y / 2.0f);
+      return (int)(noise * 4);
     }
   }
 }
