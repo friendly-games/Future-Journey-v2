@@ -121,6 +121,7 @@ namespace NineBitByte.FutureJourney.Items
       }
 
       _playerInputHandler.Recalculate();
+      ResetOverallRotation();
     }
 
     private void ActWithCurrentlyEquippedItem()
@@ -132,11 +133,23 @@ namespace NineBitByte.FutureJourney.Items
       NumberOfRemainingShots--;
     }
 
+    private Quaternion _lastRotation
+      = Quaternion.identity;
+
+    private void ResetOverallRotation()
+    {
+      // the rotation of the overall body should never change
+      _overallBody.rotation = Quaternion.identity;
+    }
+
     public void FixedUpdate()
     {
+      _rigidBody.angularVelocity = 0;
       _rigidBody.velocity = Vector2.Lerp(_rigidBody.velocity, _playerInputHandler.DesiredVelocity, .8f);
-      transform.rotation = Quaternion.Lerp(transform.rotation, _playerInputHandler.DesiredRotation, .8f);
+      transform.rotation = Quaternion.Lerp(_lastRotation, _playerInputHandler.DesiredRotation, .8f);
       _reticule.transform.localPosition = _playerInputHandler.DesiredTrackerLocation;
+
+      _lastRotation = transform.rotation;
     }
   }
 }
