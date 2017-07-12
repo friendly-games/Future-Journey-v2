@@ -7,6 +7,11 @@ using UnityEngine;
 
 namespace NineBitByte.FutureJourney.Items
 {
+  /// <summary>
+  ///  The behavior that sits above the <see cref="PlayerBodyBehavior"/> controlling it and
+  ///  providing a non-rotating body on which other gui elements (such as the cursor or health) can
+  ///  live.
+  /// </summary>
   public class PlayerBehavior : BaseBehavior
   {
     [Tooltip("The team to which the player belongs")]
@@ -15,16 +20,11 @@ namespace NineBitByte.FutureJourney.Items
     [Tooltip("All of the weapons that are available to the player")]
     public ProjectileWeapon[] AvailableWeapons;
 
-    [Tooltip("The location to which the weapon should be placed on the player")]
-    public RelativeOffset WeaponOffset;
-
     private Ownership<ProjectileWeapon, WeaponBehavior> _selectedWeapon;
 
     private Rigidbody2D _rigidBody;
 
     private Transform _reticule;
-
-    private Transform _overallBody;
 
     private PlayerInputHandler _playerInputHandler;
 
@@ -35,23 +35,25 @@ namespace NineBitByte.FutureJourney.Items
     private int _numberOfRemainingShots;
     private bool _reloadRequested = true;
 
+    private Transform _playerBody;
+    private PlayerBodyBehavior _playerBodyBehavior;
+
     public void Start()
     {
-      Cursor.lockState = CursorLockMode.Locked;
-      Cursor.visible = false;
-
+      _playerInputHandler = new PlayerInputHandler();
       _reloadLimiter = new RateLimiter(allowFirst: true);
 
-      _overallBody = transform.parent;
-      _reticule = _overallBody.Find("Reticle");
+      _reticule = transform.Find("Reticle");
+      _playerBodyBehavior = transform.Find("Body").GetComponent<PlayerBodyBehavior>();
+      _playerBodyBehavior.Initalize(_playerInputHandler);
 
-      _rigidBody = _overallBody.GetComponent<Rigidbody2D>();
-      _hudInformationBehavior = _overallBody.GetComponent<HudInformationBehavior>();
+      _playerBody = _playerBodyBehavior.transform;
 
-      _selectedWeapon = new Ownership<ProjectileWeapon, WeaponBehavior>(gameObject);
+      _selectedWeapon = new Ownership<ProjectileWeapon, WeaponBehavior>(_playerBody.gameObject);
 
-      _playerInputHandler = new PlayerInputHandler();
-   
+      _rigidBody = transform.GetComponent<Rigidbody2D>();
+      _hudInformationBehavior = transform.GetComponent<HudInformationBehavior>();
+
       SelectWeapon(AvailableWeapons.FirstOrDefault());
     }
 
@@ -72,7 +74,7 @@ namespace NineBitByte.FutureJourney.Items
         return;
 
       _selectedWeapon.Destroy();
-      weapon.Attach(ref _selectedWeapon, WeaponOffset.ToLocation(transform));
+      weapon.Attach(ref _selectedWeapon, _playerBodyBehavior.WeaponOffset.ToLocation(_playerBody));
 
       _hudInformationBehavior.EquipmentName = _selectedWeapon.Programming.Name;
 
@@ -121,6 +123,7 @@ namespace NineBitByte.FutureJourney.Items
       }
 
       _playerInputHandler.Recalculate();
+
       ResetOverallRotation();
     }
 
@@ -133,23 +136,19 @@ namespace NineBitByte.FutureJourney.Items
       NumberOfRemainingShots--;
     }
 
-    private Quaternion _lastRotation
-      = Quaternion.identity;
-
     private void ResetOverallRotation()
     {
       // the rotation of the overall body should never change
-      _overallBody.rotation = Quaternion.identity;
+      transform.rotation = Quaternion.identity;
     }
 
     public void FixedUpdate()
     {
+      ResetOverallRotation();
+
       _rigidBody.angularVelocity = 0;
       _rigidBody.velocity = Vector2.Lerp(_rigidBody.velocity, _playerInputHandler.DesiredVelocity, .8f);
-      transform.rotation = Quaternion.Lerp(_lastRotation, _playerInputHandler.DesiredRotation, .8f);
       _reticule.transform.localPosition = _playerInputHandler.DesiredTrackerLocation;
-
-      _lastRotation = transform.rotation;
     }
   }
 }

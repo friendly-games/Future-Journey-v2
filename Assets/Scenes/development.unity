@@ -559,6 +559,7 @@ GameObject:
   - component: {fileID: 758985432}
   - component: {fileID: 758985431}
   - component: {fileID: 758985436}
+  - component: {fileID: 758985437}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -650,6 +651,18 @@ MonoBehaviour:
   Target: {fileID: 1163350107}
   TargetLocationRelativeToCamera:
     _offset: {x: 0, y: -1, z: 10}
+--- !u!114 &758985437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 758985430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26202c8fab5c6804991ca1def75ae159, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HideCursorOnStartup: 1
 --- !u!1 &868721403
 GameObject:
   m_ObjectHideFlags: 0
@@ -842,7 +855,7 @@ GameObject:
   - component: {fileID: 1136284778}
   - component: {fileID: 1136284779}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -859,10 +872,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a48c51e4803cb8a4e9aa088b984f9207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Allegiance: {fileID: 11400000, guid: b2571afd8c1d937448665a2d441681de, type: 2}
-  AvailableWeapons:
-  - {fileID: 11400000, guid: 5ee393851699ac64290106eeee1c3e5e, type: 2}
-  - {fileID: 11400000, guid: 7dbdee7f328994e4bb40a4c2ededf9fa, type: 2}
   WeaponOffset:
     _offset: {x: 0.51, y: 0, z: 0}
 --- !u!4 &1136284776
@@ -945,8 +954,9 @@ GameObject:
   - component: {fileID: 1163350107}
   - component: {fileID: 1163350108}
   - component: {fileID: 1163350109}
+  - component: {fileID: 1163350110}
   m_Layer: 0
-  m_Name: PlayerParent
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1001,6 +1011,21 @@ MonoBehaviour:
   EquipmentInformationTextField: {fileID: 594827308}
   ReloadProgressTextField: {fileID: 868721406}
   EquipmentNameTextField: {fileID: 2084161881}
+--- !u!114 &1163350110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1163350106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c49ecc1fdcd43d498841e89148069f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Allegiance: {fileID: 11400000, guid: b2571afd8c1d937448665a2d441681de, type: 2}
+  AvailableWeapons:
+  - {fileID: 11400000, guid: 5ee393851699ac64290106eeee1c3e5e, type: 2}
+  - {fileID: 11400000, guid: 7dbdee7f328994e4bb40a4c2ededf9fa, type: 2}
 --- !u!4 &1204654931 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4004837241746930, guid: 1d8e1cd852c8ba8439e7deecea08b0ee,
