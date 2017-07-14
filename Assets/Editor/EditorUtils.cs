@@ -31,6 +31,19 @@ namespace NineBitByte.Assets.Editor
       }
     }
 
+    /// <summary> Gets all of the properties for the given serialized object. </summary>
+    public static IEnumerable<SerializedProperty> GetVisibleProperties(SerializedObject instance)
+    {
+      var prop = instance.GetIterator();
+
+
+
+      while (prop.NextVisible(true))
+      {
+        yield return prop;
+      }
+    }
+
     public static SerializedProperty FindProperty(this SerializedObject serializedObject, params string[] propertyParts)
     {
       return serializedObject.FindProperty(GetPropertyPath(propertyParts));
