@@ -1284,7 +1284,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2103164094}
   - component: {fileID: 2103164093}
-  - component: {fileID: 2103164095}
   m_Layer: 0
   m_Name: World
   m_TagString: Untagged
@@ -1322,16 +1321,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2103164095
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2103164092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87b0499d551f5b74dbbbfefa2482a32d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Weapon1: {fileID: 11400000, guid: 5ee393851699ac64290106eeee1c3e5e, type: 2}
-  Weapon2: {fileID: 11400000, guid: 7dbdee7f328994e4bb40a4c2ededf9fa, type: 2}
