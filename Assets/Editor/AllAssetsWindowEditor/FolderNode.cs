@@ -12,12 +12,12 @@ namespace NineBitByte.Assets.Editor.AllAssetsWindowEditor
     public FolderNode(string name, string fullPath)
     {
       Name = name;
-      FullPath = fullPath;
+      RelativePath = fullPath;
     }
 
     public string Name { get; }
 
-    public string FullPath { get; }
+    public string RelativePath { get; }
 
     public FolderNode GetOrCreate(string name, string fullPath)
     {
@@ -75,16 +75,34 @@ namespace NineBitByte.Assets.Editor.AllAssetsWindowEditor
       bool isExpanded;
       var expandStates = window.Options.ExpandStates;
 
-      isExpanded = !expandStates.TryGetValue(folder.FullPath, out isExpanded) || isExpanded;
+      isExpanded = !expandStates.TryGetValue(folder.RelativePath, out isExpanded) || isExpanded;
       isExpanded = EditorGUILayout.Foldout(isExpanded, folder.Name);
 
-      expandStates[folder.FullPath] = isExpanded;
+      expandStates[folder.RelativePath] = isExpanded;
 
       if (isExpanded)
       {
         EditorGUI.indentLevel++;
         folder.Draw(window);
         EditorGUI.indentLevel--;
+      }
+    }
+
+    public static IEnumerable<INode> GetNodes(FolderNode root)
+    {
+      foreach (var child in root.Folders)
+      {
+        yield return child;
+
+        foreach (var other in GetNodes(child))
+        {
+          yield return other;
+        }
+      }
+
+      foreach (var child in root.Editors)
+      {
+        yield return child;
       }
     }
   }

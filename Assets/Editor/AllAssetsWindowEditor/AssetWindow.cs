@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
 
@@ -40,7 +41,6 @@ namespace NineBitByte.Assets.Editor.AllAssetsWindowEditor
       titleContent = new GUIContent("All Assets");
     }
 
-    private const string RootPath = "Assets/Programming";
     private readonly StringBuilder _builder = new StringBuilder();
 
     private FolderNode _rootNode;
@@ -49,7 +49,7 @@ namespace NineBitByte.Assets.Editor.AllAssetsWindowEditor
     {
       if (_rootNode == null)
       {
-        _rootNode = RefreshCache();
+        RefreshCache();
       }
 
       Options.ScrollPosition = GUILayout.BeginScrollView(Options.ScrollPosition);
@@ -58,10 +58,23 @@ namespace NineBitByte.Assets.Editor.AllAssetsWindowEditor
       GUILayout.EndScrollView();
     }
 
-    public FolderNode RefreshCache()
+    public void RefreshCache()
+    {
+      _rootNode = RegenerateRootNode();
+
+      var removedPaths = Options
+        .ExpandStates.Keys
+        .Except(FolderNode.GetNodes(_rootNode).Select(n => n.RelativePath))
+        .ToList();
+
+      removedPaths.ForEach(it => Options.ExpandStates.Remove(it));
+      Options.Save();
+    }
+
+    private FolderNode RegenerateRootNode()
     {
       var rootNode = new FolderNode("root", "");
-      var assets = AssetDatabase.FindAssets("*", new[] { RootPath });
+      var assets = AssetDatabase.FindAssets("*", new[] { EditorNode.RootPath });
 
       foreach (var asset in assets)
       {
@@ -75,7 +88,7 @@ namespace NineBitByte.Assets.Editor.AllAssetsWindowEditor
 
     public void Add(FolderNode rootNode, string path)
     {
-      var shortenedPath = path.Substring(RootPath.Length + 1);
+      var shortenedPath = path.Substring(EditorNode.RootPath.Length + 1);
       var prettyName = Path.GetFileNameWithoutExtension(shortenedPath);
       var parts = prettyName.Split('.');
 
@@ -95,7 +108,7 @@ namespace NineBitByte.Assets.Editor.AllAssetsWindowEditor
         currentNode = currentNode.GetOrCreate(parts[i], _builder.ToString());
       }
 
-      currentNode.Add(new EditorNode(parts[parts.Length - 1], path));
+      currentNode.Add(new EditorNode(parts[parts.Length - 1], shortenedPath));
     }
 
     internal bool DrawDefaultInspectorFor(SerializedObject obj)

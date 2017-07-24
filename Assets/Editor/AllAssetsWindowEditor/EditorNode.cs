@@ -8,19 +8,21 @@ namespace NineBitByte.Assets.Editor.AllAssetsWindowEditor
 {
   public class EditorNode : INode
   {
-    public EditorNode(string name, string fullPath)
+    public const string RootPath = "Assets/Programming";
+
+    public EditorNode(string name, string relativePath)
     {
       Name = name;
-      FullPath = fullPath;
+      RelativePath = relativePath;
     }
 
     public string Name { get; }
 
-    public string FullPath { get; }
+    public string RelativePath { get; }
 
     public void Draw(AssetWindow window)
     {
-      var baseScriptable = AssetDatabase.LoadAssetAtPath<BaseScriptable>(FullPath);
+      var baseScriptable = AssetDatabase.LoadAssetAtPath<BaseScriptable>(RootPath + "/" + RelativePath);
       if (baseScriptable != null)
       {
         window.DrawDefaultInspectorFor(new SerializedObject(baseScriptable));

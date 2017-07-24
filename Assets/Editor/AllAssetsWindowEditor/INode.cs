@@ -8,7 +8,7 @@ namespace NineBitByte.Assets.Editor.AllAssetsWindowEditor
   {
     string Name { get; }
 
-    string FullPath { get; }
+    string RelativePath { get; }
 
     void Draw(AssetWindow window);
   }

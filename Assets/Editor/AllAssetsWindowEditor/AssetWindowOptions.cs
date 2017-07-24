@@ -35,8 +35,14 @@ namespace NineBitByte.Assets.Editor.AllAssetsWindowEditor
 
     public void Save()
     {
+      var existingJson = EditorPrefs.GetString(typeof(AssetWindowOptions).Name);
       string json = JsonConvert.SerializeObject(this);
-      EditorPrefs.SetString(typeof(AssetWindowOptions).Name, json);
+
+      if (existingJson != json)
+      {
+        Debug.Log(json);
+        EditorPrefs.SetString(typeof(AssetWindowOptions).Name, json);
+      }
     }
 
     public void Load()
