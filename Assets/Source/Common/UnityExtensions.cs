@@ -4,35 +4,29 @@ using System.Linq;
 using NineBitByte.FutureJourney.Items;
 using UnityEngine;
 
+using UnityObject = UnityEngine.Object;
+
 namespace NineBitByte.Common
 {
   public static class UnityExtensions
   {
+    // Clone an existing unity object
     public static T CreateInstance<T>(this T original)
-      where T : UnityEngine.Object 
-      => UnityEngine.Object.Instantiate(original);
+      where T : UnityObject 
+      => UnityObject.Instantiate(original);
 
-    public static T CreateInstance<T>(this T original, Vector3 position, Quaternion rotation)
-      where T : UnityEngine.Object
-      => UnityEngine.Object.Instantiate(original, position, rotation);
-
+    // Clone an existing unity object with a specific position and rotation
     public static T CreateInstance<T>(this T original, PositionAndRotation position)
-      where T : UnityEngine.Object
-      => UnityEngine.Object.Instantiate(original, position.Position, position.Rotation);
+      where T : UnityObject
+      => UnityObject.Instantiate(original, position.Position, position.Rotation);
 
+    // Clone an existing unity object with a specific position and rotation and owner
     public static T CreateInstance<T>(this T original, Transform owner, PositionAndRotation position)
-      where T : UnityEngine.Object
-      => UnityEngine.Object.Instantiate(original, position.Position, position.Rotation, owner);
+      where T : UnityObject
+      => UnityObject.Instantiate(original, position.Position, position.Rotation, owner);
 
-    public static T CreateInstance<T>(this T original, Transform owner, Vector3 position, Quaternion rotation)
-      where T : UnityEngine.Object
-    {
-      return UnityEngine.Object.Instantiate(original, position, rotation, owner);
-    }
-
-    public static void Destroy(GameObject gameObject)
-    {
-      UnityEngine.Object.Destroy(gameObject);
-    }
+    // Destroy an existing unity object
+    public static void Destroy(GameObject gameObject) 
+      => UnityObject.Destroy(gameObject);
   }
 }

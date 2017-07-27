@@ -20,7 +20,7 @@ namespace NineBitByte.FutureJourney.Items
     [Tooltip("All of the weapons that are available to the player")]
     public ProjectileWeapon[] AvailableWeapons;
 
-    private Ownership<ProjectileWeapon, WeaponBehavior> _selectedWeapon;
+    private WeaponBehavior _selectedWeapon;
 
     private Rigidbody2D _rigidBody;
 
@@ -49,7 +49,7 @@ namespace NineBitByte.FutureJourney.Items
 
       _playerBody = _playerBodyBehavior.transform;
 
-      _selectedWeapon = new Ownership<ProjectileWeapon, WeaponBehavior>(_playerBody.gameObject);
+      _selectedWeapon = null;
 
       _rigidBody = transform.GetComponent<Rigidbody2D>();
       _hudInformationBehavior = transform.GetComponent<HudInformationBehavior>();
@@ -70,11 +70,14 @@ namespace NineBitByte.FutureJourney.Items
 
     private void SelectWeapon(ProjectileWeapon weapon)
     {
-      if (weapon == _selectedWeapon.Programming)
+      if (weapon == _selectedWeapon?.Programming)
         return;
 
-      _selectedWeapon.Destroy();
-      weapon.Attach(ref _selectedWeapon, _playerBodyBehavior.WeaponOffset.ToLocation(_playerBody));
+      UnityExtensions.Destroy(_selectedWeapon?.gameObject);
+      _selectedWeapon = weapon.Attach(
+        _playerBody.gameObject.transform,
+        _playerBodyBehavior.WeaponOffset.ToLocation(_playerBody)
+       );
 
       _hudInformationBehavior.EquipmentName = _selectedWeapon.Programming.Name;
 
@@ -132,7 +135,7 @@ namespace NineBitByte.FutureJourney.Items
       if (NumberOfRemainingShots <= 0)
         return;
 
-      _selectedWeapon.Programming?.Act(_selectedWeapon.Behavior, Allegiance);
+      _selectedWeapon?.Programming.Act(_selectedWeapon, Allegiance);
       NumberOfRemainingShots--;
     }
 

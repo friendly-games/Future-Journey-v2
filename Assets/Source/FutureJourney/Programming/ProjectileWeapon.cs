@@ -54,17 +54,19 @@ namespace NineBitByte.FutureJourney.Programming
       }
     }
 
-    public void Attach(ref Ownership<ProjectileWeapon, WeaponBehavior> owner, PositionAndRotation initialLocation)
+    public WeaponBehavior Attach(Transform parent, PositionAndRotation initialLocation)
     {
       var instance = WeaponTemplate.CreateInstance(
-        owner.Owner.transform,
+        parent,
         initialLocation
-        );
+      );
 
-      var weaponBehavior = instance.GetComponent<WeaponBehavior>();
+      var weaponBehavior = instance
+        .GetComponent<WeaponBehavior>()
+        .Initialize(this);
+
       instance.transform.localPosition -= weaponBehavior.HeldPosition.Offset;
-
-      owner.Assign(this, instance);
+      return weaponBehavior;
     }
   }
 }

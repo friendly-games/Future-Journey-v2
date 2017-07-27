@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NineBitByte.Common;
+using NineBitByte.FutureJourney.Programming;
 using UnityEngine;
 
 namespace NineBitByte.FutureJourney.Items
@@ -14,5 +15,13 @@ namespace NineBitByte.FutureJourney.Items
 
     [Tooltip("The location where the user should hold the weapon")]
     public RelativeOffset HeldPosition;
+
+    public ProjectileWeapon Programming { get; private set; }
+
+    public WeaponBehavior Initialize(ProjectileWeapon projectileWeapon)
+    {
+      Programming = projectileWeapon;
+      return this;
+    }
   }
 }
