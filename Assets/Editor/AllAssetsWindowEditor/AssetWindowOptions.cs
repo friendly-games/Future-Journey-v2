@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
+using FullSerializer;
 using UnityEditor;
 using UnityEngine;
 
@@ -16,27 +16,16 @@ namespace NineBitByte.Assets.Editor.AllAssetsWindowEditor
       ScrollPosition = new Vector2();
     }
 
-    public Dictionary<string, bool> ExpandStates { get; }
+    [fsProperty]
+    public Dictionary<string, bool> ExpandStates { get; private set; }
 
-    [JsonIgnore]
     public Vector2 ScrollPosition { get; set; }
-
-    public float ScrollX
-    {
-      get { return ScrollPosition.x; }
-      set { ScrollPosition = new Vector2(value, ScrollPosition.y); }
-    }
-
-    public float ScrollY
-    {
-      get { return ScrollPosition.y; }
-      set { ScrollPosition = new Vector2(ScrollPosition.x, value); }
-    }
 
     public void Save()
     {
+
       var existingJson = EditorPrefs.GetString(typeof(AssetWindowOptions).Name);
-      string json = JsonConvert.SerializeObject(this);
+      string json = StringSerializationAPI.Serialize(this);
 
       if (existingJson != json)
       {
@@ -50,7 +39,46 @@ namespace NineBitByte.Assets.Editor.AllAssetsWindowEditor
       var json = EditorPrefs.GetString(typeof(AssetWindowOptions).Name);
       if (json != null)
       {
-        JsonConvert.PopulateObject(json, this);
+        StringSerializationAPI.DeserializeInto(typeof(AssetWindowOptions), json, this);
+      }
+    }
+
+    public static class StringSerializationAPI
+    {
+      private static readonly fsSerializer _serializer = new fsSerializer();
+
+
+      public static string Serialize(object value)
+      {
+        // serialize the data
+        fsData data;
+        _serializer.TrySerialize(value.GetType(), value, out data).AssertSuccessWithoutWarnings();
+
+        // emit the data via JSON
+        return fsJsonPrinter.CompressedJson(data);
+      }
+
+      public static object Deserialize(Type type, string serializedState)
+      {
+        // step 2: deserialize the data
+        object deserialized = null;
+        Deserialize(type, serializedState, ref deserialized);
+        return deserialized;
+      }
+
+      public static void DeserializeInto(Type type, string serializedState, object existing)
+      {
+        // step 2: deserialize the data
+        Deserialize(type, serializedState, ref existing);
+      }
+
+      public static void Deserialize(Type type, string serializedState, ref object deserialized)
+      {
+        // step 1: parse the JSON data
+        fsData data = fsJsonParser.Parse(serializedState);
+
+        // step 2: deserialize the data
+        _serializer.TryDeserialize(data, type, ref deserialized).AssertSuccessWithoutWarnings();
       }
     }
   }
