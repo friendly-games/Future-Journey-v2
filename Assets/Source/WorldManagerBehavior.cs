@@ -4,6 +4,7 @@ using System.Linq;
 using NineBitByte.Common;
 using NineBitByte.FutureJourney.Items;
 using NineBitByte.FutureJourney.Programming;
+using NineBitByte.FutureJourney.World;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -19,9 +20,30 @@ namespace NineBitByte
     [Tooltip("The layer to which all tiles should be added")]
     public Layer TileLayer;
 
+    [Tooltip("The player game object")]
+    public GameObject Player;
+
+    private WorldGrid _grid;
+
+    private WorldGridSlice<TileBehavior> _slice;
+
     public void Start()
     {
-      var possibleRotations = new Quaternion[4]
+      _grid = new WorldGrid(AvailableTiles);
+
+      _slice = new WorldGridSlice<TileBehavior>(_grid, 20, 20);
+      _slice.DataChanged += HandleDataChanged;
+
+      _slice.Initialize(new GridCoordinate(Player.transform.position));
+    }
+
+    public void Update()
+    {
+      _slice.Recenter(new GridCoordinate(Player.transform.position));
+    }
+
+    private static readonly Quaternion[] PossibleRotations =
+      new Quaternion[4]
       {
         Quaternion.AngleAxis(0, Vector3.back),
         Quaternion.AngleAxis(90, Vector3.back),
@@ -29,35 +51,28 @@ namespace NineBitByte
         Quaternion.AngleAxis(270, Vector3.back),
       };
 
-      for (int x = -10; x < 10; x++)
+    private void HandleDataChanged(
+      SliceUnitData<TileBehavior> olddata,
+      ref SliceUnitData<TileBehavior> newdata
+    )
+    {
+      if (olddata.Data != null)
       {
-        for (int y = -10; y < 10; y++)
-        {
-          int rotationIndex = GetRotation(x, y);
-          var tileIndex = GetTileIndex(x, y);
-
-          AvailableTiles[tileIndex].Construct(
-            new PositionAndRotation(new Vector3(x, y, 0), possibleRotations[rotationIndex])
-          );
-        }
+        UnityExtensions.Destroy(olddata.Data.gameObject);
       }
-    }
 
-    private static int GetTileIndex(int x, int y)
-    {
-      var noise = Mathf.PerlinNoise(
-        30 + (10 + x) / 4.0f,
-        30 + (10 + y) / 4.0f);
-      int tileIndex = noise < 0.70f ? 0 : 1;
-      return tileIndex;
-    }
+      var item = newdata.GridItem;
+      int x = newdata.Position.X;
+      int y = newdata.Position.Y;
 
-    private static int GetRotation(int x, int y)
-    {
-      var noise = Mathf.PerlinNoise(
-        30 + x / 2.0f,
-        30 + y / 2.0f);
-      return (int)(noise * 4);
+
+      var instance = AvailableTiles[item.Type].Construct(
+        new PositionAndRotation(new Vector3(x, y, 0), PossibleRotations[item.Rotation]),
+        _grid,
+        new GridCoordinate(x, y)
+      );
+
+      newdata.Data = instance;
     }
   }
 }
