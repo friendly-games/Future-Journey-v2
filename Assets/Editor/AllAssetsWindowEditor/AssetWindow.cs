@@ -19,10 +19,8 @@ namespace NineBitByte.Editor.AllAssetsWindowEditor
 
     public AssetWindowOptions Options { get; }
 
-    public static AssetWindow GetWindow()
-    {
-      return (AssetWindow)GetWindow(typeof(AssetWindow));
-    }
+    public static AssetWindow GetWindow() 
+      => GetWindow<AssetWindow>(title: null, focus:false);
 
     public void OnEnable()
     {
@@ -55,6 +53,11 @@ namespace NineBitByte.Editor.AllAssetsWindowEditor
       _rootNode.Draw(this);
 
       GUILayout.EndScrollView();
+    }
+
+    public void MarkOutOfDate()
+    {
+      _rootNode = null;
     }
 
     public void RefreshCache()

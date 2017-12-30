@@ -15,7 +15,7 @@ namespace NineBitByte.Editor.AllAssetsWindowEditor
                                               string[] movedFromAssetPaths)
     {
       Debug.Log("Asset Refresh");
-      AssetWindow.GetWindow().RefreshCache();
+      AssetWindow.GetWindow().MarkOutOfDate();
     }
   }
 }
