@@ -1,0 +1,8 @@
+{
+    "name": "NineByteGames.FutureJourney",
+    "references": [
+        "NineByteGames.Common"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": []
+}

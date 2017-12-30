@@ -6,7 +6,6 @@ using System.Text;
 using JetBrains.Annotations;
 using NineBitByte.Common.Structures;
 using NineBitByte.Common.Util;
-using UnityEditor;
 using Debug = UnityEngine.Debug;
 
 namespace NineBitByte.FutureJourney.World

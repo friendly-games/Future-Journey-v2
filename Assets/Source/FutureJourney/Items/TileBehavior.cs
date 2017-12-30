@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using NineBitByte.Common;
 using NineBitByte.FutureJourney.Programming;
 using NineBitByte.FutureJourney.World;
-using UnityEditorInternal;
 
 namespace NineBitByte.FutureJourney.Items
 {
