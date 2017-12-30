@@ -14,8 +14,7 @@ namespace NineBitByte.FutureJourney
   {
     public int Width;
 
-    [Tooltip("All of the available tiles for the world generation")]
-    public TileType[] AvailableTiles;
+    public TileTypesLookup TileLookup;
 
     [Tooltip("The layer to which all tiles should be added")]
     public Layer TileLayer;
@@ -29,7 +28,7 @@ namespace NineBitByte.FutureJourney
 
     public void Start()
     {
-      _grid = new WorldGrid(AvailableTiles);
+      _grid = new WorldGrid(TileLookup.AvailableTiles);
 
       _slice = new WorldGridSlice<TileBehavior>(_grid, 20, 20);
       _slice.DataChanged += HandleDataChanged;
@@ -66,7 +65,7 @@ namespace NineBitByte.FutureJourney
       int y = newdata.Position.Y;
 
 
-      var instance = AvailableTiles[item.Type].Construct(
+      var instance = TileLookup.AvailableTiles[item.Type].Construct(
         new PositionAndRotation(new Vector3(x, y, 0), PossibleRotations[item.Rotation]),
         _grid,
         new GridCoordinate(x, y)

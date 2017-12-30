@@ -28,7 +28,10 @@ namespace NineBitByte.Editor
     [UsedImplicitly]
     public void OnSceneGUI()
     {
-      var owner = ((MonoBehaviour)serializedObject.targetObject).gameObject;
+      var owner = (serializedObject?.targetObject as MonoBehaviour)?.gameObject;
+      if (owner == null)
+        return;
+
       var transform = owner.transform;
 
       var targetObjectType = serializedObject.targetObject.GetType();
