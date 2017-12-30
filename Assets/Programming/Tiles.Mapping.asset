@@ -11,6 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b93763d24257649448b5a78640f7a7df, type: 3}
   m_Name: Tiles.Mapping
   m_EditorClassIdentifier: 
-  AvailableTiles: []
+  AvailableTiles:
+  - {fileID: 11400000, guid: 6b1a62024f15cc848956a76c99b3933c, type: 2}
+  - {fileID: 11400000, guid: 2f4caf31d03b54a4cb87df2bf300a74e, type: 2}
   TileLayer:
     _layerBit: 0

@@ -41,16 +41,12 @@ namespace NineBitByte.FutureJourney.World
       if (worldGrid == null)
         throw new ArgumentNullException(nameof(worldGrid));
 
-      // we always need to be odd (isn't that a statement of life)
-      if (numUnitsWide % 2 != 1)
-      {
-        numUnitsWide = numUnitsWide + 1;
-      }
+      numUnitsWide *= GridCoordinate.WorldToGridMultiplier;
+      numUnitsHigh *= GridCoordinate.WorldToGridMultiplier;
 
-      if (numUnitsHigh % 2 != 1)
-      {
-        numUnitsHigh = numUnitsHigh + 1;
-      }
+      // we always need to be odd (isn't that a statement of life)
+      MathUtil.MakeOdd(ref numUnitsWide);
+      MathUtil.MakeOdd(ref numUnitsHigh);
 
       // let's make sure we always have valid values
       numUnitsWide = Math.Max(numUnitsWide, 5);

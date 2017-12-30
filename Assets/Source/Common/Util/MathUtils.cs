@@ -21,5 +21,13 @@ namespace NineBitByte.Common.Util
       leftValue = rightValue;
       rightValue = temp;
     }
+
+    public static void MakeOdd(ref int value)
+    {
+      if (value % 2 != 1)
+      {
+        value = value + 1;
+      }
+    }
   }
 }

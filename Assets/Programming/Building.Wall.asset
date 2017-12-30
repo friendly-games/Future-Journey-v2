@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Name: Building.Wall
   m_EditorClassIdentifier: 
   Template: {fileID: 0}
-  Sprite: {fileID: 0}
+  Sprite: {fileID: 21300000, guid: 1cf53fd08eea9334582c7c3a8998b9a1, type: 3}

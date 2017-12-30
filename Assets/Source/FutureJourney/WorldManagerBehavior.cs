@@ -61,14 +61,13 @@ namespace NineBitByte.FutureJourney
       }
 
       var item = newdata.GridItem;
-      int x = newdata.Position.X;
-      int y = newdata.Position.Y;
 
+      var worldPosition = newdata.Position.ToVector3();
 
       var instance = TileLookup.AvailableTiles[item.Type].Construct(
-        new PositionAndRotation(new Vector3(x, y, 0), PossibleRotations[item.Rotation]),
+        new PositionAndRotation(worldPosition, PossibleRotations[item.Rotation]),
         _grid,
-        new GridCoordinate(x, y)
+        newdata.Position
       );
 
       newdata.Data = instance;
