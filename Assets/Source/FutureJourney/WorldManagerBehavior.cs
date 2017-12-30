@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using NineBitByte.Common;
+using NineBitByte.Common.Structures;
 using NineBitByte.FutureJourney.Items;
 using NineBitByte.FutureJourney.Programming;
 using NineBitByte.FutureJourney.World;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
-namespace NineBitByte
+namespace NineBitByte.FutureJourney
 {
   public class WorldManagerBehavior : MonoBehaviour
   {

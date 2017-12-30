@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEditor;
 
-namespace NineBitByte.Assets.Editor
+namespace NineBitByte.Editor
 {
   public static class EditorUtils
   {

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using JetBrains.Annotations;
-using NineBitByte.FutureJourney.Items;
+using NineBitByte.Common.Structures;
 using UnityEditor;
 using UnityEngine;
 
-namespace NineBitByte.Assets.Editor
+namespace NineBitByte.Editor
 {
   [CustomEditor(typeof(MonoBehaviour), true)]
   public class RelativeOffsetEditor : UnityEditor.Editor

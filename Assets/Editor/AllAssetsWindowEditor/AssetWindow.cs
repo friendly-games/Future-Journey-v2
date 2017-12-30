@@ -6,7 +6,7 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-namespace NineBitByte.Assets.Editor.AllAssetsWindowEditor
+namespace NineBitByte.Editor.AllAssetsWindowEditor
 {
   public class AssetWindow : EditorWindow
   {

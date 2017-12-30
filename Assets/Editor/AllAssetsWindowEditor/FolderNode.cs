@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 
-namespace NineBitByte.Assets.Editor.AllAssetsWindowEditor
+namespace NineBitByte.Editor.AllAssetsWindowEditor
 {
   public class FolderNode : INode
   {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NineBitByte.Assets.Editor.AllAssetsWindowEditor
+namespace NineBitByte.Editor.AllAssetsWindowEditor
 {
   public interface INode
   {

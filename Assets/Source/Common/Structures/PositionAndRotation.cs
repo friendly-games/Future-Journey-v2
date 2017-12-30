@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace NineBitByte.FutureJourney.Items
+namespace NineBitByte.Common.Structures
 {
   /// <summary> A simple structure that holds both the position and rotation of an item. </summary>
   public struct PositionAndRotation

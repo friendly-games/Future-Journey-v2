@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NineBitByte.Common;
+using NineBitByte.Common.Structures;
 using NineBitByte.FutureJourney.Programming;
 
 namespace NineBitByte.FutureJourney.Items

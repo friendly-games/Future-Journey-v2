@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NineBitByte.Common;
+using NineBitByte.Common.Structures;
 using NineBitByte.FutureJourney.Items;
 using UnityEngine;
 

@@ -6,7 +6,7 @@ using NineBitByte.FutureJourney.Items;
 using UnityEditor;
 using UnityEngine;
 
-namespace NineBitByte.Assets.Editor
+namespace NineBitByte.Editor
 {
   [CustomPropertyDrawer(typeof(TimeField))]
   public class TimeFieldDrawer : PropertyDrawer

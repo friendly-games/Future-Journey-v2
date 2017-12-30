@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using NineBitByte.Common;
+using NineBitByte.Common.Structures;
 using UnityEngine;
 
 namespace NineBitByte.FutureJourney.Items

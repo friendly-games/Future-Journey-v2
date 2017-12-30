@@ -4,7 +4,7 @@ using System.Linq;
 using NineBitByte.Common;
 using UnityEditor;
 
-namespace NineBitByte.Assets.Editor.AllAssetsWindowEditor
+namespace NineBitByte.Editor.AllAssetsWindowEditor
 {
   public class EditorNode : INode
   {

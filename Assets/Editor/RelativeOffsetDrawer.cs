@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NineBitByte.FutureJourney.Items;
+using NineBitByte.Common.Structures;
 using UnityEditor;
 using UnityEngine;
 
-namespace NineBitByte.Assets.Editor
+namespace NineBitByte.Editor
 {
   [CustomPropertyDrawer(typeof(RelativeOffset))]
   public class RelativeOffsetDrawer : PropertyDrawer

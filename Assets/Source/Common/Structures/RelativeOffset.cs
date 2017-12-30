@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace NineBitByte.FutureJourney.Items
+namespace NineBitByte.Common.Structures
 {
   [Serializable]
   public struct RelativeOffset
