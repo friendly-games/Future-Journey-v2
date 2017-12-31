@@ -15,12 +15,6 @@ namespace NineBitByte.FutureJourney.World
 
   public delegate void UpdateGridItemPropertyCallback<T>(ref GridItem gridItem, T value);
 
-  public static class ChunkExtensions
-  {
-    public static void UpdateHealth(this Chunk chunk, InnerChunkGridCoordinate coordinate, int health) 
-      => chunk.UpdateItem(coordinate, (ref GridItem it, int value) => it.Health = value, health, GridItemPropertyChange.Health);
-  }
-
   /// <summary>
   ///  Represents a square portion of the map containing the tiles.
   /// </summary>
@@ -91,7 +85,7 @@ namespace NineBitByte.FutureJourney.World
       }
     }
 
-    internal void UpdateItem<T>(InnerChunkGridCoordinate coordinate, UpdateGridItemPropertyCallback<T> callback, T value, GridItemPropertyChange changeType)
+    internal void UpdateItem<T>(InnerChunkGridCoordinate coordinate, UpdateGridItemPropertyCallback<T> callback, GridItemPropertyChange changeType, T value)
     {
       var index = CalculateIndex(coordinate.X, coordinate.Y);
 

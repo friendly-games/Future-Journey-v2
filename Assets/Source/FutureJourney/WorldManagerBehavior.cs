@@ -57,7 +57,7 @@ namespace NineBitByte.FutureJourney
     )
     {
       // TODO should we do something?
-      if (changeType == GridItemPropertyChange.Health)
+      if (changeType == GridItemPropertyChange.HealthChange)
       {
         newdata.Data = olddata.Data;
         return;

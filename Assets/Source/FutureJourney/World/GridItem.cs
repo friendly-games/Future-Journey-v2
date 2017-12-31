@@ -5,13 +5,6 @@ using System.Linq;
 
 namespace NineBitByte.FutureJourney.World
 {
-  public enum GridItemPropertyChange
-  {
-    All,
-    Object,
-    Health,
-  }
-
   /// <summary> A single cell of data that is stored in the world grid. </summary>
   public struct GridItem
   {
@@ -34,7 +27,7 @@ namespace NineBitByte.FutureJourney.World
       _objectType = objectType;
       _health = health;
 
-      _rotation = (byte)(((byte)tileRotation) | ((byte)objectRotation) << 4);
+      _rotation = (byte)((byte)tileRotation | ((byte)objectRotation) << 4);
     }
 
     /// <summary> Creates a GridItem that no longer has any object associated with it. </summary>
