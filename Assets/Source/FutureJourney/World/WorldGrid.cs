@@ -4,6 +4,18 @@ using System.Linq;
 
 namespace NineBitByte.FutureJourney.World
 {
+
+  public class GlobalWorld
+  {
+    private readonly WorldGrid _grid;
+
+    public GlobalWorld(WorldGrid grid)
+    {
+      _grid = grid;
+    }
+
+  }
+
   /// <summary> Holds all tiles that exist in the system. </summary>
   public class WorldGrid
   {
@@ -44,6 +56,21 @@ namespace NineBitByte.FutureJourney.World
     {
       get { return _chunks[CalculateAbsoluteChunkIndex(coordinate.X, coordinate.Y)]; }
       set { _chunks[CalculateAbsoluteChunkIndex(coordinate.X, coordinate.Y)] = value; }
+    }
+
+    /// <summary> Gets a cell reference to the cell at the given coordinate. </summary>
+    public Chunk.GridCellReference this[GridCoordinate coordinate]
+    {
+      get
+      {
+        ChunkCoordinate chunkCoordinate;
+        InnerChunkGridCoordinate innerCoordinate;
+
+        coordinate.Deconstruct(out chunkCoordinate, out innerCoordinate);
+
+        var chunk = _chunks[CalculateAbsoluteChunkIndex(chunkCoordinate.X, chunkCoordinate.Y)];
+        return chunk.GetCellReference(innerCoordinate);
+      }
     }
 
     internal static int CalculateAbsoluteChunkIndex(int x, int y)

@@ -9,32 +9,24 @@ namespace NineBitByte.FutureJourney.Items
   /// <summary> A behavior for a Placable where the object simply acts as a barrier </summary>
   public class SimpleBarrierBehavior : PlaceableBehavior, IDamageReceiver
   {
-    private Chunk _chunk;
-    private InnerChunkGridCoordinate _coordinate;
-    private WorldGrid _grid;
-
-    public int Health
-    {
-      get { return _chunk[_coordinate].Health; }
-      set { _chunk.UpdateHealth(_coordinate, value); }
-    }
+    private Chunk.GridCellReference _cellReference;
 
     public override void Initialize(Buildable programming, IOwner owner, GridCoordinate coordinate)
     {
       base.Initialize(programming, owner, coordinate);
 
-      ChunkCoordinate chunkCoordinate;
-      coordinate.Deconstruct(out chunkCoordinate, out _coordinate);
-
-      _grid = owner.AssociatedGrid;
-      _chunk = _grid[chunkCoordinate];
+      _cellReference = owner.AssociatedGrid[coordinate];
     }
 
     /// <inheritdoc />
-    public void OnHealthDepleted()
+    public int Health
     {
-      var item = _chunk[_coordinate];
-      _chunk[_coordinate] = item.WithoutObject();
+      get { return _cellReference.Get().Health; }
+      set { _cellReference.UpdateHealth(value); }
     }
+
+    /// <inheritdoc />
+    public void OnHealthDepleted() 
+      => _cellReference.ClearObject();
   }
 }
