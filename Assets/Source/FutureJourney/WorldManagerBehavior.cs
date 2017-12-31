@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace NineBitByte.FutureJourney
 {
-  public class WorldManagerBehavior : MonoBehaviour
+  public class WorldManagerBehavior : MonoBehaviour, IOwner
   {
     public int Width;
 
@@ -22,15 +22,15 @@ namespace NineBitByte.FutureJourney
     [Tooltip("The player game object")]
     public GameObject Player;
 
-    private WorldGrid _grid;
+    private WorldGridSlice<UnityWorldData> _slice;
 
-    private WorldGridSlice<TileBehavior> _slice;
+    public WorldGrid WorldGrid { get; private set; }
 
     public void Start()
     {
-      _grid = new WorldGrid(TileLookup.AvailableTiles);
+      WorldGrid = new WorldGrid();
 
-      _slice = new WorldGridSlice<TileBehavior>(_grid, 20, 20);
+      _slice = new WorldGridSlice<UnityWorldData>(WorldGrid, 20, 20);
       _slice.DataChanged += HandleDataChanged;
 
       _slice.Initialize(new GridCoordinate(Player.transform.position));
@@ -51,26 +51,70 @@ namespace NineBitByte.FutureJourney
       };
 
     private void HandleDataChanged(
-      SliceUnitData<TileBehavior> olddata,
-      ref SliceUnitData<TileBehavior> newdata
+      SliceUnitData<UnityWorldData> olddata,
+      ref SliceUnitData<UnityWorldData> newdata,
+      GridItemPropertyChange changeType
     )
     {
-      if (olddata.Data != null)
+      // TODO should we do something?
+      if (changeType == GridItemPropertyChange.Health)
       {
-        UnityExtensions.Destroy(olddata.Data.gameObject);
+        newdata.Data = olddata.Data;
+        return;
+      }
+
+      if (olddata.Data?.Placeable != null)
+      {
+        UnityExtensions.Destroy(olddata.Data.Placeable.gameObject);
+      }
+
+      if (olddata.Data?.Tile != null)
+      {
+        UnityExtensions.Destroy(olddata.Data.Tile.gameObject);
       }
 
       var item = newdata.GridItem;
 
       var worldPosition = newdata.Position.ToVector3();
 
-      var instance = TileLookup.AvailableTiles[item.Type].Construct(
-        new PositionAndRotation(worldPosition, PossibleRotations[item.Rotation]),
-        _grid,
+      var tileInstance = TileLookup.AvailableTiles[item.TileType].Construct(
+        new PositionAndRotation(worldPosition, PossibleRotations[(byte)item.TileRotation]),
+        WorldGrid,
         newdata.Position
       );
 
-      newdata.Data = instance;
+      PlaceableBehavior placeableInstance = null;
+
+      if (item.ObjectType != 0)
+      {
+        var associatedBuildable = TileLookup.FindPlaceable(item.ObjectType);
+        if (associatedBuildable == null)
+        {
+          Debug.Log($"No object type of «{item.ObjectType}» found while building world");
+        }
+        else
+        {
+          placeableInstance = associatedBuildable.CreateInstance(this, newdata.Position);
+        }
+      }
+
+      newdata.Data = new UnityWorldData
+                     {
+                       Tile = tileInstance,
+                       Placeable = placeableInstance
+                     };
+    }
+
+    Allegiance IOwner.Allegiance 
+      => null;
+
+    WorldGrid IOwner.AssociatedGrid
+      => WorldGrid;
+
+    private class UnityWorldData
+    {
+      public TileBehavior Tile;
+      public PlaceableBehavior Placeable;
     }
   }
 }

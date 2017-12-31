@@ -8,8 +8,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d2c425655b1d6b4987022863f58e043, type: 3}
-  m_Name: Building.Wall
+  m_Script: {fileID: 11500000, guid: c1e317f4c2851f64197d21bdad53fde5, type: 3}
+  m_Name: Placeable.Wall
   m_EditorClassIdentifier: 
-  Template: {fileID: 0}
+  Size:
+    Width: 1
+    Height: 1
+  ObjectId: 100
+  Template: {fileID: 1812765833372910, guid: b398fb9ddd36c7e4a9a506a6d7854f2a, type: 2}
   Sprite: {fileID: 21300000, guid: 1cf53fd08eea9334582c7c3a8998b9a1, type: 3}
+  InitialHealth: 100

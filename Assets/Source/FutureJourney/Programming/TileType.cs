@@ -14,14 +14,11 @@ namespace NineBitByte.FutureJourney.Programming
     [Tooltip("The name of the tile type")]
     public string Name;
 
+    [Tooltip("The unique id for the type of this tile")]
+    public short Id;
+
     [Tooltip("The unity object to create copies of when creating the tile")]
     public GameObject Template;
-
-    [Tooltip("The amount of health that the tile has.  Zero if the tile cannot be destroyed")]
-    public int InitialHealth;
-
-    [Tooltip("The type to morph into if the tile is destroyed")]
-    public TileType MorphType;
 
     public TileBehavior Construct(
       PositionAndRotation location,
@@ -30,8 +27,7 @@ namespace NineBitByte.FutureJourney.Programming
     {
       return Template
         .CreateInstance(location)
-        .GetComponent<TileBehavior>()
-        .Initialize(this, grid, gridCoordinate);
+        .GetComponent<TileBehavior>();
     }
   }
 }

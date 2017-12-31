@@ -1,15 +1,15 @@
-﻿using System;
-using System.Linq;
+using System;
 using System.Collections.Generic;
-using NineBitByte.Common;
+using System.Linq;
 using NineBitByte.FutureJourney.Programming;
 using NineBitByte.FutureJourney.World;
 
 namespace NineBitByte.FutureJourney.Items
 {
-  public class TileBehavior : BaseBehavior
+  public interface IOwner
   {
-   
-  }
+    Allegiance Allegiance { get; }
 
+    WorldGrid AssociatedGrid { get; }
+  }
 }

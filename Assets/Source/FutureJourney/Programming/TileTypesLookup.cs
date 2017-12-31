@@ -13,7 +13,23 @@ namespace NineBitByte.FutureJourney.Programming
     [Tooltip("All of the available tiles for the world generation")]
     public TileType[] AvailableTiles;
 
+    [Tooltip("All of the available buildables in the world")]
+    public Buildable[] Buildables;
+
     [Tooltip("The layer to which all tiles should be added")]
     public Layer TileLayer;
+
+    public Buildable FindPlaceable(short id)
+    {
+      foreach (var b in Buildables)
+      {
+        if (b.ObjectId == id)
+          return b;
+      }
+
+      return null;
+
+      //throw new ArgumentException($"No Placeable with id of {id}");
+    }
   }
 }

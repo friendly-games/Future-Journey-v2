@@ -1041,6 +1041,8 @@ MonoBehaviour:
   AvailableWeapons:
   - {fileID: 11400000, guid: 5ee393851699ac64290106eeee1c3e5e, type: 2}
   - {fileID: 11400000, guid: 7dbdee7f328994e4bb40a4c2ededf9fa, type: 2}
+  AvailableBuildables:
+  - {fileID: 11400000, guid: c118c0bf427d0404cb3ba8c6be47e4c3, type: 2}
 --- !u!4 &1204654931 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4004837241746930, guid: 1d8e1cd852c8ba8439e7deecea08b0ee,
@@ -1235,6 +1237,10 @@ Prefab:
     - target: {fileID: 4042056573510002, guid: b398fb9ddd36c7e4a9a506a6d7854f2a, type: 2}
       propertyPath: m_RootOrder
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1812765833372910, guid: b398fb9ddd36c7e4a9a506a6d7854f2a, type: 2}
+      propertyPath: m_Name
+      value: Building.Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b398fb9ddd36c7e4a9a506a6d7854f2a, type: 2}

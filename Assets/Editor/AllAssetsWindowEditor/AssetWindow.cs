@@ -62,6 +62,8 @@ namespace NineBitByte.Editor.AllAssetsWindowEditor
 
     public void RefreshCache()
     {
+      Debug.Log("Asset Cache Refresh");
+
       _rootNode = RegenerateRootNode();
 
       var removedPaths = Options

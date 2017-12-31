@@ -10,4 +10,14 @@ namespace NineBitByte.Common
   {
     
   }
+
+  public class BaseProgrammableBehavior<TProgramming> : MonoBehaviour
+  {
+    public TProgramming Programming { get; private set; }
+
+    public virtual void Initialize(TProgramming programming)
+    {
+      Programming = programming;
+    }
+  }
 }

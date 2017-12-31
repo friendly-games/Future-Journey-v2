@@ -39,27 +39,32 @@ namespace NineBitByte.FutureJourney.World
 
       // TODO UNITY
       // TODO remove random call
-      byte variant = GetRotation(x, y);
-      GridItem gridItem = new GridItem(tileValue, variant);
+      var variant = GetRotation(x, y);
+      GridItem gridItem = new GridItem(0, variant);
+
+      if (tileValue > 0)
+      {
+        gridItem = gridItem.AddObject(tileValue, ItemRotation.Left, 100);
+      }
 
       return gridItem;
     }
 
-    private static int GetTileIndex(int x, int y)
+    private static short GetTileIndex(int x, int y)
     {
       var noise = Mathf.PerlinNoise(
         30 + (10 + x) / 4.0f,
         30 + (10 + y) / 4.0f);
-      int tileIndex = noise < 0.70f ? 0 : 1;
-      return tileIndex;
+
+      return (short)(noise < 0.70f ? 0 : 1);
     }
 
-    private static byte GetRotation(int x, int y)
+    private static ItemRotation GetRotation(int x, int y)
     {
       var noise = Mathf.PerlinNoise(
         30 + x / 2.0f,
         30 + y / 2.0f);
-      return (byte)(noise * 4);
+      return (ItemRotation)(noise * 4);
     }
   }
 }

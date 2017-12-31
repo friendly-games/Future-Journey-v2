@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NineBitByte.Common;
 using NineBitByte.FutureJourney.Programming;
+using NineBitByte.FutureJourney.World;
 using UnityEngine;
 
 namespace NineBitByte.FutureJourney.Items
@@ -12,13 +13,16 @@ namespace NineBitByte.FutureJourney.Items
   ///  providing a non-rotating body on which other gui elements (such as the cursor or health) can
   ///  live.
   /// </summary>
-  public class PlayerBehavior : BaseBehavior
+  public class PlayerBehavior : BaseBehavior, IOwner
   {
     [Tooltip("The team to which the player belongs")]
     public Allegiance Allegiance;
 
     [Tooltip("All of the weapons that are available to the player")]
     public ProjectileWeapon[] AvailableWeapons;
+
+    [Tooltip("All of the buildings that are available to the player")]
+    public Buildable[] AvailableBuildables;
 
     private WeaponBehavior _selectedWeapon;
 
@@ -37,9 +41,12 @@ namespace NineBitByte.FutureJourney.Items
 
     private Transform _playerBody;
     private PlayerBodyBehavior _playerBodyBehavior;
+    private WorldGrid _worldGrid;
 
     public void Start()
     {
+      _worldGrid = FindObjectOfType<WorldManagerBehavior>().WorldGrid;
+
       _playerInputHandler = new PlayerInputHandler();
       _reloadLimiter = new RateLimiter(allowFirst: true);
 
@@ -56,6 +63,12 @@ namespace NineBitByte.FutureJourney.Items
 
       SelectWeapon(AvailableWeapons.FirstOrDefault());
     }
+
+    Allegiance IOwner.Allegiance
+      => Allegiance;
+
+    WorldGrid IOwner.AssociatedGrid
+      => _worldGrid;
 
     /// <summary> The total number of remaining bullets we have to fire. </summary>
     private int NumberOfRemainingShots
@@ -109,6 +122,11 @@ namespace NineBitByte.FutureJourney.Items
       if (Input.GetMouseButtonDown(0))
       {
         ActWithCurrentlyEquippedItem();
+      }
+
+      if (Input.GetMouseButtonDown(1))
+      {
+        AvailableBuildables[0].PlaceOnGrid(this, new GridCoordinate(transform.position));
       }
 
       if (Input.GetKeyDown(KeyCode.Alpha1))

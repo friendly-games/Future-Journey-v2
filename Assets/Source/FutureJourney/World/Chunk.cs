@@ -9,8 +9,17 @@ namespace NineBitByte.FutureJourney.World
     Chunk chunk,
     GridCoordinate coordinate,
     GridItem oldValue,
-    GridItem newValue
-  );
+    GridItem newValue,
+    GridItemPropertyChange changeType
+    );
+
+  public delegate void UpdateGridItemPropertyCallback<T>(ref GridItem gridItem, T value);
+
+  public static class ChunkExtensions
+  {
+    public static void UpdateHealth(this Chunk chunk, InnerChunkGridCoordinate coordinate, int health) 
+      => chunk.UpdateItem(coordinate, (ref GridItem it, int value) => it.Health = value, health, GridItemPropertyChange.Health);
+  }
 
   /// <summary>
   ///  Represents a square portion of the map containing the tiles.
@@ -47,7 +56,6 @@ namespace NineBitByte.FutureJourney.World
     /// </summary>
     public const int GridItemsYCoordinateBitmask = NumberOfGridItemsHigh - 1;
 
-
     /// <summary> All of the items that exist in the grid. </summary>
     private readonly GridItem[] _items;
 
@@ -79,8 +87,19 @@ namespace NineBitByte.FutureJourney.World
       {
         var oldValue = this[coordinate];
         _items[CalculateIndex(coordinate.X, coordinate.Y)] = value;
-        OnGridItemChanged(this, new GridCoordinate(Position, coordinate), oldValue, value);
+        OnGridItemChanged(this, new GridCoordinate(Position, coordinate), oldValue, value, GridItemPropertyChange.All);
       }
+    }
+
+    internal void UpdateItem<T>(InnerChunkGridCoordinate coordinate, UpdateGridItemPropertyCallback<T> callback, T value, GridItemPropertyChange changeType)
+    {
+      var index = CalculateIndex(coordinate.X, coordinate.Y);
+
+      var oldValue = _items[index];
+      callback.Invoke(ref _items[index], value);
+      var newValue = _items[index];
+
+      OnGridItemChanged(this, new GridCoordinate(Position, coordinate), oldValue, newValue, changeType);
     }
 
     /// <summary>
@@ -88,11 +107,11 @@ namespace NineBitByte.FutureJourney.World
     /// </summary>
     public event GridItemChangedCallback GridItemChanged;
 
-    private void OnGridItemChanged(Chunk chunk, GridCoordinate coordinate, GridItem oldValue, GridItem newValue)
+    private void OnGridItemChanged(Chunk chunk, GridCoordinate coordinate, GridItem oldValue, GridItem newValue, GridItemPropertyChange changeType)
     {
       var handler = GridItemChanged;
       if (handler != null)
-        handler(chunk, coordinate, oldValue, newValue);
+        handler(chunk, coordinate, oldValue, newValue, changeType);
     }
 
     private int CalculateIndex(int x, int y)

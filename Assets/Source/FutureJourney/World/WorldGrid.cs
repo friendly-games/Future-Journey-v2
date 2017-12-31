@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NineBitByte.FutureJourney.Programming;
 
 namespace NineBitByte.FutureJourney.World
 {
+  /// <summary> Holds all tiles that exist in the system. </summary>
   public class WorldGrid
   {
     // TODO make this bigger (bigger makes it slower to start)
@@ -12,12 +12,10 @@ namespace NineBitByte.FutureJourney.World
 
     public const int NumberOfChunksHigh = 4;
 
-    private readonly TileType[] _tileTypes;
     private readonly Chunk[] _chunks;
 
-    public WorldGrid(TileType[] tileTypes)
+    public WorldGrid()
     {
-      _tileTypes = tileTypes;
       _chunks = new Chunk[NumberOfChunksHigh * NumberOfChunksWide];
 
       for (int y = 0; y < NumberOfChunksHigh; y++)
@@ -50,19 +48,5 @@ namespace NineBitByte.FutureJourney.World
 
     internal static int CalculateAbsoluteChunkIndex(int x, int y)
       => x + y * NumberOfChunksWide;
-  }
-
-  public struct GridItem
-  {
-    public GridItem(int type, byte rotation)
-    {
-      Type = type;
-      Rotation = rotation;
-    }
-
-    public int Type { get; }
-
-    // 0-3 for all possible rotations
-    public byte Rotation { get; }
   }
 }

@@ -93,7 +93,7 @@ namespace NineBitByte.FutureJourney.World
             var chunk = _worldGrid[chunkCoordinate];
             var data = chunk[coordinate.InnerChunkGridCoordinate];
 
-            UpdateData(index, data, coordinate, chunk);
+            UpdateData(index, data, coordinate, chunk, GridItemPropertyChange.All);
           }
         }
       }
@@ -239,13 +239,14 @@ namespace NineBitByte.FutureJourney.World
       Invalidate(index, ConvertToGridCoordinate(index));
     }
 
+    private void Invalidate(Array2DIndex index, GridCoordinate coordinate)
+      => Invalidate(index, coordinate, bypassSamePositionCheck: false, changeType: GridItemPropertyChange.All);
+
     /// <summary>
     ///  Checks the array index/position to verify that it has the correct position information and if
     ///  it does not, re-reads the data from the world and updates the data.
     /// </summary>
-    /// <param name="index"> The index position to update. </param>
-    /// <param name="coordinate"> The coordinate representing the position to update. </param>
-    private void Invalidate(Array2DIndex index, GridCoordinate coordinate, bool bypassSamePositionCheck = false)
+    private void Invalidate(Array2DIndex index, GridCoordinate coordinate, bool bypassSamePositionCheck, GridItemPropertyChange changeType)
     {
       var existingData = _visibleGridItems[index];
 
@@ -260,7 +261,7 @@ namespace NineBitByte.FutureJourney.World
       var chunk = _worldGrid[chunkCoordinate];
       var data = chunk[coordinate.InnerChunkGridCoordinate];
 
-      UpdateData(index, data, coordinate, chunk);
+      UpdateData(index, data, coordinate, chunk, changeType);
     }
 
     /// <summary> Updates the data at the specified index inside the grid. </summary>
@@ -269,7 +270,8 @@ namespace NineBitByte.FutureJourney.World
     /// <param name="position"> The coordinate of the original GridItem where the data was retrieved
     ///   from. </param>
     /// <param name="chunk"></param>
-    private void UpdateData(Array2DIndex index, GridItem data, GridCoordinate position, Chunk chunk)
+    /// <param name="changeType"></param>
+    private void UpdateData(Array2DIndex index, GridItem data, GridCoordinate position, Chunk chunk, GridItemPropertyChange changeType)
     {
       var newData = new SliceUnitData<T>(chunk, position, data, default(T));
       var rawIndex = _visibleGridItems.CalculateRawArrayIndex(index);
@@ -277,7 +279,7 @@ namespace NineBitByte.FutureJourney.World
       var oldData = _visibleGridItems.Data[rawIndex];
       _visibleGridItems.Data[rawIndex] = newData;
 
-      DataChanged?.Invoke(oldData, ref _visibleGridItems.Data[rawIndex]);
+      DataChanged?.Invoke(oldData, ref _visibleGridItems.Data[rawIndex], changeType);
       MarkChunkChanged(oldData.Chunk, chunk);
     }
 
@@ -294,12 +296,12 @@ namespace NineBitByte.FutureJourney.World
       }
     }
 
-    private void HandleChunkItemChanged(Chunk chunk, GridCoordinate coordinate, GridItem oldvalue, GridItem newvalue)
+    private void HandleChunkItemChanged(Chunk chunk, GridCoordinate coordinate, GridItem oldvalue, GridItem newvalue, GridItemPropertyChange changeType)
     {
-      Invalidate(ConvertToGridItemIndex(coordinate), coordinate, bypassSamePositionCheck: true);
+      Invalidate(ConvertToGridItemIndex(coordinate), coordinate, bypassSamePositionCheck: true, changeType: changeType);
     }
 
-    public delegate void Callback(SliceUnitData<T> oldData, ref SliceUnitData<T> newData);
+    public delegate void Callback(SliceUnitData<T> oldData, ref SliceUnitData<T> newData, GridItemPropertyChange changeType);
 
     public event Callback DataChanged;
 
