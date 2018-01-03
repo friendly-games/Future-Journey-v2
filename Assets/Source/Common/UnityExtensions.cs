@@ -15,6 +15,10 @@ namespace NineBitByte.Common
       where T : UnityObject 
       => UnityObject.Instantiate(original);
 
+    public static T CreateInstance<T>(this T original, Transform owner)
+      where T : UnityObject
+      => UnityObject.Instantiate(original, owner);
+
     // Clone an existing unity object with a specific position and rotation
     public static T CreateInstance<T>(this T original, PositionAndRotation position)
       where T : UnityObject
@@ -24,6 +28,10 @@ namespace NineBitByte.Common
     public static T CreateInstance<T>(this T original, Transform owner, PositionAndRotation position)
       where T : UnityObject
       => UnityObject.Instantiate(original, position.Position, position.Rotation, owner);
+
+    /// <summary> True if the given object has been destroyed. </summary>
+    public static bool IsDestroyed(this GameObject gameObject)
+      => gameObject == null;
 
     // Destroy an existing unity object
     public static void Destroy(GameObject gameObject) 

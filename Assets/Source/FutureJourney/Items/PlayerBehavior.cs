@@ -157,12 +157,6 @@ namespace NineBitByte.FutureJourney.Items
       NumberOfRemainingShots--;
     }
 
-    private void ResetOverallRotation()
-    {
-      // the rotation of the overall body should never change
-      transform.rotation = Quaternion.identity;
-    }
-
     public void FixedUpdate()
     {
       ResetOverallRotation();

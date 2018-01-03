@@ -50,3 +50,6 @@ TagManager:
   - name: Equipment
     uniqueID: 2899681163
     locked: 0
+  - name: UI
+    uniqueID: 3893119751
+    locked: 0

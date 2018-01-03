@@ -14,4 +14,4 @@ MonoBehaviour:
   Allegiance: {fileID: 11400000, guid: 8e0b37bdb714a1e41b4fd11eab415611, type: 2}
   InitialHealth: 200
   MaxHealth: 250
-  Template: {fileID: 1794981163507204, guid: 76a3073208c57204f8d24d03a762e5f9, type: 2}
+  Template: {fileID: 1040794719255620, guid: 76a3073208c57204f8d24d03a762e5f9, type: 2}
