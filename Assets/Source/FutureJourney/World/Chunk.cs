@@ -13,12 +13,10 @@ namespace NineBitByte.FutureJourney.World
     GridItemPropertyChange changeType
     );
 
-  public delegate void UpdateGridItemPropertyCallback<T>(ref GridItem gridItem, T value);
-
   /// <summary>
   ///  Represents a square portion of the map containing the tiles.
   /// </summary>
-  public class Chunk
+  public unsafe class Chunk
   {
     /// <summary>
     ///  How many bits to shift a <see cref="GridCoordinate"/> to get the
@@ -51,14 +49,14 @@ namespace NineBitByte.FutureJourney.World
     public const int GridItemsYCoordinateBitmask = NumberOfGridItemsHigh - 1;
 
     /// <summary> All of the items that exist in the grid. </summary>
-    private readonly GridItem[] _items;
+    private readonly UnsafeGridItemArray _items;
 
     /// <summary> Constructor. </summary>
     /// <param name="position"> The position of the given chunk. </param>
     public Chunk(ChunkCoordinate position)
     {
       Position = position;
-      _items = new GridItem[NumberOfGridItemsWide * NumberOfGridItemsHigh];
+      _items = new UnsafeGridItemArray(NumberOfGridItemsWide * NumberOfGridItemsHigh);
 
       AbsoluteIndex = WorldGrid.CalculateAbsoluteChunkIndex(Position.X, Position.Y);
     }
@@ -76,22 +74,8 @@ namespace NineBitByte.FutureJourney.World
     /// <returns> The GridItem at the specified position. </returns>
     public GridItem this[InnerChunkGridCoordinate coordinate]
     {
-      get { return _items[CalculateIndex(coordinate)]; }
+      get { return *_items[CalculateIndex(coordinate)]; }
       set { new GridCellReference(this, CalculateIndex(coordinate)).Set(value); }
-    }
-
-    internal void UpdateItem<T>(InnerChunkGridCoordinate coordinate,
-                                UpdateGridItemPropertyCallback<T> callback,
-                                GridItemPropertyChange changeType,
-                                T value)
-    {
-      var index = CalculateIndex(coordinate.X, coordinate.Y);
-
-      var oldValue = _items[index];
-      callback.Invoke(ref _items[index], value);
-      var newValue = _items[index];
-
-      OnGridItemChanged(this, new GridCoordinate(Position, coordinate), oldValue, newValue, changeType);
     }
 
     /// <summary>
@@ -128,30 +112,34 @@ namespace NineBitByte.FutureJourney.World
     public GridCellReference GetCellReference(InnerChunkGridCoordinate coordinate)
       => new GridCellReference(this, CalculateIndex(coordinate.X, coordinate.Y));
 
+    public delegate void UpdateGridItemPropertyCallback<T>(GridItem* gridItem, T value);
+
     /// <summary> Allows getting and setting a <see cref="GridItem"/> in a more efficient manner. </summary>
     public struct GridCellReference
     {
       private readonly Chunk _chunk;
       private readonly int _cellIndex;
+      private readonly GridItem* _item;
 
       internal GridCellReference(Chunk chunk, int cellIndex)
       {
         _chunk = chunk;
         _cellIndex = cellIndex;
+
+        _item = _chunk._items[_cellIndex];
       }
 
       /// <summary> Gets the <see cref="GridItem"/> value associated with the cell. </summary>
       public GridItem Get()
-        => _chunk._items[_cellIndex];
+        => *_item;
 
       /// <summary> Sets the <see cref="GridItem"/> value associated with the cell </summary>
       /// <param name="value"> The value to set the grid item to. </param>
       /// <param name="changeType"> (Optional) The type of the change that was made. </param>
       public void Set(GridItem value, GridItemPropertyChange changeType = GridItemPropertyChange.All)
       {
-        var arr = _chunk._items;
-        var oldValue = arr[_cellIndex];
-        arr[_cellIndex] = value;
+        var oldValue = *_item;
+        *_item = value;
 
         FireChanged(oldValue, value, changeType);
       }
@@ -159,20 +147,19 @@ namespace NineBitByte.FutureJourney.World
       /// <summary> Sets the health of the given item to the given value. </summary>
       /// <param name="health"> The health of the given item. </param>
       public void UpdateHealth(int health) 
-        => UpdateItem((ref GridItem it, int value) => it.Health = value, GridItemPropertyChange.HealthChange, health);
+        => UpdateItem((GridItem* it, int value) => it->Health = value, GridItemPropertyChange.HealthChange, health);
 
       /// <summary> Removes the object associated with the given GridItem. </summary>
       public void ClearObject() 
-        => UpdateItem((ref GridItem item, object _) => item = item.WithoutObject(), GridItemPropertyChange.All, null);
+        => UpdateItem((GridItem* item, object _) => *item = item->WithoutObject(), GridItemPropertyChange.All, null);
 
       private void UpdateItem<T>(UpdateGridItemPropertyCallback<T> callback,
                                   GridItemPropertyChange changeType,
                                   T value)
       {
-        var arr = _chunk._items;
-        var oldValue = arr[_cellIndex];
-        callback.Invoke(ref arr[_cellIndex], value);
-        var newValue = arr[_cellIndex];
+        var oldValue = *_item;
+        callback.Invoke(_item, value);
+        var newValue = *_item;
 
         FireChanged(oldValue, newValue, changeType);
       }
