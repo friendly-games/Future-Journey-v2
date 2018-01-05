@@ -27,4 +27,17 @@ namespace NineBitByte.Common.Structures
     public PositionAndRotation ToLocation(Transform transform)
       => new PositionAndRotation(transform, _offset);
   }
+
+  /// <summary> Determines how a relative offset should be edited. </summary>
+  public class RelativeOffsetTypeAttribute : Attribute
+  {
+    /// <summary>
+    ///  True if rotation should not be taken into account when the offset is edited.
+    /// </summary>
+    /// <remarks>
+    ///  If false (default), then when the offset is 90 and the owning game object is rotated 180, the
+    ///  offset should now be located at 270.  If true, then the offset should still be at 90.
+    /// </remarks>
+    public bool IsRotationIndependent { get; set; }
+  }
 }

@@ -3,13 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using NineBitByte.Common;
+using NineBitByte.Common.Structures;
 using NineBitByte.FutureJourney.Programming;
 using NineBitByte.FutureJourney.View;
+using UnityEngine;
 
 namespace NineBitByte.FutureJourney.Items
 {
   public class EnemyBehavior : BaseBehavior, IDamageReceiver
   {
+    [Tooltip("Where the health bar should be placed relative to the enemy")]
+    [RelativeOffsetType(IsRotationIndependent=true)]
+    public RelativeOffset HealthBarOffset;
+
     private Creature _template;
     private Allegiance _allegiance;
 
@@ -31,7 +37,7 @@ namespace NineBitByte.FutureJourney.Items
 
       var healthBar = FindObjectOfType<UiManagerBehavior>().CreateHealthBar();
 
-      healthBar.Initialize(gameObject, this);
+      healthBar.Initialize(gameObject, this, HealthBarOffset.Offset);
     }
 
     public void OnHealthDepleted()

@@ -16,7 +16,8 @@ namespace NineBitByte.FutureJourney.View
     private GameObject _owner;
     private RectTransform _rectTransform;
 
-    private Vector2 _offset;
+    private Vector2 _canvasOffset;
+    private Vector3 _positionOffset;
 
     /// <summary />
     public void Start()
@@ -25,13 +26,14 @@ namespace NineBitByte.FutureJourney.View
       _rectTransform = GetComponent<RectTransform>();
       var parentRectTransform = transform.root.GetComponent<RectTransform>();
 
-      _offset = parentRectTransform.sizeDelta / 2f;
+      _canvasOffset = parentRectTransform.sizeDelta / 2f;
     }
 
-    public void Initialize(GameObject owner, IDamageReceiver damageable)
+    public void Initialize(GameObject owner, IDamageReceiver damageable, Vector2 positionOffset)
     {
       _owner = owner;
       _damagable = damageable;
+      _positionOffset = positionOffset;
     }
 
     /// <summary />
@@ -50,11 +52,11 @@ namespace NineBitByte.FutureJourney.View
 
       _healthImage.fillAmount = _damagable.Health / 100.0f;
 
-      _rectTransform.anchoredPosition = CalculateScreenPosition(_owner.transform.position);
+      _rectTransform.anchoredPosition = CalculateScreenPosition(_owner.transform.position + _positionOffset);
     }
 
     /// <summary> Gets the screen position of an item in the world (if it was on screen). </summary>
     private Vector2 CalculateScreenPosition(Vector3 worldPosition) 
-      => RectTransformUtility.WorldToScreenPoint(Camera.main, worldPosition) - _offset;
+      => RectTransformUtility.WorldToScreenPoint(Camera.main, worldPosition) - _canvasOffset;
   }
 }

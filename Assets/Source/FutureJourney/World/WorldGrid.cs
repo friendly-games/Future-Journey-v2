@@ -4,18 +4,6 @@ using System.Linq;
 
 namespace NineBitByte.FutureJourney.World
 {
-
-  public class GlobalWorld
-  {
-    private readonly WorldGrid _grid;
-
-    public GlobalWorld(WorldGrid grid)
-    {
-      _grid = grid;
-    }
-
-  }
-
   /// <summary> Holds all tiles that exist in the system. </summary>
   public class WorldGrid
   {

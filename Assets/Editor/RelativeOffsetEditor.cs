@@ -63,13 +63,15 @@ namespace NineBitByte.Editor
 
     private bool ProcessField(FieldInfo field, Transform transform)
     {
+      var isRotationIndependent = field.GetCustomAttribute<RelativeOffsetTypeAttribute>()?.IsRotationIndependent == true;
+
       if (field.FieldType == typeof(RelativeOffset))
       {
         var property = serializedObject.FindProperty(
           field.Name,
           RelativeOffset.SerializedFieldName
         );
-        return ShowHandle(property, transform, field.Name);
+        return ShowHandle(property, transform, field.Name, isRotationIndependent);
       }
 
       if (field.FieldType == typeof(RelativeOffset[]))
@@ -83,7 +85,7 @@ namespace NineBitByte.Editor
             EditorUtils.GetArrayElementPath(property.name, i),
             RelativeOffset.SerializedFieldName
           );
-          changed |= ShowHandle(childProp, transform, $"{property.name}[{i}]");
+          changed |= ShowHandle(childProp, transform, $"{property.name}[{i}]", isRotationIndependent);
         }
 
         return changed;
@@ -94,16 +96,22 @@ namespace NineBitByte.Editor
 
     /// <summary> Shows a handle for the given property. </summary>
     /// <param name="property"> The property to show a draggable handle for. </param>
-    /// <param name="transform"> The transform of the object whose property is being editted. </param>
+    /// <param name="transform"> The transform of the object whose property is being edited. </param>
     /// <param name="handleName"> The name that should be displayed underneath the handle so that
     ///  different handles can be told apart. </param>
+    /// <param name="isRotationIndependent"> True if rotation should not be taken into account for the offset. </param>
     /// <returns> True if the property changed and needs to be persisted, false otherwise. </returns>
-    private bool ShowHandle(SerializedProperty property, Transform transform, string handleName)
+    private bool ShowHandle(SerializedProperty property, Transform transform, string handleName, bool isRotationIndependent)
     {
       handleName = ObjectNames.NicifyVariableName(handleName);
 
       var rotation = transform.rotation;
       var offset = transform.position;
+
+      if (isRotationIndependent)
+      {
+        rotation = Quaternion.identity;
+      }
 
       // convert relative position to world position
       Vector3 handlePosition = rotation * property.vector3Value + offset;

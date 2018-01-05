@@ -147,7 +147,7 @@ namespace NineBitByte.FutureJourney.World
       /// <summary> Sets the health of the given item to the given value. </summary>
       /// <param name="health"> The health of the given item. </param>
       public void UpdateHealth(int health) 
-        => UpdateItem((GridItem* it, int value) => it->Health = value, GridItemPropertyChange.HealthChange, health);
+        => UpdateItem((it, value) => it->Health = value, GridItemPropertyChange.HealthChange, health);
 
       /// <summary> Removes the object associated with the given GridItem. </summary>
       public void ClearObject() 

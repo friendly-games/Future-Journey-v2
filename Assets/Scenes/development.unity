@@ -834,6 +834,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114160385696092966, guid: 76a3073208c57204f8d24d03a762e5f9,
+        type: 2}
+      propertyPath: HealthBarOffset._offset.y
+      value: 0.581
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 76a3073208c57204f8d24d03a762e5f9, type: 2}
   m_IsPrefabParent: 0

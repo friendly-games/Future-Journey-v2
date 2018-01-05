@@ -89,6 +89,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 267361cfe31523a4c884e0ca3269424e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HealthBarOffset:
+    _offset: {x: 0, y: 0.649, z: 0}
 --- !u!212 &212196069349091776
 SpriteRenderer:
   m_ObjectHideFlags: 1
