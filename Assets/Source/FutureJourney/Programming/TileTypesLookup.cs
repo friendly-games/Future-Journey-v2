@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NineBitByte.Common;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace NineBitByte.FutureJourney.Programming
 {
@@ -14,14 +15,15 @@ namespace NineBitByte.FutureJourney.Programming
     public TileType[] AvailableTiles;
 
     [Tooltip("All of the available buildables in the world")]
-    public Buildable[] Buildables;
+    [FormerlySerializedAs("Buildables")]
+    public Placeable[] Placeables;
 
     [Tooltip("The layer to which all tiles should be added")]
     public Layer TileLayer;
 
-    public Buildable FindPlaceable(short id)
+    public Placeable FindPlaceable(short id)
     {
-      foreach (var b in Buildables)
+      foreach (var b in Placeables)
       {
         if (b.ObjectId == id)
           return b;

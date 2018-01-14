@@ -11,7 +11,7 @@ namespace NineBitByte.FutureJourney.Programming
 {
   /// <summary> An item that can be built in the world. </summary>
   [CreateAssetMenu(menuName = "Items/Placeable")]
-  public class Buildable : BaseScriptable
+  public class Placeable : BaseScriptable
   {
     [Tooltip("The size of the item in the world")]
     public GridBasedSize Size;

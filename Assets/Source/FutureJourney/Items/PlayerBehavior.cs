@@ -22,7 +22,7 @@ namespace NineBitByte.FutureJourney.Items
     public ProjectileWeapon[] AvailableWeapons;
 
     [Tooltip("All of the buildings that are available to the player")]
-    public Buildable[] AvailableBuildables;
+    public Placeable[] AvailablePlaceables;
 
     private WeaponBehavior _selectedWeapon;
 
@@ -126,7 +126,7 @@ namespace NineBitByte.FutureJourney.Items
 
       if (Input.GetMouseButtonDown(1))
       {
-        AvailableBuildables[0].PlaceOnGrid(this, new GridCoordinate(transform.position));
+        AvailablePlaceables[0].PlaceOnGrid(this, new GridCoordinate(transform.position));
       }
 
       if (Input.GetKeyDown(KeyCode.Alpha1))

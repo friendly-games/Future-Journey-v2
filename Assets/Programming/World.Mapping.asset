@@ -14,7 +14,7 @@ MonoBehaviour:
   AvailableTiles:
   - {fileID: 11400000, guid: 6b1a62024f15cc848956a76c99b3933c, type: 2}
   - {fileID: 11400000, guid: 2f4caf31d03b54a4cb87df2bf300a74e, type: 2}
-  Buildables:
+  Placeables:
   - {fileID: 11400000, guid: c118c0bf427d0404cb3ba8c6be47e4c3, type: 2}
   - {fileID: 11400000, guid: 4fd2cef357e6b93418c3795b0d725646, type: 2}
   TileLayer:

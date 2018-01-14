@@ -1208,7 +1208,7 @@ MonoBehaviour:
   AvailableWeapons:
   - {fileID: 11400000, guid: 5ee393851699ac64290106eeee1c3e5e, type: 2}
   - {fileID: 11400000, guid: 7dbdee7f328994e4bb40a4c2ededf9fa, type: 2}
-  AvailableBuildables:
+  AvailablePlaceables:
   - {fileID: 11400000, guid: c118c0bf427d0404cb3ba8c6be47e4c3, type: 2}
 --- !u!1 &1192277109
 GameObject:
