@@ -133,6 +133,10 @@ namespace NineBitByte.FutureJourney.World
       public GridItem Get()
         => *_item;
 
+      /// <summary> Gets the pointer to the actual item. </summary>
+      public GridItem* GetReference()
+        => _item;
+
       /// <summary> Sets the <see cref="GridItem"/> value associated with the cell </summary>
       /// <param name="value"> The value to set the grid item to. </param>
       /// <param name="changeType"> (Optional) The type of the change that was made. </param>
@@ -150,7 +154,7 @@ namespace NineBitByte.FutureJourney.World
         => UpdateItem((it, value) => it->Health = value, GridItemPropertyChange.HealthChange, health);
 
       /// <summary> Removes the object associated with the given GridItem. </summary>
-      public void ClearObject() 
+      public void RemoveItemFromGrid() 
         => UpdateItem((GridItem* item, object _) => *item = item->WithoutObject(), GridItemPropertyChange.All, null);
 
       private void UpdateItem<T>(UpdateGridItemPropertyCallback<T> callback,

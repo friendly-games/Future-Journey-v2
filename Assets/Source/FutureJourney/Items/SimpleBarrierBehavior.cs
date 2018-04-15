@@ -19,14 +19,14 @@ namespace NineBitByte.FutureJourney.Items
     }
 
     /// <inheritdoc />
-    public int Health
+    public unsafe int Health
     {
-      get { return _cellReference.Get().Health; }
+      get { return _cellReference.GetReference()->Health; }
       set { _cellReference.UpdateHealth(value); }
     }
 
     /// <inheritdoc />
     public void OnHealthDepleted() 
-      => _cellReference.ClearObject();
+      => _cellReference.RemoveItemFromGrid();
   }
 }

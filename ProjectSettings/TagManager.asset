@@ -36,7 +36,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - Ghost
   m_SortingLayers:
   - name: Terrain
     uniqueID: 1013974215
