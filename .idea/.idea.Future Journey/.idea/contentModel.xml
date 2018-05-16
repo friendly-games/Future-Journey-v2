@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\zastrowm\.Rider2018.1\system\resharper-host\Local\Transient\ReSharperHost\v12\SolutionCaches\_Future Journey.-218238282.00" t="ExcludeRecursive" />
+    <e p="W:\Unity\Future Journey" t="IncludeRecursive">
+      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="Editor" t="Include">
+          <e p="AllAssetsWindowEditor" t="Include">
+            <e p="AssetWindow.cs" t="Include" />
+            <e p="AssetWindowOptions.cs" t="Include" />
+            <e p="EditorNode.cs" t="Include" />
+            <e p="FolderNode.cs" t="Include" />
+            <e p="INode.cs" t="Include" />
+            <e p="RefreshAssetWindowOnPostProcessor.cs" t="Include" />
+          </e>
+          <e p="EditorUtils.cs" t="Include" />
+          <e p="LayerDrawer.cs" t="Include" />
+          <e p="RelativeOffsetDrawer.cs" t="Include" />
+          <e p="RelativeOffsetEditor.cs" t="Include" />
+          <e p="ScriptableObjectWindow.cs" t="Include" />
+          <e p="TimeFieldDrawer.cs" t="Include" />
+        </e>
+        <e p="Source" t="Include">
+          <e p="Common" t="Include">
+            <e p="BaseBehavior.cs" t="Include" />
+            <e p="BaseScriptable.cs" t="Include" />
+            <e p="Behaviors" t="Include">
+              <e p="DestroyOnLoad.cs" t="Include" />
+            </e>
+            <e p="DisplayScriptableObjectPropertiesAttribute.cs" t="Include" />
+            <e p="Layer.cs" t="Include" />
+            <e p="Structures" t="Include">
+              <e p="Array2d.cs" t="Include" />
+              <e p="PositionAndRotation.cs" t="Include" />
+              <e p="RelativeOffset.cs" t="Include" />
+            </e>
+            <e p="UnityExtensions.cs" t="Include" />
+            <e p="Util" t="Include">
+              <e p="MathUtils.cs" t="Include" />
+              <e p="UnsafeMemory.cs" t="Include" />
+              <e p="UnsafeUtils.cs" t="Include" />
+            </e>
+          </e>
+          <e p="FutureJourney" t="Include">
+            <e p="Items" t="Include">
+              <e p="EnemyBehavior.cs" t="Include" />
+              <e p="FollowObjectBehavior.cs" t="Include" />
+              <e p="HudInformationBehavior.cs" t="Include" />
+              <e p="IDamageReceiver.cs" t="Include" />
+              <e p="IOwner.cs" t="Include" />
+              <e p="OverallGameBehavior.cs" t="Include" />
+              <e p="PlaceableBehavior.cs" t="Include" />
+              <e p="PlayerBehavior.cs" t="Include" />
+              <e p="PlayerBodyBehavior.cs" t="Include" />
+              <e p="PlayerInputHandler.cs" t="Include" />
+              <e p="ProjectileBehavior.cs" t="Include" />
+              <e p="RateLimiter.cs" t="Include" />
+              <e p="SimpleBarrierBehavior.cs" t="Include" />
+              <e p="SpawnItemBehavior.cs" t="Include" />
+              <e p="TileBehavior.cs" t="Include" />
+              <e p="TimeField.cs" t="Include" />
+              <e p="TimeSpecifiedIn.cs" t="Include" />
+              <e p="WeaponBehavior.cs" t="Include" />
+            </e>
+            <e p="Programming" t="Include">
+              <e p="Allegiance.cs" t="Include" />
+              <e p="BaseWeapon.cs" t="Include" />
+              <e p="Creature.cs" t="Include" />
+              <e p="Placeable.cs" t="Include" />
+              <e p="Projectile.cs" t="Include" />
+              <e p="ProjectileWeapon.cs" t="Include" />
+              <e p="TileType.cs" t="Include" />
+              <e p="TileTypesLookup.cs" t="Include" />
+            </e>
+            <e p="View" t="Include">
+              <e p="HealthBarBehavior.cs" t="Include" />
+              <e p="UiManagerBehavior.cs" t="Include" />
+            </e>
+            <e p="World" t="Include">
+              <e p="Chunk.cs" t="Include" />
+              <e p="ChunkCoordinate.cs" t="Include" />
+              <e p="ChunkLoader.cs" t="Include" />
+              <e p="GridBasedSize.cs" t="Include" />
+              <e p="GridCoordinate.cs" t="Include" />
+              <e p="GridItem.cs" t="Include" />
+              <e p="GridItemPropertyChange.cs" t="Include" />
+              <e p="InnerChunkGridCoordinate.cs" t="Include" />
+              <e p="ItemRotation.cs" t="Include" />
+              <e p="SliceUnitData.cs" t="Include" />
+              <e p="TileInformation.cs" t="Include" />
+              <e p="UnsafeGridItemArray.cs" t="Include" />
+              <e p="WorldGrid.cs" t="Include" />
+              <e p="WorldGridSlice.cs" t="Include" />
+            </e>
+            <e p="WorldManagerBehavior.cs" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="Future Journey.sln" t="IncludeFlat" />
+      <e p="Library" t="ExcludeRecursive" />
+      <e p="NineByteGames.Common.csproj" t="IncludeRecursive" />
+      <e p="NineByteGames.FutureJourney.csproj" t="IncludeRecursive" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="Temp" t="ExcludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+      </e>
+    </e>
+  </component>
+</project>
