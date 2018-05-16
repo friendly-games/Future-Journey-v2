@@ -45,7 +45,9 @@ namespace NineBitByte.FutureJourney.Programming
 
     public PlaceableBehavior CreateInstance(IOwner owner, GridCoordinate coordinate)
     {
-      var instance = Template.CreateInstance(new PositionAndRotation(coordinate.ToVector3(), Quaternion.identity));
+      var absolutePosition = coordinate.ToVector3();
+      
+      var instance = Template.CreateInstance(new PositionAndRotation(absolutePosition, Quaternion.identity));
       var placeable = instance.GetComponent<PlaceableBehavior>();
 
       placeable.Initialize(this, owner, coordinate);

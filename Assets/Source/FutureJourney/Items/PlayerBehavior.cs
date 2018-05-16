@@ -81,6 +81,7 @@ namespace NineBitByte.FutureJourney.Items
       }
     }
 
+    /// <summary />
     private void SelectWeapon(ProjectileWeapon weapon)
     {
       if (weapon == _selectedWeapon?.Programming)
@@ -99,6 +100,7 @@ namespace NineBitByte.FutureJourney.Items
       _reloadLimiter.RechargeRate = _selectedWeapon.Programming.TimeToReload;
     }
 
+    /// <summary />
     public void Reload()
     {
       if (_reloadLimiter.TryRestart())
@@ -126,7 +128,7 @@ namespace NineBitByte.FutureJourney.Items
 
       if (Input.GetMouseButtonDown(1))
       {
-        AvailablePlaceables[0].PlaceOnGrid(this, new GridCoordinate(transform.position));
+        AvailablePlaceables[0].PlaceOnGrid(this, new GridCoordinate(_reticule.position));
       }
 
       if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -163,7 +165,31 @@ namespace NineBitByte.FutureJourney.Items
 
       _rigidBody.angularVelocity = 0;
       _rigidBody.velocity = Vector2.Lerp(_rigidBody.velocity, _playerInputHandler.DesiredVelocity, .8f);
-      _reticule.transform.localPosition = _playerInputHandler.DesiredTrackerLocation;
+      UpdateReticuleLocation(_playerInputHandler.DesiredTrackerLocation, true);
+    }
+    
+    /// <summary />
+    private void UpdateReticuleLocation(Vector3 relativeLocation, bool shouldNormalizeToGrid)
+    {
+      var absoluteLocation = _reticule.transform.parent.TransformPoint(relativeLocation);
+      
+      if (shouldNormalizeToGrid)
+      {
+        absoluteLocation = GridCoordinate.NormalizeToGrid(absoluteLocation);
+      }
+
+      _reticule.transform.position = absoluteLocation;
+      
+      //
+      // 
+      // 
+      //
+      // if (shouldNormalizeToGrid)
+      // {
+      //   absoluteLocation = GridCoordinate.NormalizeToGrid(absoluteLocation);
+      // }
+      //
+      // reticuleTransform.position = absoluteLocation;
     }
   }
 }

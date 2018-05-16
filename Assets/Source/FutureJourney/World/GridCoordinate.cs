@@ -27,17 +27,24 @@ namespace NineBitByte.FutureJourney.World
       Y = (chunkCoordinate.Y << Chunk.YGridCoordinateToChunkCoordinateBitShift) + innerCoordinate.Y;
     }
 
-    public GridCoordinate(Vector2 position)
+
+    public GridCoordinate(Vector3 position)
+      : this(ConvertX(position.x), ConvertY(position.y))
     {
-      X = (int)Math.Floor(position.x * WorldToGridMultiplier);
-      Y = (int)Math.Floor(position.y * WorldToGridMultiplier);
     }
 
-    /// <summary> Create a new GridCoordinate that adds the given offset to this coordinate. </summary>
-    public GridCoordinate OffsetBy(int x, int y)
+    public GridCoordinate(Vector2 position)
+      : this(ConvertX(position.x), ConvertY(position.y))
     {
-      return new GridCoordinate(X + x, Y + y);
     }
+
+    /// <summary> Normalize the given position to be aligned to the grid. </summary>
+    public static Vector3 NormalizeToGrid(Vector3 position) 
+      => (Vector3)(GridCoordinate)position;
+
+    /// <summary> Create a new GridCoordinate that adds the given offset to this coordinate. </summary>
+    public GridCoordinate OffsetBy(int x, int y) 
+      => new GridCoordinate(X + x, Y + y);
 
     /// <summary> Represents the center of the grid, in world coordinates. </summary>
     [Pure]
@@ -111,5 +118,25 @@ namespace NineBitByte.FutureJourney.World
       chunkCoordinate = ChunkCoordinate;
       innerCoordinate = InnerChunkGridCoordinate;
     }
+
+    /// <summary> Convert the y coordinate to a grid coordinate. </summary>
+    private static int ConvertY(float y)
+      => (int)Math.Floor(y * WorldToGridMultiplier);
+
+    /// <summary> Convert the y coordinate to a grid coordinate. </summary>
+    private static int ConvertX(float x)
+      => (int)Math.Floor(x * WorldToGridMultiplier);
+
+    /// <summary> Explicit cast that converts the given GridCoordinate to a Vector3. </summary>
+    public static explicit operator Vector3(GridCoordinate coordinate)
+      => coordinate.ToVector3();
+
+    /// <summary> Explicit cast that converts the given Vector3 to a GridCoordinate. </summary>
+    public static explicit operator GridCoordinate(Vector3 position)
+      => new GridCoordinate(position);
+
+    /// <summary> Explicit cast that converts the given Vector2 to a GridCoordinate. </summary>
+    public static explicit operator GridCoordinate(Vector2 position)
+      => new GridCoordinate(position);
   }
 }
