@@ -16,5 +16,11 @@ namespace NineBitByte.Editor
       var offsetProperty = property.FindPropertyRelative(RelativeOffset.SerializedFieldName);
       offsetProperty.vector3Value = EditorGUI.Vector3Field(position, label, offsetProperty.vector3Value);
     }
+
+    public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+    {
+      var offsetProperty = property.FindPropertyRelative(RelativeOffset.SerializedFieldName);
+      return EditorGUI.GetPropertyHeight(offsetProperty);
+    }
   }
 }

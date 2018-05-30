@@ -28,6 +28,22 @@ namespace NineBitByte.FutureJourney.Programming
     [Tooltip("The initial amount of health that the built has")]
     public int InitialHealth;
 
+    public PlaceableBehavior Attach(Transform parent, PositionAndRotation initialLocation)
+    {
+      var instance = Template.CreateInstance(
+        parent,
+        initialLocation
+        );
+
+      var weaponBehavior = instance
+        .GetComponent<PlaceableBehavior>()
+        .Init(this);
+
+      // TODO
+      // instance.transform.localPosition -= weaponBehavior.HeldPosition.Offset;
+      return weaponBehavior;
+    }
+    
     public void PlaceOnGrid(IOwner owner, GridCoordinate coordinate)
     {
       var grid = owner.AssociatedGrid;

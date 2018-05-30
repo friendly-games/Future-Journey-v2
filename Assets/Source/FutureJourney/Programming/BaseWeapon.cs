@@ -15,6 +15,6 @@ namespace NineBitByte.FutureJourney.Programming
     public string Name;
 
     /// <summary> Performs the weapon's action. </summary>
-    public abstract void Act(WeaponBehavior weaponInstance, Allegiance allegiance);
+    public abstract void Act(TBehavior weaponInstance, Allegiance allegiance);
   }
 }

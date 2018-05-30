@@ -25,4 +25,17 @@ namespace NineBitByte.Common
       Programming = programming;
     }
   }
+
+  /// <summary> Extension methods for <see cref="BaseProgrammableBehavior{TProgramming}"/> </summary>
+  public static class BaseProgrammableBehaviorExtensions
+  {
+    public static TSelf Init<TSelf, TProgramming>(
+      this TSelf self, 
+      TProgramming programming)
+    where TSelf : BaseProgrammableBehavior<TProgramming>
+    {
+      self.Initialize(programming);
+      return self;
+    }
+  }
 }

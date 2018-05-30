@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using NineBitByte.Common.Structures;
 using UnityEditor;
 using UnityEngine;
 
@@ -119,12 +120,13 @@ namespace NineBitByte.Editor.AllAssetsWindowEditor
     {
       EditorGUI.BeginChangeCheck();
       obj.Update();
-      SerializedProperty iterator = obj.GetIterator();
+      var iterator = obj.GetIterator();
 
       for (bool enterChildren = true; iterator.NextVisible(enterChildren); enterChildren = false)
       {
         if ("m_Script" != iterator.propertyPath)
           EditorGUILayout.PropertyField(iterator, true, new GUILayoutOption[0]);
+       
       }
 
       obj.ApplyModifiedProperties();

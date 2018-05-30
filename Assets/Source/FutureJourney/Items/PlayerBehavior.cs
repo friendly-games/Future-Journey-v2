@@ -42,7 +42,7 @@ namespace NineBitByte.FutureJourney.Items
     private Transform _playerBody;
     private PlayerBodyBehavior _playerBodyBehavior;
     private WorldGrid _worldGrid;
-
+    
     public void Start()
     {
       _worldGrid = FindObjectOfType<WorldManagerBehavior>().WorldGrid;
@@ -128,7 +128,7 @@ namespace NineBitByte.FutureJourney.Items
 
       if (Input.GetMouseButtonDown(1))
       {
-        AvailablePlaceables[0].PlaceOnGrid(this, new GridCoordinate(_reticule.position));
+        ActWithCurrentlyEquippedPlacable();
       }
 
       if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -159,6 +159,11 @@ namespace NineBitByte.FutureJourney.Items
       NumberOfRemainingShots--;
     }
 
+    private void ActWithCurrentlyEquippedPlacable()
+    {
+      AvailablePlaceables[0].PlaceOnGrid(this, new GridCoordinate(_reticule.position));
+    }
+
     public void FixedUpdate()
     {
       ResetOverallRotation();
@@ -179,17 +184,6 @@ namespace NineBitByte.FutureJourney.Items
       }
 
       _reticule.transform.position = absoluteLocation;
-      
-      //
-      // 
-      // 
-      //
-      // if (shouldNormalizeToGrid)
-      // {
-      //   absoluteLocation = GridCoordinate.NormalizeToGrid(absoluteLocation);
-      // }
-      //
-      // reticuleTransform.position = absoluteLocation;
     }
   }
 }

@@ -37,6 +37,12 @@ namespace NineBitByte.FutureJourney.Programming
     [Tooltip("The amount of time it takes to reload this weapon")]
     [TimeField(TimeSpecifiedIn.Seconds, Minimum = 0, Maximum = 2)]
     public TimeField TimeToReload;
+    
+    [Tooltip("The location at which the projectile is fired from the location of the owner GameObject")]
+    public RelativeOffset MuzzleOffset;
+
+    [Tooltip("The location where the user should hold the weapon")]
+    public RelativeOffset HeldPosition;
 
     /// <summary> Creates a projectile for the given weapon. </summary>
     public override void Act(WeaponBehavior weaponInstance, Allegiance allegiance)
@@ -69,5 +75,13 @@ namespace NineBitByte.FutureJourney.Programming
       instance.transform.localPosition -= weaponBehavior.HeldPosition.Offset;
       return weaponBehavior;
     }
+  }
+
+  /// <summary>
+  ///   Interface used for Scriptables that need to be initialized on startup.
+  /// </summary>
+  public interface IScriptableInitialable
+  {
+    void Intialize();
   }
 }
