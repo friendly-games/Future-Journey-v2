@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Name: Weapon.Pistol
   m_EditorClassIdentifier: 
   Name: Pistol
+  TimeToRecharge:
+    _timeValue: 600
   DamagePerShot: 30
   NumberOfPellets: 1
   Spread: 0.15
@@ -19,5 +21,7 @@ MonoBehaviour:
   WeaponTemplate: {fileID: 1542743906350916, guid: 1b78434f4c52b144abab2c0e9aae87c9,
     type: 2}
   Projectile: {fileID: 11400000, guid: 0419550c502920c48a76797121dc0ba1, type: 2}
-  TimeToReload:
-    _timeValue: 600
+  MuzzleOffset:
+    _offset: {x: 0, y: 0.137, z: 0}
+  HeldPosition:
+    _offset: {x: 0, y: -0.212, z: 0}

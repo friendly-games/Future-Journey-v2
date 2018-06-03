@@ -24,7 +24,7 @@ namespace NineBitByte.FutureJourney.Items
     [Tooltip("All of the buildings that are available to the player")]
     public Placeable[] AvailablePlaceables;
 
-    private WeaponBehavior _selectedWeapon;
+    private SelectedItemData _selectedActionable;
 
     private Rigidbody2D _rigidBody;
 
@@ -56,12 +56,10 @@ namespace NineBitByte.FutureJourney.Items
 
       _playerBody = _playerBodyBehavior.transform;
 
-      _selectedWeapon = null;
-
       _rigidBody = transform.GetComponent<Rigidbody2D>();
       _hudInformationBehavior = transform.GetComponent<HudInformationBehavior>();
 
-      SelectWeapon(AvailableWeapons.FirstOrDefault());
+      SelectActable(AvailableWeapons.FirstOrDefault());
     }
 
     Allegiance IOwner.Allegiance
@@ -77,27 +75,35 @@ namespace NineBitByte.FutureJourney.Items
       set
       {
         _numberOfRemainingShots = value;
-        _hudInformationBehavior.WeaponInfo = $"{NumberOfRemainingShots}/{_selectedWeapon.Programming.ClipSize}";
+
+        if (_selectedActionable.Actable is ProjectileWeapon weapon)
+        {
+          _hudInformationBehavior.WeaponInfo = $"{NumberOfRemainingShots}/{weapon.ClipSize}";
+        }
+        else
+        {
+          _hudInformationBehavior.WeaponInfo = "???";
+        }
       }
     }
 
     /// <summary />
-    private void SelectWeapon(ProjectileWeapon weapon)
+    private void SelectActable(IUsable actable)
     {
-      if (weapon == _selectedWeapon?.Programming)
+      if (_selectedActionable.Actable == actable)
         return;
 
-      UnityExtensions.Destroy(_selectedWeapon?.gameObject);
-      _selectedWeapon = weapon.Attach(
-        _playerBody.gameObject.transform,
-        _playerBodyBehavior.WeaponOffset.ToLocation(_playerBody)
-       );
-
-      _hudInformationBehavior.EquipmentName = _selectedWeapon.Programming.Name;
+      _selectedActionable.Actable?.Detach(this, _selectedActionable.InstanceData);
+      
+      var location = _playerBodyBehavior.WeaponOffset.ToLocation(_playerBody);
+      var instanceData = actable.Attach(this, _playerBody.gameObject.transform,location);
+      _selectedActionable = new SelectedItemData(actable, instanceData);
+    
+      _hudInformationBehavior.EquipmentName = actable?.Name ?? "<>";
 
       Reload();
-
-      _reloadLimiter.RechargeRate = _selectedWeapon.Programming.TimeToReload;
+      
+      _reloadLimiter.RechargeRate = actable.TimeToRecharge;
     }
 
     /// <summary />
@@ -117,7 +123,15 @@ namespace NineBitByte.FutureJourney.Items
 
       if (_reloadRequested && _reloadLimiter.CanRestart)
       {
-        NumberOfRemainingShots = _selectedWeapon.Programming.ClipSize;
+        if (_selectedActionable.Actable is ProjectileWeapon weapon)
+        {
+          NumberOfRemainingShots = weapon.ClipSize;
+        }
+        else
+        {
+          NumberOfRemainingShots = 10;
+        }
+        
         _reloadRequested = false;
       }
 
@@ -133,11 +147,15 @@ namespace NineBitByte.FutureJourney.Items
 
       if (Input.GetKeyDown(KeyCode.Alpha1))
       {
-        SelectWeapon(AvailableWeapons[0]);
+        SelectActable(AvailableWeapons[0]);
       }
       else if (Input.GetKeyDown(KeyCode.Alpha2))
       {
-        SelectWeapon(AvailableWeapons[1]);
+        SelectActable(AvailableWeapons[1]);
+      }
+      else if (Input.GetKeyDown(KeyCode.Alpha3))
+      {
+        SelectActable(AvailablePlaceables[0]);
       }
 
       if (Input.GetKeyDown(KeyCode.R))
@@ -155,7 +173,7 @@ namespace NineBitByte.FutureJourney.Items
       if (NumberOfRemainingShots <= 0)
         return;
 
-      _selectedWeapon?.Programming.Act(_selectedWeapon, Allegiance);
+      _selectedActionable.Actable?.Act(this, _selectedActionable.InstanceData);
       NumberOfRemainingShots--;
     }
 
@@ -184,6 +202,22 @@ namespace NineBitByte.FutureJourney.Items
       }
 
       _reticule.transform.position = absoluteLocation;
+
+      ReticulePosition = absoluteLocation;
+    }
+
+    public Vector3 ReticulePosition { get; set; }
+
+    private struct SelectedItemData
+    {
+      public SelectedItemData(IUsable actable, GameObject instanceData)
+      {
+        Actable = actable;
+        InstanceData = instanceData;
+      }
+      
+      public IUsable Actable { get; }
+      public object InstanceData { get; }
     }
   }
 }

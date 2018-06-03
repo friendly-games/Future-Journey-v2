@@ -8,6 +8,12 @@ namespace NineBitByte.Common
 {
   public abstract class BaseScriptable : ScriptableObject
   {
+    /// <summary> Method to be invoked on startup, before anyone uses the scriptable. </summary>
+    public virtual void OnStartup()
+    {
+      
+    }
+    
     // protected TBehavior AttachTemplate<TBehavior>(GameObject template, Transform parent, PositionAndRotation initialLocation)
     // where TBehavior : BaseProgrammableBehavior<>
     // {

@@ -94,7 +94,7 @@ namespace NineBitByte.FutureJourney
         }
         else
         {
-          placeableInstance = associatedBuildable.CreateInstance(this, newdata.Position);
+          placeableInstance = associatedBuildable.CreateInstanceInWorld(this, newdata.Position);
         }
       }
 
@@ -110,6 +110,9 @@ namespace NineBitByte.FutureJourney
 
     WorldGrid IOwner.AssociatedGrid
       => WorldGrid;
+
+    // TODO remove
+    public Vector3 ReticulePosition { get; set; }
 
     private class UnityWorldData
     {

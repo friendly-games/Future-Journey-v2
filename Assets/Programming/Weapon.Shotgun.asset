@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Name: Weapon.Shotgun
   m_EditorClassIdentifier: 
   Name: Shotgun
+  TimeToRecharge:
+    _timeValue: 1500
   DamagePerShot: 10
   NumberOfPellets: 4
   Spread: 0.8
@@ -19,5 +21,7 @@ MonoBehaviour:
   WeaponTemplate: {fileID: 1105133587450778, guid: fb5b6291d61825a44b9d00e33ae349a1,
     type: 2}
   Projectile: {fileID: 11400000, guid: 0419550c502920c48a76797121dc0ba1, type: 2}
-  TimeToReload:
-    _timeValue: 1500
+  MuzzleOffset:
+    _offset: {x: 0, y: 0.591, z: 0}
+  HeldPosition:
+    _offset: {x: 0, y: -0.14, z: 0}

@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Name: Tile.Grass
   m_EditorClassIdentifier: 
   Name: Grass
+  Id: 0
   Template: {fileID: 1585498103335794, guid: 1d8e1cd852c8ba8439e7deecea08b0ee, type: 2}

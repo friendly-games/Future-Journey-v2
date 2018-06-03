@@ -1592,6 +1592,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2103164094}
   - component: {fileID: 2103164095}
+  - component: {fileID: 2103164093}
   m_Layer: 0
   m_Name: World
   m_TagString: Untagged
@@ -1599,6 +1600,17 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &2103164093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2103164092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 256edf92d5864bfe8b7bf9e5eefc7d35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2103164094
 Transform:
   m_ObjectHideFlags: 0

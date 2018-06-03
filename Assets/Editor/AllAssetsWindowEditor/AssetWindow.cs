@@ -63,7 +63,7 @@ namespace NineBitByte.Editor.AllAssetsWindowEditor
 
     public void RefreshCache()
     {
-      Debug.Log("Asset Cache Refresh");
+      // Debug.Log("Asset Cache Refresh");
 
       _rootNode = RegenerateRootNode();
 

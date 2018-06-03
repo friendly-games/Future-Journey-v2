@@ -11,6 +11,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1e317f4c2851f64197d21bdad53fde5, type: 3}
   m_Name: Placeable.Rock
   m_EditorClassIdentifier: 
+  Name: 
+  TimeToRecharge:
+    _timeValue: 0
   Size:
     Width: 1
     Height: 1

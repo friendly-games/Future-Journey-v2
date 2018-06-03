@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NineBitByte.FutureJourney.Programming;
 using NineBitByte.FutureJourney.World;
+using UnityEngine;
 
 namespace NineBitByte.FutureJourney.Items
 {
@@ -11,5 +12,6 @@ namespace NineBitByte.FutureJourney.Items
     Allegiance Allegiance { get; }
 
     WorldGrid AssociatedGrid { get; }
+    Vector3 ReticulePosition { get; set; }
   }
 }
