@@ -34,7 +34,7 @@ namespace NineBitByte.Common
       => gameObject == null;
 
     // Destroy an existing unity object
-    public static void Destroy(GameObject gameObject) 
+    public static void Destroy(UnityObject gameObject) 
       => UnityObject.Destroy(gameObject);
   }
 }

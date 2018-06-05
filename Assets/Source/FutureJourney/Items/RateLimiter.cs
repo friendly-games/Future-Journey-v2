@@ -41,8 +41,16 @@ namespace NineBitByte.FutureJourney.Items
     /// <summary>
     ///  A value between 0 and 1 determining how close we are to being able to Restart.  1 is ready.
     /// </summary>
-    public float PercentComplete 
-      => Mathf.Clamp(Time.time - _lastTime, 0, _rechargeRate) / _rechargeRate;
+    public float PercentComplete
+    {
+      get
+      {
+        if (RechargeRate.TotalMilliseconds == 0)
+          return 1;
+        
+        return Mathf.Clamp(Time.time - _lastTime, 0, _rechargeRate) / _rechargeRate;
+      }
+    }
 
     /// <summary> Attempts to trigger the item. </summary>
     public void Restart()

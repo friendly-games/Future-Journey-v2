@@ -13,7 +13,7 @@ namespace NineBitByte.FutureJourney.Programming
   ///  Base class for an Programming which allows the actor to "use" such as firing a weapon
   ///  or placing a building in the world.
   /// </summary>
-  public abstract class BaseActable : BaseScriptable, IUsable
+  public abstract class BaseUsable : BaseScriptable, IUsable
   {
     [Tooltip("The name of the item")]
     public string Name;
@@ -24,13 +24,19 @@ namespace NineBitByte.FutureJourney.Programming
     public TimeField TimeToRecharge;
 
     /// <inheritdoc />
-    public abstract void Act(PlayerBehavior playerBehavior, object instance);
+    public abstract bool Act(PlayerBehavior playerBehavior, object instance);
     
     /// <inheritdoc />
-    public abstract GameObject Attach(PlayerBehavior actor, Transform parent, PositionAndRotation location);
+    public abstract object Attach(PlayerBehavior actor, Transform parent, PositionAndRotation location);
 
     /// <inheritdoc />
     public abstract void Detach(PlayerBehavior actor, object instance);
+
+    /// <summary> Gets the currently equipd information about the given item. </summary>
+    public virtual EquippedItemInformation? GetEquippedItemInformation(object instance)
+    {
+      return null;
+    }
     
     /// <inheritdoc />
     string IUsable.Name
@@ -39,5 +45,8 @@ namespace NineBitByte.FutureJourney.Programming
     /// <inheritdoc />
     TimeSpan IUsable.TimeToRecharge
       => TimeToRecharge.Time;
+
+    /// <summary> Method that refills any inventory that the item has. </summary>
+    public abstract void Reload(object instance);
   }
 }

@@ -34,15 +34,18 @@ namespace NineBitByte.FutureJourney.Items
 
     private RateLimiter _reloadLimiter;
 
-    private HudInformationBehavior _hudInformationBehavior;
-
     private int _numberOfRemainingShots;
     private bool _reloadRequested = true;
 
     private Transform _playerBody;
+
     private PlayerBodyBehavior _playerBodyBehavior;
+
     private WorldGrid _worldGrid;
-    
+
+    /// <summary> The current hud for the player. </summary>
+    private IEquippedHud _hud;
+
     public void Start()
     {
       _worldGrid = FindObjectOfType<WorldManagerBehavior>().WorldGrid;
@@ -57,49 +60,33 @@ namespace NineBitByte.FutureJourney.Items
       _playerBody = _playerBodyBehavior.transform;
 
       _rigidBody = transform.GetComponent<Rigidbody2D>();
-      _hudInformationBehavior = transform.GetComponent<HudInformationBehavior>();
+      _hud = transform.GetComponent<HudInformationBehavior>();
 
       SelectActable(AvailableWeapons.FirstOrDefault());
+
     }
 
+    /// <inheritdoc />
     Allegiance IOwner.Allegiance
       => Allegiance;
 
+    /// <inheritdoc />
     WorldGrid IOwner.AssociatedGrid
       => _worldGrid;
-
-    /// <summary> The total number of remaining bullets we have to fire. </summary>
-    private int NumberOfRemainingShots
-    {
-      get { return _numberOfRemainingShots; }
-      set
-      {
-        _numberOfRemainingShots = value;
-
-        if (_selectedActionable.Actable is ProjectileWeapon weapon)
-        {
-          _hudInformationBehavior.WeaponInfo = $"{NumberOfRemainingShots}/{weapon.ClipSize}";
-        }
-        else
-        {
-          _hudInformationBehavior.WeaponInfo = "???";
-        }
-      }
-    }
 
     /// <summary />
     private void SelectActable(IUsable actable)
     {
-      if (_selectedActionable.Actable == actable)
+      if (_selectedActionable.Item == actable)
         return;
 
-      _selectedActionable.Actable?.Detach(this, _selectedActionable.InstanceData);
+      _selectedActionable.Item?.Detach(this, _selectedActionable.InstanceData);
       
       var location = _playerBodyBehavior.WeaponOffset.ToLocation(_playerBody);
       var instanceData = actable.Attach(this, _playerBody.gameObject.transform,location);
       _selectedActionable = new SelectedItemData(actable, instanceData);
     
-      _hudInformationBehavior.EquipmentName = actable?.Name ?? "<>";
+      _hud.EquipmentName = actable?.Name ?? "<>";
 
       Reload();
       
@@ -111,27 +98,20 @@ namespace NineBitByte.FutureJourney.Items
     {
       if (_reloadLimiter.TryRestart())
       {
-        // TODO not always true (e.g. shotguns)
-        NumberOfRemainingShots = 0;
+        UpdateEquippedHud();
         _reloadRequested = true;
       }
     }
 
     public void Update()
     {
-      _hudInformationBehavior.ReloadPercentage = (int)(_reloadLimiter.PercentComplete * 100);
+      _hud.ReloadPercentage = (int)(_reloadLimiter.PercentComplete * 100);
 
       if (_reloadRequested && _reloadLimiter.CanRestart)
       {
-        if (_selectedActionable.Actable is ProjectileWeapon weapon)
-        {
-          NumberOfRemainingShots = weapon.ClipSize;
-        }
-        else
-        {
-          NumberOfRemainingShots = 10;
-        }
-        
+        _selectedActionable.Item?.Reload(_selectedActionable.InstanceData);
+        UpdateEquippedHud();
+
         _reloadRequested = false;
       }
 
@@ -168,13 +148,17 @@ namespace NineBitByte.FutureJourney.Items
       ResetOverallRotation();
     }
 
+    private void UpdateEquippedHud()
+    {
+      var equippedItemInformation = _selectedActionable.Item?.GetEquippedItemInformation(_selectedActionable.InstanceData);
+
+      _hud.UpdateEquippedStatus(equippedItemInformation);
+    }
+
     private void ActWithCurrentlyEquippedItem()
     {
-      if (NumberOfRemainingShots <= 0)
-        return;
-
-      _selectedActionable.Actable?.Act(this, _selectedActionable.InstanceData);
-      NumberOfRemainingShots--;
+      _selectedActionable.Item?.Act(this, _selectedActionable.InstanceData);
+      UpdateEquippedHud();
     }
 
     private void ActWithCurrentlyEquippedPlacable()
@@ -207,16 +191,20 @@ namespace NineBitByte.FutureJourney.Items
     }
 
     public Vector3 ReticulePosition { get; set; }
-
+    
+    /// <summary> Holds the current selected item. </summary>
     private struct SelectedItemData
     {
-      public SelectedItemData(IUsable actable, GameObject instanceData)
+      public SelectedItemData(IUsable item, object instanceData)
       {
-        Actable = actable;
+        Item = item;
         InstanceData = instanceData;
       }
-      
-      public IUsable Actable { get; }
+
+      /// <summary> The current item/programming. </summary>
+      public IUsable Item { get; }
+
+      /// <summary> The data associated with the item. </summary>
       public object InstanceData { get; }
     }
   }

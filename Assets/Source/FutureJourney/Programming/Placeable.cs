@@ -11,7 +11,7 @@ namespace NineBitByte.FutureJourney.Programming
 {
   /// <summary> An item that can be built in the world. </summary>
   [CreateAssetMenu(menuName = "Items/Placeable")]
-  public class Placeable : BaseActable
+  public class Placeable : BaseUsable
   {
     [Tooltip("The size of the item in the world")]
     public GridBasedSize Size;
@@ -29,11 +29,11 @@ namespace NineBitByte.FutureJourney.Programming
     public int InitialHealth;
 
     /// <inheritdoc />
-    public override void Act(PlayerBehavior playerBehavior, object instance) 
+    public override bool Act(PlayerBehavior playerBehavior, object instance) 
       => PlaceOnGrid(playerBehavior, new GridCoordinate(playerBehavior.ReticulePosition));
 
     /// <inheritdoc />
-    public override GameObject Attach(PlayerBehavior actor, Transform parent, PositionAndRotation location)
+    public override object Attach(PlayerBehavior actor, Transform parent, PositionAndRotation location)
     {
       return null;
     }
@@ -44,7 +44,12 @@ namespace NineBitByte.FutureJourney.Programming
       // no-op
     }
 
-    public void PlaceOnGrid(IOwner owner, GridCoordinate coordinate)
+    public override void Reload(object instance)
+    {
+      // no-op
+    }
+
+    public bool PlaceOnGrid(IOwner owner, GridCoordinate coordinate)
     {
       var grid = owner.AssociatedGrid;
 
@@ -57,6 +62,7 @@ namespace NineBitByte.FutureJourney.Programming
       var newItem = oldItem.AddObject(ObjectId, oldItem.TileRotation, InitialHealth);
 
       chunk[innerCoordinate] = newItem;
+      return true;
     }
 
     /// <summary>

@@ -11,7 +11,7 @@ namespace NineBitByte.FutureJourney.Programming
 {
   /// <summary> All properties for a weapon that can be fired. </summary>
   [CreateAssetMenu(menuName = "Items/Weapon")]
-  public class ProjectileWeapon : BaseActable
+  public class ProjectileWeapon : BaseUsable
   {
     [Tooltip("How much damage is done per pellet that hits")]
     public int DamagePerShot = 10;
@@ -33,30 +33,43 @@ namespace NineBitByte.FutureJourney.Programming
 
     [Tooltip("Projectile information")]
     public Projectile Projectile;
-    
+
     [Tooltip("The location at which the projectile is fired from the location of the owner GameObject")]
     public RelativeOffset MuzzleOffset;
-    
+
     [Tooltip("The location where the user should hold the weapon")]
     public RelativeOffset HeldPosition;
+
+    private GameObject _localTemplateCopy;
     
     /// <inheritdoc />
     public override void OnStartup()
     {
       base.OnStartup();
 
-      var weaponBehavior = WeaponTemplate.GetComponent<WeaponBehavior>();
+      // clone it because otherwise we'll be directly destroying the prefab
+      _localTemplateCopy = WeaponTemplate.CreateInstance();
+      
+      var weaponBehavior = _localTemplateCopy.GetComponent<WeaponBehavior>();
       MuzzleOffset = weaponBehavior.MuzzleOffset;
       HeldPosition = weaponBehavior.HeldPosition;
+      
+      UnityExtensions.Destroy(weaponBehavior);
+      _localTemplateCopy.AddComponent<ProjectileWeaponBehavior>();
     }
 
     /// <inheritdoc />
-    public override void Act(PlayerBehavior actor, object instanceData) 
-      => Act((GameObject)instanceData, actor.Allegiance);
+    public override bool Act(PlayerBehavior actor, object instanceData)
+      => Act((ProjectileWeaponBehavior)instanceData, actor.Allegiance);
 
     /// <summary> Creates a projectile for the given weapon. </summary>
-    private void Act(GameObject weaponInstance, Allegiance allegiance)
+    private bool Act(ProjectileWeaponBehavior weaponInstance, Allegiance allegiance)
     {
+      if (weaponInstance.CurrentClip == 0)
+        return false;
+
+      weaponInstance.CurrentClip -= 1;
+      
       for (int i = 0; i < NumberOfPellets; i++)
       {
         var positionAndRotation = MuzzleOffset.ToLocation(weaponInstance.transform);
@@ -68,21 +81,48 @@ namespace NineBitByte.FutureJourney.Programming
         var behavior = projectileInstance.GetComponent<ProjectileBehavior>();
         behavior.Initialize(this, Projectile, allegiance);
       }
+
+      return true;
     }
 
     /// <inheritdoc />
-    public override GameObject Attach(PlayerBehavior actor, Transform parent, PositionAndRotation location)
+    public override object Attach(PlayerBehavior actor, Transform parent, PositionAndRotation location)
     {
-      var instance = WeaponTemplate.CreateInstance(parent, location);
-
+      var instance = _localTemplateCopy.CreateInstance(parent, location);
+      var projectileWeapon = instance.GetComponent<ProjectileWeaponBehavior>();
+      projectileWeapon.CurrentClip = 0;
+      
       instance.transform.localPosition -= HeldPosition.Offset;
-      return instance;
+      
+      return projectileWeapon;
     }
 
     /// <inheritdoc />
     public override void Detach(PlayerBehavior actor, object instance)
     {
-      UnityExtensions.Destroy((GameObject)instance);
+      UnityExtensions.Destroy(((ProjectileWeaponBehavior)instance).gameObject);
+    }
+
+    public override void Reload(object instance)
+    {
+      var behavior = (ProjectileWeaponBehavior)instance;
+      behavior.CurrentClip = ClipSize;
+    }
+    
+    public override EquippedItemInformation? GetEquippedItemInformation(object instance)
+    {
+      var behavior = (ProjectileWeaponBehavior)instance;
+      return new EquippedItemInformation
+             {
+               CurrentAmount = behavior.CurrentClip,
+               TotalInInventory = 99,
+               TotalGroupSize = ClipSize
+             };
+    }
+
+    private class ProjectileWeaponBehavior : BaseBehavior
+    {
+      public int CurrentClip { get; set; }
     }
   }
 }

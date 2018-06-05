@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace NineBitByte.FutureJourney.Items
 {
-  public class HudInformationBehavior : BaseBehavior
+  public class HudInformationBehavior : BaseBehavior, IEquippedHud
   {
     [Tooltip("Location to write information about the current weapon/ammo")]
     [SerializeField]
@@ -42,12 +42,24 @@ namespace NineBitByte.FutureJourney.Items
 
     public string EquipmentName
     {
-      set { EquipmentNameTextField.text = value; }
+      set => EquipmentNameTextField.text = value; 
     }
 
     public string WeaponInfo
     {
-      set { EquipmentInformationTextField.text = value; }
+      set => EquipmentInformationTextField.text = value; 
+    }
+
+    public void UpdateEquippedStatus(EquippedItemInformation? info)
+    {
+      if (info is EquippedItemInformation value)
+      {
+        WeaponInfo = $"{value.CurrentAmount}/{value.TotalGroupSize} ({value.TotalInInventory})";
+      }
+      else
+      {
+        WeaponInfo = "∞";
+      }
     }
   }
 }
