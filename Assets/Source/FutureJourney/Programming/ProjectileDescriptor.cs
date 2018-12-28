@@ -7,7 +7,7 @@ using UnityEngine;
 namespace NineBitByte.FutureJourney.Programming
 {
   [CreateAssetMenu(menuName = "Items/Projectile")]
-  public class Projectile : BaseScriptable
+  public class ProjectileDescriptor : BaseScriptable
   {
     [Tooltip("The amount of damage that one pellet does to a target")]
     public int BaseDamage;

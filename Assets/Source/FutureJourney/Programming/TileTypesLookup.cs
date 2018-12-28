@@ -14,16 +14,17 @@ namespace NineBitByte.FutureJourney.Programming
     [Tooltip("All of the available tiles for the world generation")]
     public TileType[] AvailableTiles;
 
+    [FormerlySerializedAs("Placeables")]
     [Tooltip("All of the available buildables in the world")]
     [FormerlySerializedAs("Buildables")]
-    public Placeable[] Placeables;
+    public PlaceableDescriptor[] PlaceablesDescriptor;
 
     [Tooltip("The layer to which all tiles should be added")]
     public Layer TileLayer;
 
-    public Placeable FindPlaceable(short id)
+    public PlaceableDescriptor FindPlaceable(short id)
     {
-      foreach (var b in Placeables)
+      foreach (var b in PlaceablesDescriptor)
       {
         if (b.ObjectId == id)
           return b;

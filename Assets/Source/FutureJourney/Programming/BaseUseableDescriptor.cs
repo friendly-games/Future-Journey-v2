@@ -13,7 +13,7 @@ namespace NineBitByte.FutureJourney.Programming
   ///  Base class for an Programming which allows the actor to "use" such as firing a weapon
   ///  or placing a building in the world.
   /// </summary>
-  public abstract class BaseUsableTemplate : BaseScriptable, IUsableTemplate
+  public abstract class BaseUseableDescriptor : BaseScriptable, IUseableDescriptor
   {
     [Tooltip("The name of the item")]
     public string Name;
@@ -27,11 +27,11 @@ namespace NineBitByte.FutureJourney.Programming
     public abstract IUsable Attach(PlayerBehavior actor, Transform parent, PositionAndRotation location);
     
     /// <inheritdoc />
-    string IUsableTemplate.Name
+    string IUseableDescriptor.Name
       => Name;
 
     /// <inheritdoc />
-    TimeSpan IUsableTemplate.TimeToRecharge
+    TimeSpan IUseableDescriptor.TimeToRecharge
       => TimeToRecharge.Time;
   }
 }

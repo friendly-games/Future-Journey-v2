@@ -11,7 +11,7 @@ namespace NineBitByte.FutureJourney.Items
   {
     private Chunk.GridCellReference _cellReference;
 
-    public override PlaceableBehavior Initialize(Placeable programming, IOwner owner, GridCoordinate coordinate)
+    public override PlaceableBehavior Initialize(PlaceableDescriptor programming, IOwner owner, GridCoordinate coordinate)
     {
       base.Initialize(programming, owner, coordinate);
 

@@ -5,6 +5,7 @@ using NineBitByte.Common;
 using NineBitByte.FutureJourney.Programming;
 using NineBitByte.FutureJourney.World;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace NineBitByte.FutureJourney.Items
 {
@@ -18,13 +19,15 @@ namespace NineBitByte.FutureJourney.Items
     [Tooltip("The team to which the player belongs")]
     public Allegiance Allegiance;
 
+    [FormerlySerializedAs("AvailableWeapons")]
     [Tooltip("All of the weapons that are available to the player")]
-    public ProjectileWeapon[] AvailableWeapons;
+    public ProjectileWeaponDescriptor[] AvailableWeaponsDescriptor;
 
+    [FormerlySerializedAs("AvailablePlaceables")]
     [Tooltip("All of the buildings that are available to the player")]
-    public Placeable[] AvailablePlaceables;
+    public PlaceableDescriptor[] AvailablePlaceablesDescriptor;
 
-    private IUsable _selectedActionable;
+    private IUsable _selectedUsable;
 
     private Rigidbody2D _rigidBody;
 
@@ -62,7 +65,7 @@ namespace NineBitByte.FutureJourney.Items
       _rigidBody = transform.GetComponent<Rigidbody2D>();
       _hud = transform.GetComponent<HudInformationBehavior>();
 
-      SelectActable(AvailableWeapons.FirstOrDefault());
+      SelectUsable(AvailableWeaponsDescriptor.FirstOrDefault());
 
     }
 
@@ -75,17 +78,16 @@ namespace NineBitByte.FutureJourney.Items
       => _worldGrid;
 
     /// <summary />
-    private void SelectActable(IUsableTemplate actable)
+    private void SelectUsable(IUseableDescriptor actable)
     {
-      if (_selectedActionable != null)
-      if (_selectedActionable?.Shared == actable)
+      if (_selectedUsable?.Shared == actable)
         return;
 
-      _selectedActionable?.Detach(this);
+      _selectedUsable?.Detach(this);
       
       var location = _playerBodyBehavior.WeaponOffset.ToLocation(_playerBody);
       var usable = actable.Attach(this, _playerBody.gameObject.transform,location);
-      _selectedActionable = usable;
+      _selectedUsable = usable;
     
       _hud.EquipmentName = actable?.Name ?? "<>";
 
@@ -110,7 +112,7 @@ namespace NineBitByte.FutureJourney.Items
 
       if (_reloadRequested && _reloadLimiter.CanRestart)
       {
-        _selectedActionable?.Reload(this);
+        _selectedUsable?.Reload(this);
         UpdateEquippedHud();
 
         _reloadRequested = false;
@@ -128,15 +130,15 @@ namespace NineBitByte.FutureJourney.Items
 
       if (Input.GetKeyDown(KeyCode.Alpha1))
       {
-        SelectActable(AvailableWeapons[0]);
+        SelectUsable(AvailableWeaponsDescriptor[0]);
       }
       else if (Input.GetKeyDown(KeyCode.Alpha2))
       {
-        SelectActable(AvailableWeapons[1]);
+        SelectUsable(AvailableWeaponsDescriptor[1]);
       }
       else if (Input.GetKeyDown(KeyCode.Alpha3))
       {
-        SelectActable(AvailablePlaceables[0]);
+        SelectUsable(AvailablePlaceablesDescriptor[0]);
       }
 
       if (Input.GetKeyDown(KeyCode.R))
@@ -151,20 +153,20 @@ namespace NineBitByte.FutureJourney.Items
 
     private void UpdateEquippedHud()
     {
-      var equippedItemInformation = _selectedActionable?.GetEquippedItemInformation(this);
+      var equippedItemInformation = _selectedUsable?.GetEquippedItemInformation(this);
 
       _hud.UpdateEquippedStatus(equippedItemInformation);
     }
 
     private void ActWithCurrentlyEquippedItem()
     {
-      _selectedActionable?.Act(this);
+      _selectedUsable?.Act(this);
       UpdateEquippedHud();
     }
 
     private void ActWithCurrentlyEquippedPlacable()
     {
-      AvailablePlaceables[0].PlaceOnGrid(this, new GridCoordinate(_reticule.position));
+      AvailablePlaceablesDescriptor[0].PlaceOnGrid(this, new GridCoordinate(_reticule.position));
     }
 
     public void FixedUpdate()
@@ -196,14 +198,14 @@ namespace NineBitByte.FutureJourney.Items
     /// <summary> Holds the current selected item. </summary>
     private struct SelectedItemData
     {
-      public SelectedItemData(IUsableTemplate item, IUsable instanceData)
+      public SelectedItemData(IUseableDescriptor item, IUsable instanceData)
       {
         Item = item;
         InstanceData = instanceData;
       }
 
       /// <summary> The current item/programming. </summary>
-      public IUsableTemplate Item { get; }
+      public IUseableDescriptor Item { get; }
 
       /// <summary> The data associated with the item. </summary>
       public IUsable InstanceData { get; }

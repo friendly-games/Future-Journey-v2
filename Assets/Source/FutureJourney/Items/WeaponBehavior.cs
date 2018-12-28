@@ -17,11 +17,11 @@ namespace NineBitByte.FutureJourney.Items
     [Tooltip("The location where the user should hold the weapon")]
     public RelativeOffset HeldPosition;
 
-    public ProjectileWeapon Programming { get; private set; }
+    public ProjectileWeaponDescriptor Programming { get; private set; }
 
-    public WeaponBehavior Initialize(ProjectileWeapon projectileWeapon)
+    public WeaponBehavior Initialize(ProjectileWeaponDescriptor projectileWeaponDescriptor)
     {
-      Programming = projectileWeapon;
+      Programming = projectileWeaponDescriptor;
       return this;
     }
   }

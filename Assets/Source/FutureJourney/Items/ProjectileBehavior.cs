@@ -11,27 +11,27 @@ namespace NineBitByte.FutureJourney.Items
   /// <summary> Base behavior for all ammunition that gets fired </summary>
   public class ProjectileBehavior : BaseBehavior
   {
-    private ProjectileWeapon _weaponTemplate;
-    private Projectile _projectile;
+    private ProjectileWeaponDescriptor _weaponDescriptorTemplate;
+    private ProjectileDescriptor _projectileDescriptor;
     private Allegiance _allegiance;
 
-    public void Initialize(ProjectileWeapon weaponTemplate, Projectile projectile, Allegiance allegiance)
+    public void Initialize(ProjectileWeaponDescriptor weaponDescriptorTemplate, ProjectileDescriptor projectileDescriptor, Allegiance allegiance)
     {
-      _weaponTemplate = weaponTemplate;
-      _projectile = projectile;
+      _weaponDescriptorTemplate = weaponDescriptorTemplate;
+      _projectileDescriptor = projectileDescriptor;
       _allegiance = allegiance;
     }
 
     [UsedImplicitly]
     private void Start()
     {
-      GetComponent<Rigidbody2D>().velocity = transform.up * _projectile.InitialVelocity;
+      GetComponent<Rigidbody2D>().velocity = transform.up * _projectileDescriptor.InitialVelocity;
       // TODO this layer to be automatic
       gameObject.layer = Layer.FromName("Projectile").LayerId;
 
       // don't go more than 300 units before disappearing (or 1 second)
       // TODO should this be specified in the template
-      float timeToLive = 30 / _projectile.InitialVelocity;
+      float timeToLive = 30 / _projectileDescriptor.InitialVelocity;
 
       Destroy(gameObject, timeToLive);
     }
@@ -44,7 +44,7 @@ namespace NineBitByte.FutureJourney.Items
 
       if (receiver != null)
       {
-        DamageProcessor.ApplyDamage(receiver, _weaponTemplate.DamagePerShot);
+        DamageProcessor.ApplyDamage(receiver, _weaponDescriptorTemplate.DamagePerShot);
       }
 
       UnityExtensions.Destroy(gameObject);

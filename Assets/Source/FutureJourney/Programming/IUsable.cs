@@ -11,7 +11,7 @@ namespace NineBitByte.FutureJourney.Programming
   public interface IUsable
   {
     /// <summary> The data that's shared between all instances of this usable. </summary>
-    IUsableTemplate Shared { get; }
+    IUseableDescriptor Shared { get; }
       
     /// <summary>
     ///   Initiates the "Use" behavior.

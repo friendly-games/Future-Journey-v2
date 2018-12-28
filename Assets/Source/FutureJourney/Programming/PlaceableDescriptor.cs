@@ -11,7 +11,7 @@ namespace NineBitByte.FutureJourney.Programming
 {
   /// <summary> An item that can be built in the world. </summary>
   [CreateAssetMenu(menuName = "Items/Placeable")]
-  public class Placeable : BaseUsableTemplate
+  public class PlaceableDescriptor : BaseUseableDescriptor
   {
     [Tooltip("The size of the item in the world")]
     public GridBasedSize Size;
@@ -68,20 +68,20 @@ namespace NineBitByte.FutureJourney.Programming
 
     private class PlaceableBehaviorLogic : IUsable
     {
-      private Placeable _placeable;
+      private PlaceableDescriptor _placeableDescriptor;
 
-      public void Initialize(Placeable placeable)
+      public void Initialize(PlaceableDescriptor placeableDescriptor)
       {
-        _placeable = placeable;
+        _placeableDescriptor = placeableDescriptor;
       }
 
       /// <inheritdoc />
-      public IUsableTemplate Shared
-        => _placeable;
+      public IUseableDescriptor Shared
+        => _placeableDescriptor;
 
       /// <inheritdoc />
       public bool Act(PlayerBehavior actor)
-        => _placeable.PlaceOnGrid(actor, new GridCoordinate(actor.ReticulePosition));
+        => _placeableDescriptor.PlaceOnGrid(actor, new GridCoordinate(actor.ReticulePosition));
 
       /// <inheritdoc />
       public void Reload(PlayerBehavior actor)

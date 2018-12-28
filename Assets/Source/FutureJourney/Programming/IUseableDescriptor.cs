@@ -8,7 +8,7 @@ using UnityEngine;
 namespace NineBitByte.FutureJourney.Programming
 {
   /// <summary> An object that is usable. </summary>
-  public interface IUsableTemplate
+  public interface IUseableDescriptor
   {
     /// <summary> The name of the item. </summary>
     string Name { get; }

@@ -5,13 +5,14 @@ using NineBitByte.Common;
 using NineBitByte.Common.Structures;
 using NineBitByte.FutureJourney.Items;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace NineBitByte.FutureJourney.Programming
 {
   /// <summary> All properties for a weapon that can be fired. </summary>
   [CreateAssetMenu(menuName = "Items/Weapon")]
-  public class ProjectileWeapon : BaseUsableTemplate
+  public class ProjectileWeaponDescriptor : BaseUseableDescriptor
   {
     private GameObject _localTemplateCopy;
 
@@ -32,8 +33,9 @@ namespace NineBitByte.FutureJourney.Programming
     [Tooltip("The number of pellets that are fired from this weapon")]
     public int NumberOfPellets = 1;
 
+    [FormerlySerializedAs("Projectile")]
     [Tooltip("Projectile information")]
-    public Projectile Projectile;
+    public ProjectileDescriptor ProjectileDescriptor;
 
     [Range(0, 1)]
     [Tooltip("How far apart each pellet can vary from muzzle")]
@@ -75,9 +77,9 @@ namespace NineBitByte.FutureJourney.Programming
     /// </summary>
     private class ProjectileWeaponBehavior : BaseBehavior, IUsable
     {
-      private ProjectileWeapon _shared;
+      private ProjectileWeaponDescriptor _shared;
 
-      public void Initialize(ProjectileWeapon shared)
+      public void Initialize(ProjectileWeaponDescriptor shared)
       {
         _shared = shared;
 
@@ -88,7 +90,7 @@ namespace NineBitByte.FutureJourney.Programming
       private int CurrentClip { get; set; }
 
       /// <inheritdoc />
-      IUsableTemplate IUsable.Shared
+      IUseableDescriptor IUsable.Shared
         => _shared;
 
       /// <inheritdoc />
@@ -102,13 +104,13 @@ namespace NineBitByte.FutureJourney.Programming
         for (var i = 0; i < _shared.NumberOfPellets; i++)
         {
           var positionAndRotation = _shared.MuzzleOffset.ToLocation(transform);
-          var projectileInstance = _shared.Projectile.ProjectileTemplate.CreateInstance(positionAndRotation);
+          var projectileInstance = _shared.ProjectileDescriptor.ProjectileTemplate.CreateInstance(positionAndRotation);
 
           var randomAngle = Random.Range(-15, (float)15) * _shared.Spread;
           projectileInstance.transform.rotation *= Quaternion.Euler(0, 0, randomAngle);
 
           var behavior = projectileInstance.GetComponent<ProjectileBehavior>();
-          behavior.Initialize(_shared, _shared.Projectile, actor.Allegiance);
+          behavior.Initialize(_shared, _shared.ProjectileDescriptor, actor.Allegiance);
         }
 
         return true;

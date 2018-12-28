@@ -7,9 +7,9 @@ using NineBitByte.FutureJourney.World;
 
 namespace NineBitByte.FutureJourney.Items
 {
-  public class PlaceableBehavior : BaseProgrammableBehavior<Placeable>
+  public class PlaceableBehavior : BaseProgrammableBehavior<PlaceableDescriptor>
   {
-    public virtual PlaceableBehavior Initialize(Placeable programming, IOwner owner, GridCoordinate coordinate)
+    public virtual PlaceableBehavior Initialize(PlaceableDescriptor programming, IOwner owner, GridCoordinate coordinate)
     {
       Initialize(programming);
       return this;
