@@ -11,7 +11,7 @@ namespace NineBitByte.FutureJourney.Programming
 {
   /// <summary> An item that can be built in the world. </summary>
   [CreateAssetMenu(menuName = "Items/Placeable")]
-  public class Placeable : BaseUsable
+  public class Placeable : BaseUsableTemplate
   {
     [Tooltip("The size of the item in the world")]
     public GridBasedSize Size;
@@ -29,33 +29,18 @@ namespace NineBitByte.FutureJourney.Programming
     public int InitialHealth;
 
     /// <inheritdoc />
-    public override bool Act(PlayerBehavior playerBehavior, object instance) 
-      => PlaceOnGrid(playerBehavior, new GridCoordinate(playerBehavior.ReticulePosition));
-
-    /// <inheritdoc />
-    public override object Attach(PlayerBehavior actor, Transform parent, PositionAndRotation location)
+    public override IUsable Attach(PlayerBehavior actor, Transform parent, PositionAndRotation location)
     {
-      return null;
-    }
-
-    /// <inheritdoc />
-    public override void Detach(PlayerBehavior actor, object instance)
-    {
-      // no-op
-    }
-
-    public override void Reload(object instance)
-    {
-      // no-op
+      var logic = new PlaceableBehaviorLogic();
+      logic.Initialize(this);
+      return logic;
     }
 
     public bool PlaceOnGrid(IOwner owner, GridCoordinate coordinate)
     {
       var grid = owner.AssociatedGrid;
 
-      InnerChunkGridCoordinate innerCoordinate;
-      ChunkCoordinate chunkCoordinate;
-      coordinate.Deconstruct(out chunkCoordinate, out innerCoordinate);
+      coordinate.Deconstruct(out var chunkCoordinate, out var innerCoordinate);
 
       var chunk = grid[chunkCoordinate];
       var oldItem = chunk[innerCoordinate];
@@ -66,7 +51,7 @@ namespace NineBitByte.FutureJourney.Programming
     }
 
     /// <summary>
-    ///   Creates an instance of this placable in the world grid, so that the various systems (physics,
+    ///   Creates an instance of this placeable in the world grid, so that the various systems (physics,
     ///   graphics, etc) can interact with it.
     /// </summary>
     public PlaceableBehavior CreateInstanceInWorld(IOwner owner, GridCoordinate coordinate)
@@ -79,6 +64,40 @@ namespace NineBitByte.FutureJourney.Programming
       placeable.Initialize(this, owner, coordinate);
 
       return placeable;
+    }
+
+    private class PlaceableBehaviorLogic : IUsable
+    {
+      private Placeable _placeable;
+
+      public void Initialize(Placeable placeable)
+      {
+        _placeable = placeable;
+      }
+
+      /// <inheritdoc />
+      public IUsableTemplate Shared
+        => _placeable;
+
+      /// <inheritdoc />
+      public bool Act(PlayerBehavior actor)
+        => _placeable.PlaceOnGrid(actor, new GridCoordinate(actor.ReticulePosition));
+
+      /// <inheritdoc />
+      public void Reload(PlayerBehavior actor)
+      {
+        // no-op;
+      }
+
+      /// <inheritdoc />
+      public EquippedItemInformation? GetEquippedItemInformation(PlayerBehavior actor)
+        => null;
+
+      /// <inheritdoc />
+      public void Detach(PlayerBehavior actor)
+      {
+        // no-op
+      }
     }
   }
 }

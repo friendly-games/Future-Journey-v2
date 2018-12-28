@@ -11,7 +11,7 @@ namespace NineBitByte.FutureJourney.Programming
 {
   /// <summary> All properties for a weapon that can be fired. </summary>
   [CreateAssetMenu(menuName = "Items/Weapon")]
-  public class ProjectileWeapon : BaseUsable
+  public class ProjectileWeapon : BaseUsableTemplate
   {
     private GameObject _localTemplateCopy;
 
@@ -59,11 +59,7 @@ namespace NineBitByte.FutureJourney.Programming
     }
 
     /// <inheritdoc />
-    public override bool Act(PlayerBehavior actor, object instanceData)
-      => ((ProjectileWeaponBehavior)instanceData).Act(actor);
-
-    /// <inheritdoc />
-    public override object Attach(PlayerBehavior actor, Transform parent, PositionAndRotation location)
+    public override IUsable Attach(PlayerBehavior actor, Transform parent, PositionAndRotation location)
     {
       var instance = _localTemplateCopy.CreateInstance(parent, location);
       var projectileWeapon = instance.GetComponent<ProjectileWeaponBehavior>();
@@ -74,28 +70,13 @@ namespace NineBitByte.FutureJourney.Programming
       return projectileWeapon;
     }
 
-    /// <inheritdoc />
-    public override void Detach(PlayerBehavior actor, object instance)
-    {
-      UnityExtensions.Destroy(((ProjectileWeaponBehavior)instance).gameObject);
-    }
-
-    public override void Reload(object instance)
-      => ((ProjectileWeaponBehavior)instance).Reload();
-
-    public override EquippedItemInformation? GetEquippedItemInformation(object instance)
-      => ((ProjectileWeaponBehavior)instance).GetEquippedItemInformation();
-
     /// <summary>
     ///   Provides the actual behavior for firing the projectile weapon and reloading it.
     /// </summary>
-    private class ProjectileWeaponBehavior : BaseBehavior
+    private class ProjectileWeaponBehavior : BaseBehavior, IUsable
     {
       private ProjectileWeapon _shared;
 
-      public int CurrentClip { get; set; }
-
-      /// <inheritdoc />
       public void Initialize(ProjectileWeapon shared)
       {
         _shared = shared;
@@ -103,6 +84,14 @@ namespace NineBitByte.FutureJourney.Programming
         CurrentClip = 0;
       }
 
+      // the # of bullets left in the current clip
+      private int CurrentClip { get; set; }
+
+      /// <inheritdoc />
+      IUsableTemplate IUsable.Shared
+        => _shared;
+
+      /// <inheritdoc />
       public bool Act(PlayerBehavior actor)
       {
         if (CurrentClip == 0)
@@ -125,12 +114,14 @@ namespace NineBitByte.FutureJourney.Programming
         return true;
       }
 
-      public void Reload()
+      /// <inheritdoc />
+      public void Reload(PlayerBehavior actor)
       {
         CurrentClip = _shared.ClipSize;
       }
 
-      public EquippedItemInformation? GetEquippedItemInformation()
+      /// <inheritdoc />
+      public EquippedItemInformation? GetEquippedItemInformation(PlayerBehavior actor)
       {
         return new EquippedItemInformation
                {
@@ -138,6 +129,12 @@ namespace NineBitByte.FutureJourney.Programming
                  TotalInInventory = 99,
                  TotalGroupSize = _shared.ClipSize
                };
+      }
+
+      /// <inheritdoc />
+      public void Detach(PlayerBehavior actor)
+      {
+        UnityExtensions.Destroy(gameObject);
       }
     }
   }

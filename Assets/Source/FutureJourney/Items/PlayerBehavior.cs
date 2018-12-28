@@ -24,7 +24,7 @@ namespace NineBitByte.FutureJourney.Items
     [Tooltip("All of the buildings that are available to the player")]
     public Placeable[] AvailablePlaceables;
 
-    private SelectedItemData _selectedActionable;
+    private IUsable _selectedActionable;
 
     private Rigidbody2D _rigidBody;
 
@@ -75,16 +75,17 @@ namespace NineBitByte.FutureJourney.Items
       => _worldGrid;
 
     /// <summary />
-    private void SelectActable(IUsable actable)
+    private void SelectActable(IUsableTemplate actable)
     {
-      if (_selectedActionable.Item == actable)
+      if (_selectedActionable != null)
+      if (_selectedActionable?.Shared == actable)
         return;
 
-      _selectedActionable.Item?.Detach(this, _selectedActionable.InstanceData);
+      _selectedActionable?.Detach(this);
       
       var location = _playerBodyBehavior.WeaponOffset.ToLocation(_playerBody);
-      var instanceData = actable.Attach(this, _playerBody.gameObject.transform,location);
-      _selectedActionable = new SelectedItemData(actable, instanceData);
+      var usable = actable.Attach(this, _playerBody.gameObject.transform,location);
+      _selectedActionable = usable;
     
       _hud.EquipmentName = actable?.Name ?? "<>";
 
@@ -109,7 +110,7 @@ namespace NineBitByte.FutureJourney.Items
 
       if (_reloadRequested && _reloadLimiter.CanRestart)
       {
-        _selectedActionable.Item?.Reload(_selectedActionable.InstanceData);
+        _selectedActionable?.Reload(this);
         UpdateEquippedHud();
 
         _reloadRequested = false;
@@ -150,14 +151,14 @@ namespace NineBitByte.FutureJourney.Items
 
     private void UpdateEquippedHud()
     {
-      var equippedItemInformation = _selectedActionable.Item?.GetEquippedItemInformation(_selectedActionable.InstanceData);
+      var equippedItemInformation = _selectedActionable?.GetEquippedItemInformation(this);
 
       _hud.UpdateEquippedStatus(equippedItemInformation);
     }
 
     private void ActWithCurrentlyEquippedItem()
     {
-      _selectedActionable.Item?.Act(this, _selectedActionable.InstanceData);
+      _selectedActionable?.Act(this);
       UpdateEquippedHud();
     }
 
@@ -195,17 +196,17 @@ namespace NineBitByte.FutureJourney.Items
     /// <summary> Holds the current selected item. </summary>
     private struct SelectedItemData
     {
-      public SelectedItemData(IUsable item, object instanceData)
+      public SelectedItemData(IUsableTemplate item, IUsable instanceData)
       {
         Item = item;
         InstanceData = instanceData;
       }
 
       /// <summary> The current item/programming. </summary>
-      public IUsable Item { get; }
+      public IUsableTemplate Item { get; }
 
       /// <summary> The data associated with the item. </summary>
-      public object InstanceData { get; }
+      public IUsable InstanceData { get; }
     }
   }
 }
