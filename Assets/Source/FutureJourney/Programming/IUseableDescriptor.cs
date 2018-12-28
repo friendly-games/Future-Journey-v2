@@ -17,12 +17,15 @@ namespace NineBitByte.FutureJourney.Programming
     TimeSpan TimeToRecharge { get; }
 
     /// <summary>
-    ///   Initializes an instance of the item which the specific actor can "use".
+    ///   Initializes an instance of the item which the specific actor can "use" to do some sort of
+    ///   action in the world, such as firing a bullet, placing an object onto the grid, or swinging
+    ///   an axe.
     /// </summary>
-    /// <param name="actor"> The actor to which the item is being attached. </param>
+    /// <param name="actor"> The actor to which the item is being attached. This serves as a visual indicator that
+    ///    the actor has the current usable "equipped". </param>
     /// <param name="parent"> The owner of any GameObject that should be added. </param>
-    /// <param name="location"> The absolute position at which any GameObjects can be added. </param>
-    /// <returns> Instance data that will be passed into all consuming methods. </returns>
-    IUsable Attach(PlayerBehavior actor, Transform parent, PositionAndRotation location);
+    /// <param name="location"> The absolute position at which any GameObjects should be added. </param>
+    /// <returns> A usable which can be *used* by invoking the <see cref="IUsable.Act"/> method. </returns>
+    IUsable CreateAndAttachUsable(PlayerBehavior actor, Transform parent, PositionAndRotation location);
   }
 }

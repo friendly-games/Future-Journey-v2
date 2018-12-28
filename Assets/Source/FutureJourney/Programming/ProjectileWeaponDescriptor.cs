@@ -61,7 +61,7 @@ namespace NineBitByte.FutureJourney.Programming
     }
 
     /// <inheritdoc />
-    public override IUsable Attach(PlayerBehavior actor, Transform parent, PositionAndRotation location)
+    public override IUsable CreateAndAttachUsable(PlayerBehavior actor, Transform parent, PositionAndRotation location)
     {
       var instance = _localTemplateCopy.CreateInstance(parent, location);
       var projectileWeapon = instance.GetComponent<ProjectileWeaponBehavior>();

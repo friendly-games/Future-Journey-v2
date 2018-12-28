@@ -86,7 +86,7 @@ namespace NineBitByte.FutureJourney.Items
       _selectedUsable?.Detach(this);
       
       var location = _playerBodyBehavior.WeaponOffset.ToLocation(_playerBody);
-      var usable = actable.Attach(this, _playerBody.gameObject.transform,location);
+      var usable = actable.CreateAndAttachUsable(this, _playerBody.gameObject.transform,location);
       _selectedUsable = usable;
     
       _hud.EquipmentName = actable?.Name ?? "<>";

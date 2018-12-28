@@ -24,7 +24,7 @@ namespace NineBitByte.FutureJourney.Programming
     public TimeField TimeToRecharge;
     
     /// <inheritdoc />
-    public abstract IUsable Attach(PlayerBehavior actor, Transform parent, PositionAndRotation location);
+    public abstract IUsable CreateAndAttachUsable(PlayerBehavior actor, Transform parent, PositionAndRotation location);
     
     /// <inheritdoc />
     string IUseableDescriptor.Name

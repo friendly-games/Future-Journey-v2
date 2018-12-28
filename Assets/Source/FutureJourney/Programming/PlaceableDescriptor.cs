@@ -29,13 +29,19 @@ namespace NineBitByte.FutureJourney.Programming
     public int InitialHealth;
 
     /// <inheritdoc />
-    public override IUsable Attach(PlayerBehavior actor, Transform parent, PositionAndRotation location)
+    public override IUsable CreateAndAttachUsable(PlayerBehavior actor, Transform parent, PositionAndRotation location)
     {
       var logic = new PlaceableBehaviorLogic();
       logic.Initialize(this);
       return logic;
     }
 
+    /// <summary>
+    ///   Creates a new instance of this placeable and attempts to place it on to the grid.
+    /// </summary>
+    /// <param name="owner"> The owner placing the grid item. </param>
+    /// <param name="coordinate"> The location where the item should be placed. </param>
+    /// <returns> True if the item was placed, false otherwise. </returns>
     public bool PlaceOnGrid(IOwner owner, GridCoordinate coordinate)
     {
       var grid = owner.AssociatedGrid;
