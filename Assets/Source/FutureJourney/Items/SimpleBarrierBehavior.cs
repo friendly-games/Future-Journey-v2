@@ -20,10 +20,10 @@ namespace NineBitByte.FutureJourney.Items
     }
 
     /// <inheritdoc />
-    public unsafe int Health
+    public int Health
     {
-      get { return _cellReference.GetReference()->Health; }
-      set { _cellReference.UpdateHealth(value); }
+      get => _cellReference.Value.Health;
+      set => _cellReference.UpdateHealth(value);
     }
 
     /// <inheritdoc />
