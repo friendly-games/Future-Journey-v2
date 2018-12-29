@@ -40,10 +40,28 @@ namespace NineBitByte.FutureJourney.World
     /// <summary>
     ///  Gets the chunk at the specified coordinate.
     /// </summary>
-    public Chunk this[ChunkCoordinate coordinate]
+    public ref Chunk this[ChunkCoordinate coordinate]
+      => ref _chunks[CalculateAbsoluteChunkIndex(coordinate.X, coordinate.Y)];
+
+    /// <summary> Get the chunk and grid item data at the specified position. </summary>
+    public (Chunk, GridItem) GetChunkAndCellData((ChunkCoordinate chunkCoordinate, InnerChunkGridCoordinate innerCoordinate) subCoordinate)
     {
-      get { return _chunks[CalculateAbsoluteChunkIndex(coordinate.X, coordinate.Y)]; }
-      set { _chunks[CalculateAbsoluteChunkIndex(coordinate.X, coordinate.Y)] = value; }
+      return GetChunkAndCellData(subCoordinate.chunkCoordinate, subCoordinate.innerCoordinate);
+    }
+    
+    /// <summary> Get the chunk and grid item data at the specified position. </summary>
+    public (Chunk, GridItem) GetChunkAndCellData(GridCoordinate coordinate)
+    {
+      var (chunkCoordinate, innerCoordinate) = coordinate;
+      return GetChunkAndCellData(chunkCoordinate, innerCoordinate);
+    }
+    
+    /// <summary> Get the chunk and grid item data at the specified position. </summary>
+    public (Chunk, GridItem) GetChunkAndCellData(ChunkCoordinate chunkCoordinate, InnerChunkGridCoordinate innerCoordinate)
+    {
+      var chunk = this[chunkCoordinate];
+      var data = chunk[innerCoordinate];
+      return (chunk, data);
     }
 
     /// <summary> Gets a cell reference to the cell at the given coordinate. </summary>

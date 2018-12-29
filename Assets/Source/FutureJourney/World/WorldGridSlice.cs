@@ -87,11 +87,11 @@ namespace NineBitByte.FutureJourney.World
           var index = new Array2DIndex(x, y);
           var coordinate = ConvertToGridCoordinate(index);
 
-          var chunkCoordinate = coordinate.ChunkCoordinate;
-          if (_worldGrid.IsValid(chunkCoordinate))
+          var subCoordinates = coordinate.AsSubCoordinates();
+          
+          if (_worldGrid.IsValid(subCoordinates.ChunkCoordinate))
           {
-            var chunk = _worldGrid[chunkCoordinate];
-            var data = chunk[coordinate.InnerChunkGridCoordinate];
+            var (chunk, data) = _worldGrid.GetChunkAndCellData(subCoordinates);
 
             UpdateData(index, data, coordinate, chunk, GridItemPropertyChange.All);
           }
@@ -253,13 +253,12 @@ namespace NineBitByte.FutureJourney.World
       if (!bypassSamePositionCheck && existingData.Position == coordinate)
         return;
 
-      var chunkCoordinate = coordinate.ChunkCoordinate;
+      var subCoordinate = coordinate.AsSubCoordinates();
 
-      if (!_worldGrid.IsValid(chunkCoordinate))
+      if (!_worldGrid.IsValid(subCoordinate.ChunkCoordinate))
         return;
 
-      var chunk = _worldGrid[chunkCoordinate];
-      var data = chunk[coordinate.InnerChunkGridCoordinate];
+      var (chunk, data) = _worldGrid.GetChunkAndCellData(subCoordinate);
 
       UpdateData(index, data, coordinate, chunk, changeType);
     }
@@ -276,10 +275,12 @@ namespace NineBitByte.FutureJourney.World
       var newData = new SliceUnitData<T>(chunk, position, data, default(T));
       var rawIndex = _visibleGridItems.CalculateRawArrayIndex(index);
 
-      var oldData = _visibleGridItems.Data[rawIndex];
-      _visibleGridItems.Data[rawIndex] = newData;
+      ref var slot = ref _visibleGridItems.Data[rawIndex];
+      
+      var oldData = slot;
+      slot = newData;
 
-      DataChanged?.Invoke(oldData, ref _visibleGridItems.Data[rawIndex], changeType);
+      DataChanged?.Invoke(oldData, ref slot, changeType);
       MarkChunkChanged(oldData.Chunk, chunk);
     }
 
@@ -301,8 +302,17 @@ namespace NineBitByte.FutureJourney.World
       Invalidate(ConvertToGridItemIndex(coordinate), coordinate, bypassSamePositionCheck: true, changeType: changeType);
     }
 
+    /// <summary>
+    ///   Callback to be invoked when data within the slice changes. 
+    /// </summary>
+    /// <param name="oldData"> The old data that existed before the change. </param>
+    /// <param name="newData"> The new data, as a reference so that data written will persist in the given slice. </param>
+    /// <param name="changeType"> The type of change that occured within the slot. </param>
     public delegate void Callback(SliceUnitData<T> oldData, ref SliceUnitData<T> newData, GridItemPropertyChange changeType);
 
+    /// <summary>
+    ///   Event that is fired when the data within the slice changes.
+    /// </summary>
     public event Callback DataChanged;
 
     /// <summary>

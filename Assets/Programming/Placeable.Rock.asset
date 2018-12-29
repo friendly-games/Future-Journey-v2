@@ -3,8 +3,9 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -14,10 +15,6 @@ MonoBehaviour:
   Name: 
   TimeToRecharge:
     _timeValue: 0
-  Size:
-    Width: 1
-    Height: 1
-  ObjectId: 1
-  Template: {fileID: 1085269655924336, guid: b319af8a2b0e19f44be64ef20d551fab, type: 2}
-  Sprite: {fileID: 21300000, guid: e66dcb2d4b3991949a9dbe96b78ae8ab, type: 3}
+  Sprite: {fileID: 0}
   InitialHealth: 50
+  Structure: {fileID: 11400000, guid: de4f637c0c9b747449d1c50628cdee30, type: 2}

@@ -9,12 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1e317f4c2851f64197d21bdad53fde5, type: 3}
-  m_Name: Placeable.Wall
+  m_Script: {fileID: 11500000, guid: 2a0e996590314e7a8ac9f66e128ef918, type: 3}
+  m_Name: Structure.Rock
   m_EditorClassIdentifier: 
-  Name: 
-  TimeToRecharge:
-    _timeValue: 0
-  Sprite: {fileID: 0}
-  InitialHealth: 100
-  Structure: {fileID: 11400000, guid: 42f2c9a66269af844b36a891e1ea5db4, type: 2}
+  Size:
+    Width: 1
+    Height: 1
+  ObjectId: 1
+  Template: {fileID: 1085269655924336, guid: b319af8a2b0e19f44be64ef20d551fab, type: 3}

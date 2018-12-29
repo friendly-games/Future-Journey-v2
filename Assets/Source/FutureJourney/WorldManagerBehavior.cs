@@ -51,57 +51,59 @@ namespace NineBitByte.FutureJourney
       };
 
     private void HandleDataChanged(
-      SliceUnitData<UnityWorldData> olddata,
-      ref SliceUnitData<UnityWorldData> newdata,
+      SliceUnitData<UnityWorldData> oldData,
+      ref SliceUnitData<UnityWorldData> newData,
       GridItemPropertyChange changeType
     )
     {
       // TODO should we do something?
       if (changeType == GridItemPropertyChange.HealthChange)
       {
-        newdata.Data = olddata.Data;
+        newData.Data = oldData.Data;
         return;
       }
 
-      if (olddata.Data?.Placeable != null)
+      if (oldData.Data?.Structure != null)
       {
-        UnityExtensions.Destroy(olddata.Data.Placeable.gameObject);
+        UnityExtensions.Destroy(oldData.Data.Structure);
       }
 
-      if (olddata.Data?.Tile != null)
+      if (oldData.Data?.Tile != null)
       {
-        UnityExtensions.Destroy(olddata.Data.Tile.gameObject);
+        UnityExtensions.Destroy(oldData.Data.Tile.gameObject);
       }
 
-      var item = newdata.GridItem;
+      var item = newData.GridItem;
 
-      var worldPosition = newdata.Position.ToVector3();
+      var worldPosition = newData.Position.ToVector3();
 
       var tileInstance = TileLookup.AvailableTiles[item.TileType].Construct(
         new PositionAndRotation(worldPosition, PossibleRotations[(byte)item.TileRotation]),
         WorldGrid,
-        newdata.Position
+        newData.Position
       );
 
-      PlaceableBehavior placeableInstance = null;
+      GameObject placeableInstance = null;
 
-      if (item.ObjectType != 0)
+      if (item.StructureType != 0)
       {
-        var associatedBuildable = TileLookup.FindPlaceable(item.ObjectType);
-        if (associatedBuildable == null)
+        Debug.Log($"Looked for structure with id of {item.StructureType}");
+        
+        var associatedStructure = TileLookup.FindStructureOrNull(item.StructureType);
+        if (associatedStructure == null)
         {
-          Debug.Log($"No object type of «{item.ObjectType}» found while building world");
+          Debug.Log($"No object type of «{item.StructureType}» found while building world");
         }
         else
         {
-          placeableInstance = associatedBuildable.CreateInstanceInWorld(this, newdata.Position);
+          placeableInstance = associatedStructure.CreateInstanceInWorld(this, newData.Position);
         }
       }
 
-      newdata.Data = new UnityWorldData
+      newData.Data = new UnityWorldData
                      {
                        Tile = tileInstance,
-                       Placeable = placeableInstance
+                       Structure = placeableInstance
                      };
     }
 
@@ -117,7 +119,7 @@ namespace NineBitByte.FutureJourney
     private class UnityWorldData
     {
       public TileBehavior Tile;
-      public PlaceableBehavior Placeable;
+      public GameObject Structure;
     }
   }
 }

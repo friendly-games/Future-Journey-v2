@@ -14,25 +14,26 @@ namespace NineBitByte.FutureJourney.Programming
     [Tooltip("All of the available tiles for the world generation")]
     public TileType[] AvailableTiles;
 
-    [FormerlySerializedAs("Placeables")]
     [Tooltip("All of the available buildables in the world")]
     [FormerlySerializedAs("Buildables")]
-    public PlaceableDescriptor[] PlaceablesDescriptor;
+    [FormerlySerializedAs("PlaceablesDescriptor")]
+    public PlaceableDescriptor[] Placeables;
+
+    [Tooltip("All of the known structures available in the world")]
+    public StructureDescriptor[] Structures;
 
     [Tooltip("The layer to which all tiles should be added")]
     public Layer TileLayer;
 
-    public PlaceableDescriptor FindPlaceable(short id)
+    public StructureDescriptor FindStructureOrNull(short id)
     {
-      foreach (var b in PlaceablesDescriptor)
+      foreach (var structure in Structures)
       {
-        if (b.ObjectId == id)
-          return b;
+        if (structure.ObjectId == id)
+          return structure;
       }
 
       return null;
-
-      //throw new ArgumentException($"No Placeable with id of {id}");
     }
   }
 }

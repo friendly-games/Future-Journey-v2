@@ -7,11 +7,11 @@ using NineBitByte.FutureJourney.World;
 
 namespace NineBitByte.FutureJourney.Items
 {
-  public class PlaceableBehavior : BaseProgrammableBehavior<PlaceableDescriptor>
+  public class StructureBehavior : BaseProgrammableBehavior<StructureDescriptor>
   {
-    public virtual PlaceableBehavior Initialize(PlaceableDescriptor programming, IOwner owner, GridCoordinate coordinate)
+    public virtual StructureBehavior Initialize(StructureDescriptor descriptor, IOwner owner, GridCoordinate coordinate)
     {
-      Initialize(programming);
+      Initialize(descriptor);
       return this;
     }
   }

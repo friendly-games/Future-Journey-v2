@@ -3,8 +3,9 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -17,5 +18,9 @@ MonoBehaviour:
   Placeables:
   - {fileID: 11400000, guid: c118c0bf427d0404cb3ba8c6be47e4c3, type: 2}
   - {fileID: 11400000, guid: 4fd2cef357e6b93418c3795b0d725646, type: 2}
+  Structures:
+  - {fileID: 11400000, guid: 42f2c9a66269af844b36a891e1ea5db4, type: 2}
+  - {fileID: 11400000, guid: 6865535bd3d1dbf4abf095e113f8a9ec, type: 2}
+  - {fileID: 11400000, guid: de4f637c0c9b747449d1c50628cdee30, type: 2}
   TileLayer:
     _layerBit: 0

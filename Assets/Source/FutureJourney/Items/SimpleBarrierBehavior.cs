@@ -7,11 +7,11 @@ using NineBitByte.FutureJourney.World;
 namespace NineBitByte.FutureJourney.Items
 {
   /// <summary> A behavior for a Placable where the object simply acts as a barrier </summary>
-  public class SimpleBarrierBehavior : PlaceableBehavior, IDamageReceiver
+  public class SimpleBarrierBehavior : StructureBehavior, IDamageReceiver
   {
     private Chunk.GridCellReference _cellReference;
 
-    public override PlaceableBehavior Initialize(PlaceableDescriptor programming, IOwner owner, GridCoordinate coordinate)
+    public override StructureBehavior Initialize(StructureDescriptor programming, IOwner owner, GridCoordinate coordinate)
     {
       base.Initialize(programming, owner, coordinate);
 

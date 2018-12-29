@@ -13,21 +13,15 @@ namespace NineBitByte.FutureJourney.Programming
   [CreateAssetMenu(menuName = "Items/Placeable")]
   public class PlaceableDescriptor : BaseUseableDescriptor
   {
-    [Tooltip("The size of the item in the world")]
-    public GridBasedSize Size;
-
-    [Tooltip("The unique id for the type of this tile")]
-    public short ObjectId;
-
-    [Tooltip("The Unity object that should be placed in the world when the object is placed")]
-    public GameObject Template;
-
     [Tooltip("The sprite template to use when the item is inventory")]
     public Sprite Sprite;
 
     [Tooltip("The initial amount of health that the built has")]
     public int InitialHealth;
 
+    [Tooltip("The structure to place")]
+    public StructureDescriptor Structure;
+    
     /// <inheritdoc />
     public override IUsable CreateAndAttachUsable(PlayerBehavior actor, Transform parent, PositionAndRotation location)
     {
@@ -49,27 +43,11 @@ namespace NineBitByte.FutureJourney.Programming
       coordinate.Deconstruct(out var chunkCoordinate, out var innerCoordinate);
 
       var chunk = grid[chunkCoordinate];
-      var oldItem = chunk[innerCoordinate];
-      var newItem = oldItem.AddObject(ObjectId, oldItem.TileRotation, InitialHealth);
+      ref var gridItem = ref chunk[innerCoordinate];
+      var newItem = gridItem.AddStructure(Structure.ObjectId, gridItem.TileRotation, InitialHealth);
 
-      chunk[innerCoordinate] = newItem;
+      gridItem = newItem;
       return true;
-    }
-
-    /// <summary>
-    ///   Creates an instance of this placeable in the world grid, so that the various systems (physics,
-    ///   graphics, etc) can interact with it.
-    /// </summary>
-    public PlaceableBehavior CreateInstanceInWorld(IOwner owner, GridCoordinate coordinate)
-    {
-      var absolutePosition = coordinate.ToVector3();
-      
-      var instance = Template.CreateInstance(new PositionAndRotation(absolutePosition, Quaternion.identity));
-      var placeable = instance.GetComponent<PlaceableBehavior>();
-
-      placeable.Initialize(this, owner, coordinate);
-
-      return placeable;
     }
 
     private class PlaceableBehaviorLogic : IUsable

@@ -19,7 +19,7 @@ namespace NineBitByte.FutureJourney.World
         for (int x = 0; x < Chunk.NumberOfGridItemsWide; x++)
         {
           var gridPosition = new GridCoordinate(chunkCoordinate, new InnerChunkGridCoordinate(x, y));
-          var gridItem = GetGridItemAt(gridPosition);
+          var gridItem = CreateGridItemFor(gridPosition);
 
           chunk[gridPosition.InnerChunkGridCoordinate] = gridItem;
         }
@@ -28,7 +28,7 @@ namespace NineBitByte.FutureJourney.World
       return chunk;
     }
 
-    private static GridItem GetGridItemAt(GridCoordinate gridPosition)
+    private static GridItem CreateGridItemFor(GridCoordinate gridPosition)
     {
       int x = gridPosition.X;
       int y = gridPosition.Y;
@@ -44,7 +44,7 @@ namespace NineBitByte.FutureJourney.World
 
       if (tileValue > 0)
       {
-        gridItem = gridItem.AddObject(tileValue, ItemRotation.Left, 100);
+        gridItem = gridItem.AddStructure(tileValue, ItemRotation.Left, 100);
       }
 
       return gridItem;

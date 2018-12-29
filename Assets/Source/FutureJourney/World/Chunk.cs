@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Collections.LowLevel.Unsafe;
 
 namespace NineBitByte.FutureJourney.World
 {
@@ -57,7 +58,6 @@ namespace NineBitByte.FutureJourney.World
     {
       Position = position;
       _items = new UnsafeGridItemArray(NumberOfGridItemsWide * NumberOfGridItemsHigh);
-
       AbsoluteIndex = WorldGrid.CalculateAbsoluteChunkIndex(Position.X, Position.Y);
     }
 
@@ -72,11 +72,8 @@ namespace NineBitByte.FutureJourney.World
     /// </summary>
     /// <param name="coordinate"> The position at which the item should be set or gotten.. </param>
     /// <returns> The GridItem at the specified position. </returns>
-    public GridItem this[InnerChunkGridCoordinate coordinate]
-    {
-      get { return *_items[CalculateIndex(coordinate)]; }
-      set { new GridCellReference(this, CalculateIndex(coordinate)).Set(value); }
-    }
+    public ref GridItem this[InnerChunkGridCoordinate coordinate]
+      => ref *_items[CalculateIndex(coordinate)];
 
     /// <summary>
     ///  Event that occurs when a grid item changes.

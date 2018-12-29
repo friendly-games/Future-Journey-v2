@@ -112,6 +112,9 @@ namespace NineBitByte.FutureJourney.World
       return X + "," + Y;
     }
 
+    public (ChunkCoordinate ChunkCoordinate, InnerChunkGridCoordinate InnerCoordinate) AsSubCoordinates()
+      => (ChunkCoordinate, InnerChunkGridCoordinate);
+
     public void Deconstruct(out ChunkCoordinate chunkCoordinate,
                             out InnerChunkGridCoordinate innerCoordinate)
     {
