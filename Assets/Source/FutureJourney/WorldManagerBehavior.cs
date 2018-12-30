@@ -87,8 +87,6 @@ namespace NineBitByte.FutureJourney
 
       if (item.StructureType != 0)
       {
-        Debug.Log($"Looked for structure with id of {item.StructureType}");
-        
         var associatedStructure = TileLookup.FindStructureOrNull(item.StructureType);
         if (associatedStructure == null)
         {
