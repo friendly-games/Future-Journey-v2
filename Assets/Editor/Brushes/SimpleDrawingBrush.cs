@@ -1,20 +1,22 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using NineBitByte.FutureJourney.Programming;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Object = UnityEngine.Object;
 
 namespace NineBitByte.Editor.Brushes
 {
   [CreateAssetMenu(fileName = "Prefab Standard", menuName = "Brushes/Standard Prefab Brush")]
-  // [CustomGridBrush(false, true, false, "Standard Prefab Brush")]
   [CustomGridBrush(hideAssetInstances: true, hideDefaultInstance: false, defaultBrush: false, "Standard Drawing Brush")]
   public class SimpleDrawingBrush : GridBrush
   {
-    public GameObject[] Prefabs;
-    
     public int ZPosition;
+
+    public StructureDescriptor SelectedDescriptor;
 
     public override void Paint(GridLayout grid, GameObject brushTarget, Vector3Int position)
     {
@@ -22,8 +24,9 @@ namespace NineBitByte.Editor.Brushes
       if (brushTarget.layer == 31)
         return;
 
-      var index = 0;
-      var prefab = Prefabs[index];
+      var prefab = SelectedDescriptor?.Template;
+      if (prefab == null)
+        return;
 
       Erase(grid, brushTarget, position);
       
@@ -99,6 +102,40 @@ namespace NineBitByte.Editor.Brushes
       else
       {
         base.OnSelectionInspectorGUI();
+      }
+    }
+
+    public override void OnInspectorGUI()
+    {
+      base.OnInspectorGUI();
+
+      var them = AssetDatabase.FindAssets("t:" + typeof(StructureDescriptor).Name)
+                              .Select(g => (guid: g,
+                                            name: Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(g))))
+                              .OrderBy(it => it.name)
+                              .ToArray();
+
+      var names = them.Select(it => it.name).ToArray();
+      
+      var drawingBrush = (SimpleDrawingBrush)brush;
+      var selectedDescriptor = drawingBrush.SelectedDescriptor;
+
+      int index = -1;
+
+      
+      if (selectedDescriptor != null)
+      {
+        index = Array.IndexOf(names, selectedDescriptor.name);
+      }
+      
+      int newIndex = EditorGUILayout.Popup("Structure", index, names);
+
+      if (newIndex >= 0)
+      {
+        var selectedGuid = them[newIndex].guid;
+        var path = AssetDatabase.GUIDToAssetPath(selectedGuid);
+        var structure = AssetDatabase.LoadAssetAtPath<StructureDescriptor>(path);
+        drawingBrush.SelectedDescriptor = structure;
       }
     }
   }

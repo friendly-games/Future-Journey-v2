@@ -18,7 +18,7 @@ namespace NineBitByte.Editor
       {
         EditorUtils.SetBoldDefaultFont(property.prefabOverride);
       }
-
+      
       // get the current value of the field
       SerializedProperty layerNumberProperty = property.FindPropertyRelative("_layerBit");
 
