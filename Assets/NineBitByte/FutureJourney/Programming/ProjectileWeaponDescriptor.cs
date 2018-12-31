@@ -14,7 +14,7 @@ namespace NineBitByte.FutureJourney.Programming
   [CreateAssetMenu(menuName = "Items/Weapon")]
   public class ProjectileWeaponDescriptor : BaseUseableDescriptor
   {
-    private GameObject _localTemplateCopy;
+    private readonly Lazy<GameObject> _localTemplateCopy;
 
     [Range(1, 150)]
     [Tooltip("The number of shots in each magazine of the weapon")]
@@ -44,26 +44,28 @@ namespace NineBitByte.FutureJourney.Programming
     [Tooltip("The Prefab to use when creating an instance of the weapon in unity")]
     public GameObject WeaponTemplate;
 
-    /// <inheritdoc />
-    public override void OnStartup()
+    public ProjectileWeaponDescriptor()
     {
-      base.OnStartup();
+      _localTemplateCopy = new Lazy<GameObject>(CreateWeaponTemplate);
+    }
+    
+    private GameObject CreateWeaponTemplate()
+    {
+      var copy = WeaponTemplate.CreateInstance();
 
-      // clone it because otherwise we'll be directly destroying the prefab
-      _localTemplateCopy = WeaponTemplate.CreateInstance();
-
-      var weaponBehavior = _localTemplateCopy.GetComponent<WeaponBehavior>();
+      var weaponBehavior = copy.GetComponent<WeaponBehavior>();
       MuzzleOffset = weaponBehavior.MuzzleOffset;
       HeldPosition = weaponBehavior.HeldPosition;
 
       UnityExtensions.Destroy(weaponBehavior);
-      _localTemplateCopy.AddComponent<ProjectileWeaponBehavior>();
+      copy.AddComponent<ProjectileWeaponBehavior>();
+      return copy;
     }
 
     /// <inheritdoc />
     public override IUsable CreateAndAttachUsable(PlayerBehavior actor, Transform parent, PositionAndRotation location)
     {
-      var instance = _localTemplateCopy.CreateInstance(parent, location);
+      var instance = _localTemplateCopy.Value.CreateInstance(parent, location);
       var projectileWeapon = instance.GetComponent<ProjectileWeaponBehavior>();
       projectileWeapon.Initialize(this);
 

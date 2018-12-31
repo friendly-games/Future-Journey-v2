@@ -3,7 +3,6 @@ using System.Linq;
 using System.Collections.Generic;
 using NineBitByte.Common;
 using NineBitByte.FutureJourney.Programming;
-using UnityEditor;
 using UnityEngine;
 
 namespace NineBitByte.FutureJourney.World
@@ -46,12 +45,14 @@ namespace NineBitByte.FutureJourney.World
 
     private void OnDrawGizmos()
     {
+      #if UNITY_EDITOR
       var active = UnityEditor.Selection.activeGameObject;
       
       if (active?.GetAncestorsAndSelf().Any(it => it == gameObject) == true)
       {
         DrawGizmo();
       }
+      #endif
     }
   }
 }

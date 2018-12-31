@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: WorldLayout
   m_EditorClassIdentifier: 
   Size:
-    Width: 5
-    Height: 3
+    Width: 30
+    Height: 30

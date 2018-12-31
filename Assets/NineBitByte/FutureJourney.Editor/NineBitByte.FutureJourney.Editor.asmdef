@@ -1,10 +1,13 @@
 {
-    "name": "NineByteGames.FutureJourney",
+    "name": "NineBitByte.FutureJourney.Editor",
     "references": [
-        "NineByteGames.Common"
+        "NineBitByte.Common",
+        "NineBitByte.FutureJourney"
     ],
     "optionalUnityReferences": [],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": true,
     "overrideReferences": false,
