@@ -71,8 +71,11 @@ namespace NineBitByte.FutureJourney.World
     /// </summary>
     /// <param name="coordinate"> The position at which the item should be set or gotten.. </param>
     /// <returns> The GridItem at the specified position. </returns>
-    public ref GridItem this[InnerChunkGridCoordinate coordinate]
-      => ref *_items[CalculateIndex(coordinate)];
+    public GridItem this[InnerChunkGridCoordinate coordinate]
+    {
+      get => *_items[CalculateIndex(coordinate)];
+      set => new GridCellReference(this, CalculateIndex(coordinate)).Set(value);
+    }
 
     /// <summary>
     ///   Event that occurs when a grid item changes.
@@ -125,8 +128,8 @@ namespace NineBitByte.FutureJourney.World
         _item = _chunk._items[_cellIndex];
       }
 
-      public ref GridItem Value
-        => ref *_item;
+      public GridItem Value
+        => *_item;
 
       /// <summary> Sets the <see cref="GridItem" /> value associated with the cell </summary>
       /// <param name="value"> The value to set the grid item to. </param>

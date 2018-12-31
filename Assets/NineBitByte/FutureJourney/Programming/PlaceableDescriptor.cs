@@ -40,13 +40,10 @@ namespace NineBitByte.FutureJourney.Programming
     {
       var grid = owner.AssociatedGrid;
 
-      coordinate.Deconstruct(out var chunkCoordinate, out var innerCoordinate);
-
-      var chunk = grid[chunkCoordinate];
-      ref var gridItem = ref chunk[innerCoordinate];
-      var newItem = gridItem.AddStructure(Structure.ObjectId, gridItem.TileRotation, InitialHealth);
-
-      gridItem = newItem;
+      var gridItemRef = grid[coordinate];
+      var newGridItem = gridItemRef.Value.AddStructure(Structure.ObjectId, gridItemRef.Value.TileRotation, InitialHealth);
+      gridItemRef.Set(newGridItem);
+      
       return true;
     }
 
