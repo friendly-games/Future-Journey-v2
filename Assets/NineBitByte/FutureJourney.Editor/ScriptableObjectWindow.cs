@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEditor.ProjectWindowCallback;
 using UnityEngine;
 
-namespace NineBitByte.Editor
+namespace NineBitByte.FutureJourney.Editor
 {
   /// <summary>
   /// Helper class for instantiating ScriptableObjects.

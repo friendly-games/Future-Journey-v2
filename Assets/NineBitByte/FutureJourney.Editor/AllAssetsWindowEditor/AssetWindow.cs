@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using NineBitByte.Common.Structures;
 using UnityEditor;
 using UnityEngine;
 
-namespace NineBitByte.Editor.AllAssetsWindowEditor
+namespace NineBitByte.FutureJourney.Editor.AllAssetsWindowEditor
 {
   public class AssetWindow : EditorWindow
   {

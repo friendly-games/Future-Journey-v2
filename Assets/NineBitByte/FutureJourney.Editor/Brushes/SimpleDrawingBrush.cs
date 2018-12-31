@@ -2,16 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using NineBitByte.FutureJourney.Items;
 using NineBitByte.FutureJourney.Programming;
 using NineBitByte.FutureJourney.World;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using Object = UnityEngine.Object;
 
-namespace NineBitByte.Editor.Brushes
+namespace NineBitByte.FutureJourney.Editor.Brushes
 {
   [CreateAssetMenu(fileName = "Prefab Standard", menuName = "Brushes/Standard Prefab Brush")]
   [CustomGridBrush(hideAssetInstances: true, hideDefaultInstance: false, defaultBrush: false, "Standard Drawing Brush")]

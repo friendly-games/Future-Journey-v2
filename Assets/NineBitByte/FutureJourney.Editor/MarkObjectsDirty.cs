@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using System.IO;
+using System.Linq;
 using NineBitByte.Common;
 using UnityEditor;
 using UnityEngine;
 
-namespace NineBitByte.Editor
+namespace NineBitByte.FutureJourney.Editor
 {
   public static class MarkObjectsDirty
   {

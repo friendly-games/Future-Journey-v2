@@ -1,13 +1,12 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
-using NineBitByte.Common;
 using NineBitByte.FutureJourney.World;
 using UnityEditor;
 using UnityEngine;
 
-namespace NineBitByte.Editor.Drawers
+namespace NineBitByte.FutureJourney.Editor.Drawers
 {
   /// <summary>
   ///  Render <see cref="GridBasedSize"/> as a "WxH" string

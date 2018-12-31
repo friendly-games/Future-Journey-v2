@@ -5,7 +5,7 @@ using FullSerializer;
 using UnityEditor;
 using UnityEngine;
 
-namespace NineBitByte.Editor.AllAssetsWindowEditor
+namespace NineBitByte.FutureJourney.Editor.AllAssetsWindowEditor
 {
   [Serializable]
   public class AssetWindowOptions

@@ -7,7 +7,7 @@ using NineBitByte.Common.Structures;
 using UnityEditor;
 using UnityEngine;
 
-namespace NineBitByte.Editor
+namespace NineBitByte.FutureJourney.Editor
 {
   [CustomEditor(typeof(MonoBehaviour), true)]
   public class RelativeOffsetEditor : UnityEditor.Editor

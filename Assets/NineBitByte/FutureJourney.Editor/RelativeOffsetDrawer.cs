@@ -5,7 +5,7 @@ using NineBitByte.Common.Structures;
 using UnityEditor;
 using UnityEngine;
 
-namespace NineBitByte.Editor
+namespace NineBitByte.FutureJourney.Editor
 {
   [CustomPropertyDrawer(typeof(RelativeOffset))]
   public class RelativeOffsetDrawer : PropertyDrawer

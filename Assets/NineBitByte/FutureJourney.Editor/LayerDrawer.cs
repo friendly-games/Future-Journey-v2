@@ -5,7 +5,7 @@ using NineBitByte.Common;
 using UnityEditor;
 using UnityEngine;
 
-namespace NineBitByte.Editor
+namespace NineBitByte.FutureJourney.Editor
 {
   [CustomPropertyDrawer(typeof(Layer))]
   public class LayerDrawer : PropertyDrawer
