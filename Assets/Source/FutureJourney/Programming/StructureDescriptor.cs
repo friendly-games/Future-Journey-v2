@@ -36,6 +36,15 @@ namespace NineBitByte.FutureJourney.Programming
       behavior?.Initialize(this, owner, coordinate);
       return instance;
     }
+
+#if UNITY_EDITOR
+    public GameObject CreateInstanceViaBrush()
+    {
+      var instance = (GameObject)UnityEditor.PrefabUtility.InstantiatePrefab(Template);
+      instance.GetComponent<StructureBehavior>().Initialize(this);
+      return instance;
+    }
+#endif
   }
 
   public class DestructableStructureDescriptor : StructureDescriptor
