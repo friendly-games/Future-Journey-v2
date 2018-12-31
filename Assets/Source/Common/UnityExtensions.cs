@@ -36,5 +36,19 @@ namespace NineBitByte.Common
     // Destroy an existing unity object
     public static void Destroy(UnityObject gameObject) 
       => UnityObject.Destroy(gameObject);
+
+    /// <summary>
+    ///   Get a lazy-enumerated collection of game objects that are ancestors of this game object.
+    /// </summary>
+    public static IEnumerable<GameObject> GetAncestorsAndSelf(this GameObject instance)
+    {
+      var it = instance.transform;
+
+      while (it != null)
+      {
+        yield return it.gameObject;
+        it = it.transform.parent;
+      }
+    }
   }
 }

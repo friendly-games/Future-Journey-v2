@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using NineBitByte.FutureJourney.Items;
 using NineBitByte.FutureJourney.Programming;
+using NineBitByte.FutureJourney.World;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -23,19 +25,31 @@ namespace NineBitByte.Editor.Brushes
     // internal data that's used for move operations
     private GameObject[,] _moveData;
 
-    private bool IsEditingPalettes(GameObject brushTarget)
-      => brushTarget.layer == 31;
-    
+    private bool IsInvalid(GameObject brushTarget, out WorldLayout mapPart)
+    {
+      if (brushTarget.layer == 31)
+      {
+        mapPart = null;
+        return true;
+      }
+      
+      mapPart = brushTarget.GetComponent<WorldLayoutContainerBehavior>()?.AssociatedLayout;
+      return mapPart == null;
+    }
+
     /// <inheritdoc />
     public override void Paint(GridLayout gridLayout, GameObject brushTarget, Vector3Int position)
     {
-      if (IsEditingPalettes(brushTarget))
+      if (IsInvalid(brushTarget, out var mapPart))
         return;
 
+      if (!mapPart.IsValidPosition(position))
+        return;
+      
       var instance = SelectedDescriptor?.CreateInstanceViaBrush();
       if (instance == null)
         return;
-
+      
       Undo.MoveGameObjectToScene(instance, brushTarget.scene, "Paint Prefabs");
       Undo.RegisterCreatedObjectUndo(instance, "Paint Prefabs");
       Erase(gridLayout, brushTarget, position);
@@ -58,7 +72,7 @@ namespace NineBitByte.Editor.Brushes
     /// <inheritdoc />
     public override void MoveStart(GridLayout gridLayout, GameObject brushTarget, BoundsInt position)
     {
-      if (IsEditingPalettes(brushTarget))
+      if (IsInvalid(brushTarget, out var mapPart))
         return;
       
       _moveData = new GameObject[position.size.x, position.size.y];
@@ -73,7 +87,7 @@ namespace NineBitByte.Editor.Brushes
     /// <inheritdoc />
     public override void MoveEnd(GridLayout gridLayout, GameObject brushTarget, BoundsInt position)
     {
-      if (IsEditingPalettes(brushTarget))
+      if (IsInvalid(brushTarget, out var mapPart))
         return;
       
       // when moving items, we may overlap the start region, in which case, we can't blindly erase the
@@ -102,7 +116,14 @@ namespace NineBitByte.Editor.Brushes
         var newInstance = _moveData[childPosition.x - position.xMin, childPosition.y - position.yMin];
         if (newInstance != null)
         {
-          MoveInstanceToCellPosition(gridLayout, brushTarget, childPosition, newInstance);
+          if (mapPart.IsValidPosition(childPosition))
+          {
+            MoveInstanceToCellPosition(gridLayout, brushTarget, childPosition, newInstance);
+          }
+          else
+          {
+            Undo.DestroyObjectImmediate(newInstance);
+          }
         }
       }
 
@@ -113,7 +134,7 @@ namespace NineBitByte.Editor.Brushes
     /// <inheritdoc />
     public override void Pick(GridLayout gridLayout, GameObject brushTarget, BoundsInt position, Vector3Int pickStart)
     {
-      if (IsEditingPalettes(brushTarget))
+      if (IsInvalid(brushTarget, out var mapPart))
         return;
       
       var instance = GetObjectInCell(gridLayout, brushTarget.transform, position.position);
@@ -128,7 +149,7 @@ namespace NineBitByte.Editor.Brushes
     /// <inheritdoc />
     public override void BoxFill(GridLayout gridLayout, GameObject brushTarget, BoundsInt position)
     {
-      if (IsEditingPalettes(brushTarget))
+      if (IsInvalid(brushTarget, out var mapPart))
         return;
       
       foreach (var subPosition in position.allPositionsWithin)
@@ -140,7 +161,7 @@ namespace NineBitByte.Editor.Brushes
     /// <inheritdoc />
     public override void BoxErase(GridLayout gridLayout, GameObject brushTarget, BoundsInt position)
     {
-      if (IsEditingPalettes(brushTarget))
+      if (IsInvalid(brushTarget, out var mapPart))
         return;
       
       foreach (var subPosition in position.allPositionsWithin)
@@ -152,7 +173,7 @@ namespace NineBitByte.Editor.Brushes
     /// <inheritdoc />
     public override void Erase(GridLayout gridLayout, GameObject brushTarget, Vector3Int position)
     {
-      if (IsEditingPalettes(brushTarget))
+      if (IsInvalid(brushTarget, out var mapPart))
         return;
       
       // Do not allow editing palettes

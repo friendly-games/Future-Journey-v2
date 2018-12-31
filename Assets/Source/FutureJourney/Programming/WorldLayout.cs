@@ -18,5 +18,13 @@ namespace NineBitByte.FutureJourney.Programming
 
     [Tooltip("The tiles within the world")]
     public GridItem[] GridItems;
+
+    public bool IsValidPosition(Vector3Int position)
+    {
+      return position.x >= 0
+             && position.x < Size.Width
+             && position.y >= 0
+             && position.y < Size.Width;
+    }
   }
 }
