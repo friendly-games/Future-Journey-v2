@@ -12,17 +12,20 @@ using UnityEngine.Tilemaps;
 namespace NineBitByte.FutureJourney.Editor.Brushes
 {
   [CreateAssetMenu(fileName = "Prefab Standard", menuName = "Brushes/Standard Prefab Brush")]
-  [CustomGridBrush(hideAssetInstances: true, hideDefaultInstance: false, defaultBrush: false, "Standard Drawing Brush")]
+  [CustomGridBrush(true, true, true, "Standard Drawing Brush")]
   public class SimpleDrawingBrush : GridBrush
   {
     private const int ZPosition = 0;
-    
-    [Tooltip("The structure that will be built when the tiles are painted")]
-    public StructureDescriptor SelectedDescriptor;
-    
+
     // internal data that's used for move operations
     private GameObject[,] _moveData;
 
+    [Tooltip("The tile to paint with")]
+    public TileBase SelectedTile;
+
+    public StructureDescriptor SelectedDescriptor
+      => SelectedTile as StructureDescriptor;
+    
     private bool IsInvalid(GameObject brushTarget, out WorldLayout mapPart)
     {
       if (brushTarget.layer == 31)
@@ -30,7 +33,7 @@ namespace NineBitByte.FutureJourney.Editor.Brushes
         mapPart = null;
         return true;
       }
-      
+
       mapPart = brushTarget.GetComponent<WorldLayoutContainerBehavior>()?.AssociatedLayout;
       return mapPart == null;
     }
@@ -38,16 +41,23 @@ namespace NineBitByte.FutureJourney.Editor.Brushes
     /// <inheritdoc />
     public override void Paint(GridLayout gridLayout, GameObject brushTarget, Vector3Int position)
     {
+      BoxFill(gridLayout, brushTarget, new BoundsInt(position - pivot, size));
+    }
+
+    private void PaintPosition(GridLayout gridLayout, GameObject brushTarget, Vector3Int position)
+    {
       if (IsInvalid(brushTarget, out var mapPart))
         return;
 
       if (!mapPart.IsValidPosition(position))
         return;
-      
-      var instance = SelectedDescriptor?.CreateInstanceViaBrush();
+
+      var descriptor = SelectedDescriptor;
+
+      var instance = descriptor?.CreateInstanceViaBrush();
       if (instance == null)
         return;
-      
+
       Undo.MoveGameObjectToScene(instance, brushTarget.scene, "Paint Prefabs");
       Undo.RegisterCreatedObjectUndo(instance, "Paint Prefabs");
       Erase(gridLayout, brushTarget, position);
@@ -56,13 +66,16 @@ namespace NineBitByte.FutureJourney.Editor.Brushes
     }
 
     /// <summary>
-    /// Move the given GameObject to the the given cell location.
+    ///   Move the given GameObject to the the given cell location.
     /// </summary>
-    private void MoveInstanceToCellPosition(GridLayout gridLayout, GameObject brushTarget, Vector3Int position, GameObject instance)
+    private void MoveInstanceToCellPosition(GridLayout gridLayout,
+                                            GameObject brushTarget,
+                                            Vector3Int position,
+                                            GameObject instance)
     {
       var locationPosition = gridLayout.CellToLocalInterpolated(new Vector3Int(position.x, position.y, ZPosition)
                                                                 + new Vector3(.5f, .5f, .5f));
-      
+
       instance.transform.position = gridLayout.LocalToWorld(locationPosition);
       instance.transform.SetParent(brushTarget.transform);
     }
@@ -70,14 +83,16 @@ namespace NineBitByte.FutureJourney.Editor.Brushes
     /// <inheritdoc />
     public override void MoveStart(GridLayout gridLayout, GameObject brushTarget, BoundsInt position)
     {
-      if (IsInvalid(brushTarget, out var mapPart))
+      if (IsInvalid(brushTarget, out _))
         return;
-      
+
       _moveData = new GameObject[position.size.x, position.size.y];
 
       foreach (var childPosition in position.allPositionsWithin)
       {
-        var instance = GetObjectInCell(gridLayout, brushTarget.transform, new Vector3Int(childPosition.x, childPosition.y, position.zMin));
+        var instance = GetObjectInCell(gridLayout,
+                                       brushTarget.transform,
+                                       new Vector3Int(childPosition.x, childPosition.y, position.zMin));
         _moveData[childPosition.x - position.xMin, childPosition.y - position.yMin] = instance;
       }
     }
@@ -87,20 +102,18 @@ namespace NineBitByte.FutureJourney.Editor.Brushes
     {
       if (IsInvalid(brushTarget, out var mapPart))
         return;
-      
+
       // when moving items, we may overlap the start region, in which case, we can't blindly erase the
       // objects at the given position.  Therefore, keep track of all of the items we're moving
       // and if we encounter them when needing to erase objects, don't erase them (they'll simply
       // move position)
       var itemsToKeep = new HashSet<GameObject>(_moveData.OfType<GameObject>().Where(it => it != null));
-      
+
       // destroy the given object if it's not in our keep list
       void DestroyIfNeeded(GameObject it)
       {
         if (it != null && !itemsToKeep.Contains(it))
-        {
           Undo.DestroyObjectImmediate(it);
-        }
       }
 
       // iterate through all of the new positions
@@ -115,13 +128,9 @@ namespace NineBitByte.FutureJourney.Editor.Brushes
         if (newInstance != null)
         {
           if (mapPart.IsValidPosition(childPosition))
-          {
             MoveInstanceToCellPosition(gridLayout, brushTarget, childPosition, newInstance);
-          }
           else
-          {
             Undo.DestroyObjectImmediate(newInstance);
-          }
         }
       }
 
@@ -132,55 +141,57 @@ namespace NineBitByte.FutureJourney.Editor.Brushes
     /// <inheritdoc />
     public override void Pick(GridLayout gridLayout, GameObject brushTarget, BoundsInt position, Vector3Int pickStart)
     {
-      if (IsInvalid(brushTarget, out var mapPart))
-        return;
-      
-      var instance = GetObjectInCell(gridLayout, brushTarget.transform, position.position);
-      var descriptor = instance?.GetComponent<StructureBehavior>()?.Programming;
-
-      if (descriptor != null)
+      if (IsInvalid(brushTarget, out _))
       {
-        SelectedDescriptor = descriptor;
+        var palette = brushTarget.GetComponent<Tilemap>();
+        var pickPosition = position.position;
+        
+        SelectedTile = palette.GetTile(pickPosition);
+      }
+      else
+      {
+        var instance = GetObjectInCell(gridLayout, brushTarget.transform, position.position);
+        var descriptor = instance?.GetComponent<StructureBehavior>()?.Programming;
+
+        if (descriptor != null)
+        {
+          SelectedTile = descriptor;
+        }
       }
     }
 
     /// <inheritdoc />
     public override void BoxFill(GridLayout gridLayout, GameObject brushTarget, BoundsInt position)
     {
-      if (IsInvalid(brushTarget, out var mapPart))
+      if (IsInvalid(brushTarget, out _))
         return;
-      
+
       foreach (var subPosition in position.allPositionsWithin)
-      {
-        Paint(gridLayout, brushTarget, subPosition);        
-      }
+        PaintPosition(gridLayout, brushTarget, subPosition);
     }
 
     /// <inheritdoc />
     public override void BoxErase(GridLayout gridLayout, GameObject brushTarget, BoundsInt position)
     {
-      if (IsInvalid(brushTarget, out var mapPart))
+      if (IsInvalid(brushTarget, out _))
         return;
-      
+
       foreach (var subPosition in position.allPositionsWithin)
-      {
-        Erase(gridLayout, brushTarget, subPosition);        
-      }
+        Erase(gridLayout, brushTarget, subPosition);
     }
 
     /// <inheritdoc />
     public override void Erase(GridLayout gridLayout, GameObject brushTarget, Vector3Int position)
     {
-      if (IsInvalid(brushTarget, out var mapPart))
+      if (IsInvalid(brushTarget, out _))
         return;
-      
+
       // Do not allow editing palettes
       if (brushTarget.layer == 31)
-      {
         return;
-      }
 
-      var erased = GetObjectInCell(gridLayout, brushTarget.transform, new Vector3Int(position.x, position.y, ZPosition));
+      var erased =
+        GetObjectInCell(gridLayout, brushTarget.transform, new Vector3Int(position.x, position.y, ZPosition));
       if (erased != null)
         Undo.DestroyObjectImmediate(erased);
     }
@@ -198,14 +209,14 @@ namespace NineBitByte.FutureJourney.Editor.Brushes
       for (var i = 0; i < childCount; i++)
       {
         var child = parent.GetChild(i);
-        if (bounds.Contains(child.position))
-          return child?.gameObject;
+        if (child != null && bounds.Contains(child.position))
+          return child.gameObject;
       }
 
       return null;
     }
   }
-  
+
   [CustomEditor(typeof(SimpleDrawingBrush))]
   public class SimpleDrawingBrushEditor : GridBrushEditor
   {
@@ -222,15 +233,15 @@ namespace NineBitByte.FutureJourney.Editor.Brushes
         EditorGUILayout.BeginHorizontal();
         {
           EditorGUILayout.LabelField("Name", GUILayout.Width(EditorGUIUtility.labelWidth - 4));
-          EditorGUILayout.SelectableLabel(instance.name, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
+          EditorGUILayout.SelectableLabel(instance.name,
+                                          EditorStyles.textField,
+                                          GUILayout.Height(EditorGUIUtility.singleLineHeight));
         }
         EditorGUILayout.EndHorizontal();
 
-        bool wasPressed = GUILayout.Button("Open Inspector");
+        var wasPressed = GUILayout.Button("Open Inspector");
         if (wasPressed)
-        {
           Selection.activeObject = instance;
-        }
       }
       else
       {
@@ -249,29 +260,26 @@ namespace NineBitByte.FutureJourney.Editor.Brushes
                               .ToArray();
 
       var names = them.Select(it => it.name).ToArray();
-      
+
       var drawingBrush = (SimpleDrawingBrush)brush;
       var selectedDescriptor = drawingBrush.SelectedDescriptor;
 
-      int index = -1;
+      var index = -1;
 
-      
       if (selectedDescriptor != null)
-      {
         index = Array.IndexOf(names, selectedDescriptor.name);
-      }
-      
-      int newIndex = EditorGUILayout.Popup("Structure", index, names);
+
+      var newIndex = EditorGUILayout.Popup("Structure", index, names);
 
       if (newIndex >= 0)
       {
         var selectedGuid = them[newIndex].guid;
         var path = AssetDatabase.GUIDToAssetPath(selectedGuid);
         var structure = AssetDatabase.LoadAssetAtPath<StructureDescriptor>(path);
-        drawingBrush.SelectedDescriptor = structure;
+        drawingBrush.SelectedTile = structure;
       }
     }
-    
+
     public override void OnPaintSceneGUI(GridLayout grid,
                                          GameObject brushTarget,
                                          BoundsInt position,
@@ -282,11 +290,9 @@ namespace NineBitByte.FutureJourney.Editor.Brushes
 
       var labelText = "Pos: " + new Vector3Int(position.x, position.y, 0);
       if (position.size.x > 1 || position.size.y > 1)
-      {
         labelText += " Size: " + new Vector2Int(position.size.x, position.size.y);
-      }
 
-      var style = new GUIStyle() { normal = { textColor = Color.yellow }};
+      var style = new GUIStyle() { normal = { textColor = Color.yellow } };
       Handles.Label(grid.CellToWorld(new Vector3Int(position.x, position.y, 0)), labelText, style);
     }
   }

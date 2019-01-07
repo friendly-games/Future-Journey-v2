@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a0e996590314e7a8ac9f66e128ef918, type: 3}
   m_Name: Structure.Wall.Breakable
   m_EditorClassIdentifier: 
+  Sprite: {fileID: 21300000, guid: 1cf53fd08eea9334582c7c3a8998b9a1, type: 3}
   Size:
     Width: 1
     Height: 1

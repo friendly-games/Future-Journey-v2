@@ -6,6 +6,7 @@ using NineBitByte.Common.Structures;
 using NineBitByte.FutureJourney.Items;
 using NineBitByte.FutureJourney.World;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace NineBitByte.FutureJourney.Programming
 {
@@ -13,8 +14,11 @@ namespace NineBitByte.FutureJourney.Programming
   ///   An immutable, structure that exists within the world. 
   /// </summary>
   [CreateAssetMenu(menuName = "Items/Structure")]
-  public class StructureDescriptor : BaseScriptable
+  public class StructureDescriptor : TileBase
   {
+    [Tooltip("The sprite to use when rendering the object in various 2d places")]
+    public Sprite Sprite;
+    
     [Tooltip("The size of the item in the world")]
     public GridBasedSize Size;
 
@@ -23,7 +27,12 @@ namespace NineBitByte.FutureJourney.Programming
 
     [Tooltip("The Unity object that should be placed in the world when the object is placed")]
     public GameObject Template;
-    
+
+    public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
+    {
+      tileData.sprite = Sprite;
+    }
+
     /// <summary>
     ///   Creates an instance of this placeable in the world grid, so that the various systems (physics,
     ///   graphics, etc) can interact with it.
