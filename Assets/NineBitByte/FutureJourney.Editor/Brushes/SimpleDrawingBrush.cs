@@ -52,17 +52,32 @@ namespace NineBitByte.FutureJourney.Editor.Brushes
       if (!mapPart.IsValidPosition(position))
         return;
 
-      var descriptor = SelectedDescriptor;
-
-      var instance = descriptor?.CreateInstanceViaBrush();
-      if (instance == null)
+      if (SelectedTile == null)
         return;
 
-      Undo.MoveGameObjectToScene(instance, brushTarget.scene, "Paint Prefabs");
-      Undo.RegisterCreatedObjectUndo(instance, "Paint Prefabs");
-      Erase(gridLayout, brushTarget, position);
+      var descriptor = SelectedDescriptor;
 
-      MoveInstanceToCellPosition(gridLayout, brushTarget, position, instance);
+      if (descriptor == null)
+      {
+        var tileMap = brushTarget.GetComponent<Tilemap>();
+        if (tileMap == null)
+          return;
+        
+        tileMap.SetTile(position, SelectedTile);
+      }
+      else
+      {
+        var instance = descriptor?.CreateInstanceViaBrush();
+        if (instance == null)
+          return;
+
+        Undo.MoveGameObjectToScene(instance, brushTarget.scene, "Add Structure");
+        Undo.RegisterCreatedObjectUndo(instance, "Add Structure");
+        Erase(gridLayout, brushTarget, position);
+
+        MoveInstanceToCellPosition(gridLayout, brushTarget, position, instance);
+      }
+    
     }
 
     /// <summary>
@@ -165,7 +180,7 @@ namespace NineBitByte.FutureJourney.Editor.Brushes
     {
       if (IsInvalid(brushTarget, out _))
         return;
-
+      
       foreach (var subPosition in position.allPositionsWithin)
         PaintPosition(gridLayout, brushTarget, subPosition);
     }
