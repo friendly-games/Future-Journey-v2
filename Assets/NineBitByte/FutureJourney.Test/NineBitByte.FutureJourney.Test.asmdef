@@ -1,0 +1,19 @@
+{
+    "name": "NineBitByte.FutureJourney.Test",
+    "references": [
+        "NineBitByte.Common",
+        "NineBitByte.FutureJourney"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}

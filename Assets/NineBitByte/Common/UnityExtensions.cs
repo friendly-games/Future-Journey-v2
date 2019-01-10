@@ -36,7 +36,7 @@ namespace NineBitByte.Common
     // Destroy an existing unity object
     public static void Destroy(UnityObject gameObject) 
       => UnityObject.Destroy(gameObject);
-
+    
     /// <summary>
     ///   Get a lazy-enumerated collection of game objects that are ancestors of this game object.
     /// </summary>

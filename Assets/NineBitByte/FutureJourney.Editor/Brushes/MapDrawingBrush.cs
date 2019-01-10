@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using NineBitByte.FutureJourney.Extensions;
 using NineBitByte.FutureJourney.Items;
 using NineBitByte.FutureJourney.Programming;
 using NineBitByte.FutureJourney.World;
@@ -11,9 +12,11 @@ using UnityEngine.Tilemaps;
 
 namespace NineBitByte.FutureJourney.Editor.Brushes
 {
-  [CreateAssetMenu(fileName = "Prefab Standard", menuName = "Brushes/Standard Prefab Brush")]
-  [CustomGridBrush(true, true, true, "Standard Drawing Brush")]
-  public class SimpleDrawingBrush : GridBrush
+  /// <summary>
+  /// Draws Structures and Tiles for the world, placing the data in a <see cref="WorldLayout"/>
+  /// </summary>
+  [CustomGridBrush(true, true, true, "Map Drawing Brush")]
+  public class MapDrawingBrush : GridBrush
   {
     private const int ZPosition = 0;
 
@@ -76,8 +79,35 @@ namespace NineBitByte.FutureJourney.Editor.Brushes
         Erase(gridLayout, brushTarget, position);
 
         MoveInstanceToCellPosition(gridLayout, brushTarget, position, instance);
+        
+        if (descriptor != null)
+        {
+          Undo.RecordObject(mapPart, "Map Change");
+          mapPart.SetStructure(position.ToGrid(), descriptor);
+        }
       }
     
+    }
+
+    /// <inheritdoc />
+    public override void Erase(GridLayout gridLayout, GameObject brushTarget, Vector3Int position)
+    {
+      if (IsInvalid(brushTarget, out var mapPart))
+        return;
+
+      // Do not allow editing palettes
+      if (brushTarget.layer == 31)
+        return;
+
+      var erased = GetObjectInCell(gridLayout, brushTarget.transform, new Vector3Int(position.x, position.y, ZPosition));
+      if (erased != null)
+      {
+        Undo.DestroyObjectImmediate(erased);
+        
+        Undo.RecordObject(mapPart, "Map Change");
+        mapPart.ClearStructure(position.ToGrid());
+        mapPart.ClearTile(position.ToGrid());
+      }
     }
 
     /// <summary>
@@ -195,22 +225,6 @@ namespace NineBitByte.FutureJourney.Editor.Brushes
         Erase(gridLayout, brushTarget, subPosition);
     }
 
-    /// <inheritdoc />
-    public override void Erase(GridLayout gridLayout, GameObject brushTarget, Vector3Int position)
-    {
-      if (IsInvalid(brushTarget, out _))
-        return;
-
-      // Do not allow editing palettes
-      if (brushTarget.layer == 31)
-        return;
-
-      var erased =
-        GetObjectInCell(gridLayout, brushTarget.transform, new Vector3Int(position.x, position.y, ZPosition));
-      if (erased != null)
-        Undo.DestroyObjectImmediate(erased);
-    }
-
     /// <summary>
     ///   Get the GameObject that is currently located in the given cell position
     /// </summary>
@@ -232,7 +246,7 @@ namespace NineBitByte.FutureJourney.Editor.Brushes
     }
   }
 
-  [CustomEditor(typeof(SimpleDrawingBrush))]
+  [CustomEditor(typeof(MapDrawingBrush))]
   public class SimpleDrawingBrushEditor : GridBrushEditor
   {
     public override void OnSelectionInspectorGUI()
@@ -240,7 +254,7 @@ namespace NineBitByte.FutureJourney.Editor.Brushes
       var tilemap = GridSelection.target.GetComponent<Tilemap>();
       var grid = GridSelection.grid;
 
-      var instance = SimpleDrawingBrush.GetObjectInCell(grid, tilemap.transform, GridSelection.position.position);
+      var instance = MapDrawingBrush.GetObjectInCell(grid, tilemap.transform, GridSelection.position.position);
 
       if (instance != null)
       {
@@ -276,7 +290,7 @@ namespace NineBitByte.FutureJourney.Editor.Brushes
 
       var names = them.Select(it => it.name).ToArray();
 
-      var drawingBrush = (SimpleDrawingBrush)brush;
+      var drawingBrush = (MapDrawingBrush)brush;
       var selectedDescriptor = drawingBrush.SelectedDescriptor;
 
       var index = -1;
