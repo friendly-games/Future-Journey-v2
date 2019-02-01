@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a0e996590314e7a8ac9f66e128ef918, type: 3}
   m_Name: Structure.Wall.Unbreakable
   m_EditorClassIdentifier: 
-  Sprite: {fileID: 21300000, guid: 89d34f7ea91dede418c21fcbc554d986, type: 3}
+  Sprite: {fileID: 21300000, guid: a81cf6b5dc53c1b4799e8f79fbb5cd43, type: 3}
   Size:
     Width: 1
     Height: 1

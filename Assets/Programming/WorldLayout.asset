@@ -19,9 +19,39 @@ MonoBehaviour:
     Width: 15
     Height: 15
   Structures:
-  - {fileID: 11400000, guid: 42f2c9a66269af844b36a891e1ea5db4, type: 2}
+  - {fileID: 11400000, guid: 6865535bd3d1dbf4abf095e113f8a9ec, type: 2}
   Tiles: []
   GridItems:
+  - StructureId: 1
+    TileId: 0
+  - StructureId: 1
+    TileId: 0
+  - StructureId: 1
+    TileId: 0
+  - StructureId: 1
+    TileId: 0
+  - StructureId: 1
+    TileId: 0
+  - StructureId: 1
+    TileId: 0
+  - StructureId: 1
+    TileId: 0
+  - StructureId: 1
+    TileId: 0
+  - StructureId: 1
+    TileId: 0
+  - StructureId: 1
+    TileId: 0
+  - StructureId: 1
+    TileId: 0
+  - StructureId: 1
+    TileId: 0
+  - StructureId: 1
+    TileId: 0
+  - StructureId: 1
+    TileId: 0
+  - StructureId: 1
+    TileId: 0
   - StructureId: 1
     TileId: 0
   - StructureId: 0
@@ -50,33 +80,9 @@ MonoBehaviour:
     TileId: 0
   - StructureId: 0
     TileId: 0
-  - StructureId: 0
-    TileId: 0
-  - StructureId: 0
-    TileId: 0
-  - StructureId: 0
-    TileId: 0
-  - StructureId: 0
-    TileId: 0
-  - StructureId: 0
-    TileId: 0
-  - StructureId: 0
-    TileId: 0
-  - StructureId: 0
-    TileId: 0
-  - StructureId: 0
-    TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
-  - StructureId: 0
-    TileId: 0
-  - StructureId: 0
-    TileId: 0
-  - StructureId: 0
-    TileId: 0
-  - StructureId: 0
-    TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
   - StructureId: 0
     TileId: 0
@@ -104,15 +110,9 @@ MonoBehaviour:
     TileId: 0
   - StructureId: 0
     TileId: 0
-  - StructureId: 0
-    TileId: 0
-  - StructureId: 0
-    TileId: 0
-  - StructureId: 0
-    TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
   - StructureId: 0
     TileId: 0
@@ -140,9 +140,9 @@ MonoBehaviour:
     TileId: 0
   - StructureId: 0
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
   - StructureId: 0
     TileId: 0
@@ -170,9 +170,9 @@ MonoBehaviour:
     TileId: 0
   - StructureId: 0
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
   - StructureId: 0
     TileId: 0
@@ -200,9 +200,9 @@ MonoBehaviour:
     TileId: 0
   - StructureId: 0
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
   - StructureId: 0
     TileId: 0
@@ -230,9 +230,9 @@ MonoBehaviour:
     TileId: 0
   - StructureId: 0
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
   - StructureId: 0
     TileId: 0
@@ -260,9 +260,9 @@ MonoBehaviour:
     TileId: 0
   - StructureId: 0
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
   - StructureId: 0
     TileId: 0
@@ -290,9 +290,9 @@ MonoBehaviour:
     TileId: 0
   - StructureId: 0
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
   - StructureId: 0
     TileId: 0
@@ -320,9 +320,9 @@ MonoBehaviour:
     TileId: 0
   - StructureId: 0
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
   - StructureId: 0
     TileId: 0
@@ -350,9 +350,9 @@ MonoBehaviour:
     TileId: 0
   - StructureId: 0
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
   - StructureId: 0
     TileId: 0
@@ -380,9 +380,9 @@ MonoBehaviour:
     TileId: 0
   - StructureId: 0
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
   - StructureId: 0
     TileId: 0
@@ -410,9 +410,9 @@ MonoBehaviour:
     TileId: 0
   - StructureId: 0
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
   - StructureId: 0
     TileId: 0
@@ -440,35 +440,35 @@ MonoBehaviour:
     TileId: 0
   - StructureId: 0
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
-  - StructureId: 0
+  - StructureId: 1
     TileId: 0
