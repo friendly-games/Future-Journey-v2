@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using NineBitByte.Common;
+using NineBitByte.Common.Statistics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,20 +13,22 @@ namespace NineBitByte.FutureJourney.Items
   {
     [Tooltip("Location to write information about the current weapon/ammo")]
     [SerializeField]
-    [UsedImplicitly]
     private Text EquipmentInformationTextField;
 
     [Tooltip("How close are we to being done with reloading")]
     [SerializeField]
-    [UsedImplicitly]
     private Text ReloadProgressTextField;
 
     [Tooltip("The name of our currently equipped weapon")]
     [SerializeField]
-    [UsedImplicitly]
     private Text EquipmentNameTextField;
+    
+    [Tooltip("Contains a running total of the amount of damage done")]
+    [SerializeField]
+    private Text DamageDoneTextField;
 
     private int _reloadPercentage;
+    private IStatisticContainer _statistics;
 
     public int ReloadPercentage
     {
@@ -45,9 +48,48 @@ namespace NineBitByte.FutureJourney.Items
       set => EquipmentNameTextField.text = value; 
     }
 
-    public string WeaponInfo
+    public IStatisticContainer Statistics
+    {
+      get => _statistics;
+      set
+      {
+        if (_statistics != null)
+        {
+          _statistics.StatisticChanged -= HandleStatisticsChanged;
+        }
+        
+        _statistics = value;
+        
+        if (_statistics != null)
+        {
+          _statistics.StatisticChanged += HandleStatisticsChanged;
+        }
+
+        ClearStatistics();
+      }
+    }
+
+    private void ClearStatistics()
+    {
+      DamageDoneInfo = "0pts";
+    }
+
+    private void HandleStatisticsChanged(IStatisticContainer container, IStatistic statistic)
+    {
+      if (statistic is DoubleStatistic doubleStat && doubleStat.Id == KnownStats.DamageDone)
+      {
+        DamageDoneInfo = $"{doubleStat.Value}pts";
+      }
+    }
+
+    private string WeaponInfo
     {
       set => EquipmentInformationTextField.text = value; 
+    }
+
+    private string DamageDoneInfo
+    {
+      set => DamageDoneTextField.text = value;
     }
 
     public void UpdateEquippedStatus(EquippedItemInformation? info)

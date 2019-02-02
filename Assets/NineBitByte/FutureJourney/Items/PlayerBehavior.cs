@@ -71,6 +71,7 @@ namespace NineBitByte.FutureJourney.Items
 
       SelectUsable(AvailableWeaponsDescriptor.FirstOrDefault());
 
+      _hud.Statistics = this._statisticContainer;
     }
 
     /// <inheritdoc />

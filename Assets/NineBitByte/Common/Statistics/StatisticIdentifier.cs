@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace NineBitByte.Common.Statistics
 {
@@ -9,6 +10,13 @@ namespace NineBitByte.Common.Statistics
   /// </summary>
   public abstract class StatisticIdentifier
   {
+    private static int _currentId = 1;
+
+    protected StatisticIdentifier()
+    {
+      LocalId = Interlocked.Increment(ref _currentId);
+    }
+    
     /// <summary>
     ///  The global id for the statistic.  This CANNOT change between instance of the game. 
     /// </summary>
@@ -35,6 +43,7 @@ namespace NineBitByte.Common.Statistics
     {
       var stat = new T();
       stat.Owner = container;
+      stat.Id = this;
       return stat;
     }
   }

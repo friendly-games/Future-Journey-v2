@@ -18,5 +18,10 @@ namespace NineBitByte.Common.Statistics
     ///   The container that owns the given statistic.
     /// </summary>
     IStatisticContainer Owner { get; set; }
+    
+    /// <summary>
+    ///  The statistic identifier which indicates what type of statistic this is.
+    /// </summary>
+    StatisticIdentifier Id { get; set; }
   }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NineBitByte.Common.Statistics;
 
 namespace NineBitByte.FutureJourney.Items
 {
@@ -22,5 +23,6 @@ namespace NineBitByte.FutureJourney.Items
     void UpdateEquippedStatus(EquippedItemInformation? info);
     int ReloadPercentage { get; set; }
     string EquipmentName { set; }
+    IStatisticContainer Statistics { get; set; }
   }
 }

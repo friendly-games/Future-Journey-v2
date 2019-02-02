@@ -817,6 +817,7 @@ RectTransform:
   - {fileID: 594827307}
   - {fileID: 868721404}
   - {fileID: 2084161879}
+  - {fileID: 542091567}
   - {fileID: 1192277110}
   m_Father: {fileID: 0}
   m_RootOrder: 5
@@ -1395,6 +1396,100 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1775522375}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &542091566
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 542091567}
+  - component: {fileID: 542091570}
+  - component: {fileID: 542091569}
+  - component: {fileID: 542091568}
+  m_Layer: 5
+  m_Name: DamageDone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &542091567
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 542091566}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.0002719, y: 1.0002719, z: 1.0002719}
+  m_Children: []
+  m_Father: {fileID: 330669050}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 10, y: -10}
+  m_SizeDelta: {x: 160, y: 42.169983}
+  m_Pivot: {x: 0, y: 1}
+--- !u!114 &542091568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 542091566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1741964061, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 0
+--- !u!114 &542091569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 542091566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 16
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 7
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 0
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 0pts
+--- !u!222 &542091570
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 542091566}
+  m_CullTransparentMesh: 0
 --- !u!1001 &564061302
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2993,6 +3088,7 @@ MonoBehaviour:
   EquipmentInformationTextField: {fileID: 594827308}
   ReloadProgressTextField: {fileID: 868721406}
   EquipmentNameTextField: {fileID: 2084161881}
+  DamageDoneTextField: {fileID: 542091569}
 --- !u!114 &1163350110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3116,7 +3212,7 @@ RectTransform:
   m_Children:
   - {fileID: 410622135}
   m_Father: {fileID: 330669050}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4428,10 +4524,8 @@ Transform:
   - {fileID: 642615871}
   - {fileID: 794773942}
   - {fileID: 677204132}
-  - {fileID: 88987259}
   - {fileID: 1429821453}
   - {fileID: 2837375}
-  - {fileID: 1430851787}
   - {fileID: 1020188579}
   - {fileID: 284007480}
   - {fileID: 1433626769}
@@ -4441,10 +4535,12 @@ Transform:
   - {fileID: 2134294344}
   - {fileID: 2076035381}
   - {fileID: 920319470}
+  - {fileID: 88987259}
   - {fileID: 699710748}
   - {fileID: 2038031680}
   - {fileID: 530798572}
   - {fileID: 1199138027}
+  - {fileID: 1430851787}
   - {fileID: 302713926}
   - {fileID: 1856317662}
   - {fileID: 1445469412}

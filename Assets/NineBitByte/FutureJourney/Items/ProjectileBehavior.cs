@@ -47,8 +47,9 @@ namespace NineBitByte.FutureJourney.Items
       {
         int damageDone = DamageProcessor.ApplyDamage(receiver, _weaponDescriptorTemplate.DamagePerShot);
 
-        _owner.Statistics.TryGetStatistic(KnownStats.DamageDone)
-                         ?.Increment(damageDone);
+        var stat = _owner.Statistics.TryGetStatistic(KnownStats.DamageDone);
+        Debug.Log(stat);
+        stat?.Increment(damageDone);
       }
 
       UnityExtensions.Destroy(gameObject);

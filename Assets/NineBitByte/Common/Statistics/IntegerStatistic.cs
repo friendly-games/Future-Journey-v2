@@ -18,6 +18,9 @@ namespace NineBitByte.Common.Statistics
     /// <inheritdoc />
     public IStatisticContainer Owner { get; set; }
 
+    /// <inheritdoc />
+    public StatisticIdentifier Id { get; set; }
+
     public void Increment(int amount = 1)
     {
       Owner.NotifyChanged(this);

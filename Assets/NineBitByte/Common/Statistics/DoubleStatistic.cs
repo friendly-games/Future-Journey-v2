@@ -14,7 +14,11 @@ namespace NineBitByte.Common.Statistics
     public void Reset()
       => Value = 0;
 
+    /// <inheritdoc />
     public IStatisticContainer Owner { get; set; }
+
+    /// <inheritdoc />
+    public StatisticIdentifier Id { get; set; }
 
     public void Increment(double amount)
     {
