@@ -112,7 +112,8 @@ namespace NineBitByte.FutureJourney.Programming
           projectileInstance.transform.rotation *= Quaternion.Euler(0, 0, randomAngle);
 
           var behavior = projectileInstance.GetComponent<ProjectileBehavior>();
-          behavior.Initialize(_shared, _shared.ProjectileDescriptor, actor.Allegiance);
+
+          behavior.Initialize(_shared, _shared.ProjectileDescriptor, actor);
         }
 
         return true;

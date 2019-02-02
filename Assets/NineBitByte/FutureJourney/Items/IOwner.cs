@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
+using NineBitByte.Common.Statistics;
 using NineBitByte.FutureJourney.Programming;
 using NineBitByte.FutureJourney.World;
 using UnityEngine;
@@ -12,6 +14,8 @@ namespace NineBitByte.FutureJourney.Items
     Allegiance Allegiance { get; }
 
     WorldGrid AssociatedGrid { get; }
-    Vector3 ReticulePosition { get; set; }
+    
+    [NotNull]
+    IStatisticContainer Statistics { get; }
   }
 }

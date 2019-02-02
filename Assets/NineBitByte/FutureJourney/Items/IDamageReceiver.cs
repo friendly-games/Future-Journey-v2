@@ -20,13 +20,18 @@ namespace NineBitByte.FutureJourney.Items
   public static class DamageProcessor
   {
     /// <summary> Applies damage to an object that can receive it. </summary>
-    public static void ApplyDamage(IDamageReceiver receiver, int damageAmount)
+    public static int ApplyDamage(IDamageReceiver receiver, int damageAmount)
     {
-      receiver.Health = Math.Max(0, receiver.Health - damageAmount);
+      int newHealthAmount = Math.Max(0, receiver.Health - damageAmount);
+      int damageDone = receiver.Health - newHealthAmount;
+      
+      receiver.Health = newHealthAmount;
       if (receiver.Health <= 0)
       {
         receiver.OnHealthDepleted();
       }
+
+      return damageDone;
     }
   }
 }

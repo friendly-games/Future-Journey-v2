@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NineBitByte.Common;
+using NineBitByte.Common.Statistics;
 using NineBitByte.FutureJourney.Programming;
 using NineBitByte.FutureJourney.World;
 using UnityEngine;
@@ -30,21 +31,18 @@ namespace NineBitByte.FutureJourney.Items
     private IUsable _selectedUsable;
 
     private Rigidbody2D _rigidBody;
-
     private Transform _reticule;
-
-    private PlayerInputHandler _playerInputHandler;
+    private Transform _playerBody;
 
     private RateLimiter _reloadLimiter;
 
     private int _numberOfRemainingShots;
     private bool _reloadRequested = true;
 
-    private Transform _playerBody;
-
+    private PlayerInputHandler _playerInputHandler;
     private PlayerBodyBehavior _playerBodyBehavior;
-
     private WorldGrid _worldGrid;
+    private StatisticDictionaryContainer _statisticContainer;
 
     /// <summary> The current hud for the player. </summary>
     private IEquippedHud _hud;
@@ -53,6 +51,12 @@ namespace NineBitByte.FutureJourney.Items
     {
       _worldGrid = FindObjectOfType<WorldManagerBehavior>().WorldGrid;
 
+      _statisticContainer = new StatisticDictionaryContainer()
+                            {
+                              KnownStats.DamageDone,
+                              KnownStats.DamageReceived,
+                            };
+      
       _playerInputHandler = new PlayerInputHandler();
       _reloadLimiter = new RateLimiter(allowFirst: true);
 
@@ -76,6 +80,10 @@ namespace NineBitByte.FutureJourney.Items
     /// <inheritdoc />
     WorldGrid IOwner.AssociatedGrid
       => _worldGrid;
+
+    /// <inheritdoc />
+    IStatisticContainer IOwner.Statistics
+      => _statisticContainer;
 
     /// <summary />
     private void SelectUsable(IUseableDescriptor actable)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using NineBitByte.Common;
+using NineBitByte.Common.Statistics;
 using NineBitByte.FutureJourney.Programming;
 using UnityEngine;
 
@@ -13,13 +14,13 @@ namespace NineBitByte.FutureJourney.Items
   {
     private ProjectileWeaponDescriptor _weaponDescriptorTemplate;
     private ProjectileDescriptor _projectileDescriptor;
-    private Allegiance _allegiance;
+    private IOwner _owner;
 
-    public void Initialize(ProjectileWeaponDescriptor weaponDescriptorTemplate, ProjectileDescriptor projectileDescriptor, Allegiance allegiance)
+    public void Initialize(ProjectileWeaponDescriptor weaponDescriptorTemplate, ProjectileDescriptor projectileDescriptor, IOwner owner)
     {
       _weaponDescriptorTemplate = weaponDescriptorTemplate;
       _projectileDescriptor = projectileDescriptor;
-      _allegiance = allegiance;
+      _owner = owner;
     }
 
     [UsedImplicitly]
@@ -44,7 +45,10 @@ namespace NineBitByte.FutureJourney.Items
 
       if (receiver != null)
       {
-        DamageProcessor.ApplyDamage(receiver, _weaponDescriptorTemplate.DamagePerShot);
+        int damageDone = DamageProcessor.ApplyDamage(receiver, _weaponDescriptorTemplate.DamagePerShot);
+
+        _owner.Statistics.TryGetStatistic(KnownStats.DamageDone)
+                         ?.Increment(damageDone);
       }
 
       UnityExtensions.Destroy(gameObject);

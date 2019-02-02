@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NineBitByte.Common;
+using NineBitByte.Common.Statistics;
 using NineBitByte.Common.Structures;
 using NineBitByte.FutureJourney.Items;
 using NineBitByte.FutureJourney.Programming;
@@ -113,6 +114,9 @@ namespace NineBitByte.FutureJourney
 
     // TODO remove
     public Vector3 ReticulePosition { get; set; }
+    
+    public IStatisticContainer Statistics { get; }
+      = new EmptyStatisticContainer();
 
     private class UnityWorldData
     {
