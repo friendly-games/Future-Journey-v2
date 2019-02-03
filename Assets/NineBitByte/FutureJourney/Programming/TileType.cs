@@ -6,14 +6,18 @@ using NineBitByte.Common.Structures;
 using NineBitByte.FutureJourney.Items;
 using NineBitByte.FutureJourney.World;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace NineBitByte.FutureJourney.Programming
 {
-  public class TileType : BaseScriptable
+  public class TileType : TileBase
   {
     [Tooltip("The name of the tile type")]
     public string Name;
 
+    [Tooltip("The sprite template to use when the item is inventory")]
+    public Sprite Sprite;
+    
     [Tooltip("The unique id for the type of this tile")]
     public short Id;
 
@@ -28,6 +32,12 @@ namespace NineBitByte.FutureJourney.Programming
       return Template
         .CreateInstance(location)
         .GetComponent<TileBehavior>();
+    }
+
+    /// <inheritdoc />
+    public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
+    {
+      tileData.sprite = Sprite;
     }
   }
 }

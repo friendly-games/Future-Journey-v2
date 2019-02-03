@@ -3,8 +3,9 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -12,5 +13,6 @@ MonoBehaviour:
   m_Name: Tile.Rock
   m_EditorClassIdentifier: 
   Name: Rocky
+  Sprite: {fileID: 21300000, guid: e66dcb2d4b3991949a9dbe96b78ae8ab, type: 3}
   Id: 0
-  Template: {fileID: 1085269655924336, guid: b319af8a2b0e19f44be64ef20d551fab, type: 2}
+  Template: {fileID: 1085269655924336, guid: b319af8a2b0e19f44be64ef20d551fab, type: 3}

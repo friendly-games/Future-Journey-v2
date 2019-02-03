@@ -3,8 +3,9 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -12,5 +13,6 @@ MonoBehaviour:
   m_Name: Tile.Grass
   m_EditorClassIdentifier: 
   Name: Grass
+  Sprite: {fileID: 21300000, guid: 89d34f7ea91dede418c21fcbc554d986, type: 3}
   Id: 0
-  Template: {fileID: 1585498103335794, guid: 1d8e1cd852c8ba8439e7deecea08b0ee, type: 2}
+  Template: {fileID: 1585498103335794, guid: 1d8e1cd852c8ba8439e7deecea08b0ee, type: 3}

@@ -44,6 +44,12 @@ namespace NineBitByte.FutureJourney.Editor.Brushes
     /// <inheritdoc />
     public override void Paint(GridLayout gridLayout, GameObject brushTarget, Vector3Int position)
     {
+      if (brushTarget.layer == 31)
+      {
+        base.Paint(gridLayout, brushTarget, position);
+        return;
+      }
+    
       BoxFill(gridLayout, brushTarget, new BoundsInt(position - pivot, size));
     }
 
@@ -60,15 +66,7 @@ namespace NineBitByte.FutureJourney.Editor.Brushes
 
       var descriptor = SelectedDescriptor;
 
-      if (descriptor == null)
-      {
-        var tileMap = brushTarget.GetComponent<Tilemap>();
-        if (tileMap == null)
-          return;
-        
-        tileMap.SetTile(position, SelectedTile);
-      }
-      else
+      if (descriptor != null)
       {
         var instance = descriptor?.CreateInstanceViaBrush();
         if (instance == null)
@@ -79,19 +77,32 @@ namespace NineBitByte.FutureJourney.Editor.Brushes
         Erase(gridLayout, brushTarget, position);
 
         MoveInstanceToCellPosition(gridLayout, brushTarget, position, instance);
-        
+
         if (descriptor != null)
         {
           Undo.RecordObject(mapPart, "Map Change");
           mapPart.SetStructure(position.ToGrid(), descriptor);
         }
       }
-    
+      else
+      {
+        var tileMap = brushTarget.GetComponent<Tilemap>();
+        if (tileMap == null)
+          return;
+
+        tileMap.SetTile(position, SelectedTile);
+      }
     }
 
     /// <inheritdoc />
     public override void Erase(GridLayout gridLayout, GameObject brushTarget, Vector3Int position)
     {
+      if (brushTarget.layer == 31)
+      {
+        base.Erase(gridLayout, brushTarget, position);
+        return;
+      }
+      
       if (IsInvalid(brushTarget, out var mapPart))
         return;
 
@@ -128,6 +139,12 @@ namespace NineBitByte.FutureJourney.Editor.Brushes
     /// <inheritdoc />
     public override void MoveStart(GridLayout gridLayout, GameObject brushTarget, BoundsInt position)
     {
+      if (brushTarget.layer == 31)
+      {
+        base.MoveStart(gridLayout, brushTarget, position);
+        return;
+      }
+      
       if (IsInvalid(brushTarget, out _))
         return;
 
@@ -145,6 +162,12 @@ namespace NineBitByte.FutureJourney.Editor.Brushes
     /// <inheritdoc />
     public override void MoveEnd(GridLayout gridLayout, GameObject brushTarget, BoundsInt position)
     {
+      if (brushTarget.layer == 31)
+      {
+        base.MoveEnd(gridLayout, brushTarget, position);
+        return;
+      }
+      
       if (IsInvalid(brushTarget, out var mapPart))
         return;
 
@@ -208,6 +231,12 @@ namespace NineBitByte.FutureJourney.Editor.Brushes
     /// <inheritdoc />
     public override void BoxFill(GridLayout gridLayout, GameObject brushTarget, BoundsInt position)
     {
+      if (brushTarget.layer == 31)
+      {
+        base.BoxFill(gridLayout, brushTarget, position);
+        return;
+      }
+      
       if (IsInvalid(brushTarget, out _))
         return;
       
@@ -218,6 +247,12 @@ namespace NineBitByte.FutureJourney.Editor.Brushes
     /// <inheritdoc />
     public override void BoxErase(GridLayout gridLayout, GameObject brushTarget, BoundsInt position)
     {
+      if (brushTarget.layer == 31)
+      {
+        base.BoxErase(gridLayout, brushTarget, position);
+        return;
+      }
+      
       if (IsInvalid(brushTarget, out _))
         return;
 
