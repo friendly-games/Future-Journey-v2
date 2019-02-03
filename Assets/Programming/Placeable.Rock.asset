@@ -15,6 +15,6 @@ MonoBehaviour:
   Name: 
   TimeToRecharge:
     _timeValue: 0
-  Sprite: {fileID: 0}
+  Sprite: {fileID: 21300000, guid: e66dcb2d4b3991949a9dbe96b78ae8ab, type: 3}
   InitialHealth: 50
   Structure: {fileID: 11400000, guid: de4f637c0c9b747449d1c50628cdee30, type: 2}

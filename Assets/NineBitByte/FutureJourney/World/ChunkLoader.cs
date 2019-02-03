@@ -14,16 +14,16 @@ namespace NineBitByte.FutureJourney.World
     {
       var chunk = new Chunk(chunkCoordinate);
 
-      for (int y = 0; y < Chunk.NumberOfGridItemsHigh; y++)
-      {
-        for (int x = 0; x < Chunk.NumberOfGridItemsWide; x++)
-        {
-          var gridPosition = new GridCoordinate(chunkCoordinate, new InnerChunkGridCoordinate(x, y));
-          var gridItem = CreateGridItemFor(gridPosition);
-
-          chunk[gridPosition.InnerChunkGridCoordinate] = gridItem;
-        }
-      }
+      // for (int y = 0; y < Chunk.NumberOfGridItemsHigh; y++)
+      // {
+      //   for (int x = 0; x < Chunk.NumberOfGridItemsWide; x++)
+      //   {
+      //     var gridPosition = new GridCoordinate(chunkCoordinate, new InnerChunkGridCoordinate(x, y));
+      //     var gridItem = CreateGridItemFor(gridPosition);
+      //
+      //     chunk[gridPosition.InnerChunkGridCoordinate] = gridItem;
+      //   }
+      // }
 
       return chunk;
     }

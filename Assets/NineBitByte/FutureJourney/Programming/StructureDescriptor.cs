@@ -54,11 +54,21 @@ namespace NineBitByte.FutureJourney.Programming
       return instance;
     }
 #endif
+
+    public virtual void AddStructure(ref GridItem value)
+    {
+      value = value.AddStructure(ObjectId, ItemRotation.None, 0);
+    }
   }
 
   public class DestructableStructureDescriptor : StructureDescriptor
   {
     [Tooltip("The initial amount of health that the built has")]
     public int BaseHealth;
+
+    public override void AddStructure(ref GridItem value)
+    {
+      value = value.AddStructure(ObjectId, ItemRotation.None, BaseHealth);
+    }
   }
 }

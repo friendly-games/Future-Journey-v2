@@ -35,5 +35,16 @@ namespace NineBitByte.FutureJourney.Programming
 
       return null;
     }
+    
+    public TileType FindTileOrNull(short id)
+    {
+      foreach (var tile in AvailableTiles)
+      {
+        if (tile.Id == id)
+          return tile;
+      }
+
+      return null;
+    }
   }
 }

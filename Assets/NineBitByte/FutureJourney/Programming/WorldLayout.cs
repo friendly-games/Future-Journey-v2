@@ -17,7 +17,6 @@ namespace NineBitByte.FutureJourney.Programming
   [CreateAssetMenu(menuName = "Items/World Layout")]
   public class WorldLayout : BaseScriptable
   {
-    // TODO TODO TODO if Size changes, we have to update size of GridItems
     [Tooltip("The size of the layout")]
     public GridBasedSize Size;
 
@@ -36,8 +35,8 @@ namespace NineBitByte.FutureJourney.Programming
     ///   All of the tiles currently in use in <see cref="GridItems"/>.  The index of the tile in the array
     ///   corresponds to the <see cref="MapGridItem.TileId"/> + 1 (so Tiles[0] has a TileId of 1)
     /// </summary>
-    public List<TileDescriptor> Tiles
-      = new List<TileDescriptor>(0);
+    public List<TileType> Tiles
+      = new List<TileType>(0);
     
     [Tooltip("The tiles within the world")]
     public MapGridItem[] GridItems;
@@ -104,7 +103,7 @@ namespace NineBitByte.FutureJourney.Programming
     /// <summary>
     ///   Sets the tile at the given coordinate to the given structure value.
     /// </summary>
-    public void SetTile(GridCoordinate coordinate, TileDescriptor descriptor)
+    public void SetTile(GridCoordinate coordinate, TileType descriptor)
     {
       Synchronize();
       
@@ -170,6 +169,36 @@ namespace NineBitByte.FutureJourney.Programming
       return list.Count;
     }
 
+    public void ImportIntoWorld(WorldGrid grid, GridCoordinate offset)
+    {
+      foreach (var relativeCoordinate in Size.AsCoordinateRange())
+      {
+        var gridItem = this[relativeCoordinate];
+        if (gridItem.TileId != 0 || gridItem.StructureId != 0)
+        {
+          var absolutePosition = relativeCoordinate + offset;
+          var reference = grid[absolutePosition];
+
+          var newValue = reference.Value;
+            
+          if (gridItem.TileId != 0)
+          {
+            var tile = Tiles[gridItem.TileId - 1];
+            newValue = tile.CreateGridItem();
+            Debug.Log("Created tile");
+          }
+
+          if (gridItem.StructureId != 0)
+          {
+            var structure = Structures[gridItem.StructureId - 1];
+            structure.AddStructure(ref newValue);
+          }
+          
+          reference.Set(newValue);
+        }
+      }
+    }
+
     /// <summary>
     ///   True if the given position is valid for the size in here.
     /// </summary>
@@ -224,7 +253,7 @@ namespace NineBitByte.FutureJourney.Programming
     public void ReIndex()
     {
       var newStructures = new List<StructureDescriptor>();
-      var newTiles = new List<TileDescriptor>();
+      var newTiles = new List<TileType>();
 
       for (var i = 0; i < GridItems.Length; i++)
       {

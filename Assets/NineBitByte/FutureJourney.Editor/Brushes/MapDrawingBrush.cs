@@ -26,9 +26,6 @@ namespace NineBitByte.FutureJourney.Editor.Brushes
     [Tooltip("The tile to paint with")]
     public TileBase SelectedTile;
 
-    public StructureDescriptor SelectedDescriptor
-      => SelectedTile as StructureDescriptor;
-    
     private bool IsInvalid(GameObject brushTarget, out WorldLayout mapPart)
     {
       if (brushTarget.layer == 31)
@@ -64,11 +61,9 @@ namespace NineBitByte.FutureJourney.Editor.Brushes
       if (SelectedTile == null)
         return;
 
-      var descriptor = SelectedDescriptor;
-
-      if (descriptor != null)
+      if (SelectedTile is StructureDescriptor structureDescriptor)
       {
-        var instance = descriptor?.CreateInstanceViaBrush();
+        var instance = structureDescriptor?.CreateInstanceViaBrush();
         if (instance == null)
           return;
 
@@ -78,19 +73,20 @@ namespace NineBitByte.FutureJourney.Editor.Brushes
 
         MoveInstanceToCellPosition(gridLayout, brushTarget, position, instance);
 
-        if (descriptor != null)
+        if (structureDescriptor != null)
         {
           Undo.RecordObject(mapPart, "Map Change");
-          mapPart.SetStructure(position.ToGrid(), descriptor);
+          mapPart.SetStructure(position.ToGrid(), structureDescriptor);
         }
       }
-      else
+      else if (SelectedTile is TileType tileDescriptor)
       {
         var tileMap = brushTarget.GetComponent<Tilemap>();
         if (tileMap == null)
           return;
 
-        tileMap.SetTile(position, SelectedTile);
+        tileMap.SetTile(position, tileDescriptor);
+        mapPart.SetTile(position.ToGrid(), tileDescriptor);
       }
     }
 
@@ -106,19 +102,27 @@ namespace NineBitByte.FutureJourney.Editor.Brushes
       if (IsInvalid(brushTarget, out var mapPart))
         return;
 
-      // Do not allow editing palettes
-      if (brushTarget.layer == 31)
-        return;
-
       var erased = GetObjectInCell(gridLayout, brushTarget.transform, new Vector3Int(position.x, position.y, ZPosition));
       if (erased != null)
       {
         Undo.DestroyObjectImmediate(erased);
-        
         Undo.RecordObject(mapPart, "Map Change");
         mapPart.ClearStructure(position.ToGrid());
-        mapPart.ClearTile(position.ToGrid());
       }
+      
+      var tileMap = brushTarget.GetComponent<Tilemap>();
+      if (tileMap != null)
+      {
+        var tile = tileMap.GetTile(position);
+
+        if (tile != null)
+        {
+          Undo.RecordObject(mapPart, "Map Change");
+          mapPart.ClearTile(position.ToGrid());
+          tileMap.SetTile(position, null);
+        }
+      }
+      
     }
 
     /// <summary>
@@ -209,6 +213,8 @@ namespace NineBitByte.FutureJourney.Editor.Brushes
     /// <inheritdoc />
     public override void Pick(GridLayout gridLayout, GameObject brushTarget, BoundsInt position, Vector3Int pickStart)
     {
+      base.Pick(gridLayout, brushTarget, position, pickStart);
+      
       if (IsInvalid(brushTarget, out _))
       {
         var palette = brushTarget.GetComponent<Tilemap>();
@@ -326,7 +332,7 @@ namespace NineBitByte.FutureJourney.Editor.Brushes
       var names = them.Select(it => it.name).ToArray();
 
       var drawingBrush = (MapDrawingBrush)brush;
-      var selectedDescriptor = drawingBrush.SelectedDescriptor;
+      var selectedDescriptor = drawingBrush.SelectedTile as StructureDescriptor;
 
       var index = -1;
 

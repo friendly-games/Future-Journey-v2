@@ -49,5 +49,17 @@ namespace NineBitByte.FutureJourney.World
 
     public override string ToString()
       => $"Width={Width}, Height={Height}";
+    
+    
+    public IEnumerable<GridCoordinate> AsCoordinateRange()
+    {
+      for (int x = 0; x < Width; x++)
+      {
+        for (int y = 0; y < Height; y++)
+        {
+          yield return new GridCoordinate(x, y);
+        }
+      }
+    }
   }
 }

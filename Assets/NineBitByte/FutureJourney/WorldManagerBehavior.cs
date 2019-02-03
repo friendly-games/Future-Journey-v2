@@ -78,7 +78,8 @@ namespace NineBitByte.FutureJourney
 
       var worldPosition = newData.Position.ToVector3();
 
-      var tileInstance = TileLookup.AvailableTiles[item.TileType].Construct(
+      var tileDescriptor = TileLookup.FindTileOrNull(item.TileType);
+      var tileBehavior = tileDescriptor.Construct(
         new PositionAndRotation(worldPosition, PossibleRotations[(byte)item.TileRotation]),
         WorldGrid,
         newData.Position
@@ -101,7 +102,7 @@ namespace NineBitByte.FutureJourney
 
       newData.Data = new UnityWorldData
                      {
-                       Tile = tileInstance,
+                       Tile = tileBehavior,
                        Structure = placeableInstance
                      };
     }

@@ -29,9 +29,9 @@ namespace NineBitByte.FutureJourney.Programming
       WorldGrid grid,
       GridCoordinate gridCoordinate)
     {
-      return Template
-        .CreateInstance(location)
-        .GetComponent<TileBehavior>();
+      var behavior =  Template.CreateInstance(location)
+                              .GetComponent<TileBehavior>();
+      return behavior;
     }
 
     /// <inheritdoc />
@@ -39,5 +39,8 @@ namespace NineBitByte.FutureJourney.Programming
     {
       tileData.sprite = Sprite;
     }
+
+    public GridItem CreateGridItem()
+      => new GridItem(Id, ItemRotation.None);
   }
 }

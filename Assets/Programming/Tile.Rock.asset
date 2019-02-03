@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Rocky
   Sprite: {fileID: 21300000, guid: e66dcb2d4b3991949a9dbe96b78ae8ab, type: 3}
-  Id: 0
+  Id: 1
   Template: {fileID: 1085269655924336, guid: b319af8a2b0e19f44be64ef20d551fab, type: 3}

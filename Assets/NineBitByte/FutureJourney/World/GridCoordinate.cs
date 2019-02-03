@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
@@ -7,6 +8,7 @@ using UnityEngine;
 namespace NineBitByte.FutureJourney.World
 {
   /// <summary> Represents a position in the world grid. </summary>
+  [Serializable]
   public struct GridCoordinate : IEquatable<GridCoordinate>
   {
     public int X;
@@ -97,20 +99,20 @@ namespace NineBitByte.FutureJourney.World
     }
 
     public static bool operator ==(GridCoordinate left, GridCoordinate right)
-    {
-      return left.Equals(right);
-    }
+      => left.Equals(right);
 
     public static bool operator !=(GridCoordinate left, GridCoordinate right)
-    {
-      return !left.Equals(right);
-    }
+      => !left.Equals(right);
 
+    public static GridCoordinate operator +(GridCoordinate left, GridCoordinate right)
+      => new GridCoordinate(left.X + right.X, left.Y + right.Y);
+    
+    public static GridCoordinate operator-(GridCoordinate left, GridCoordinate right)
+      => new GridCoordinate(left.X - right.X, left.Y - right.Y);
+    
     /// <inheritdoc />
     public override string ToString()
-    {
-      return X + "," + Y;
-    }
+      => X + "," + Y;
 
     public (ChunkCoordinate ChunkCoordinate, InnerChunkGridCoordinate InnerCoordinate) AsSubCoordinates()
       => (ChunkCoordinate, InnerChunkGridCoordinate);
@@ -121,7 +123,7 @@ namespace NineBitByte.FutureJourney.World
       chunkCoordinate = ChunkCoordinate;
       innerCoordinate = InnerChunkGridCoordinate;
     }
-
+    
     /// <summary> Convert the y coordinate to a grid coordinate. </summary>
     private static int ConvertY(float y)
       => (int)Math.Floor(y * WorldToGridMultiplier);
@@ -142,4 +144,5 @@ namespace NineBitByte.FutureJourney.World
     public static explicit operator GridCoordinate(Vector2 position)
       => new GridCoordinate(position);
   }
+
 }

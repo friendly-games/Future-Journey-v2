@@ -11,7 +11,5 @@ namespace NineBitByte.Common.Behaviors
     {
       gameObject.SetActive(false);
     }
-
-
   }
 }
